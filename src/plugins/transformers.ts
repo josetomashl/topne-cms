@@ -1,5 +1,3 @@
-import { LocaleType } from '@/contexts/translationContext';
-
 /**
  * Ensures a number or numeric string is formatted as a two-digit string.
  *
@@ -59,11 +57,7 @@ export function toPrice(str: number | string, isAbsolute?: boolean): string | nu
  * @param locale - BCP 47 locale string (e.g., 'es', 'en-US'). Defaults to 'es'.
  * @returns A formatted, localized date string.
  */
-export function toDate(
-  date: string = new Date().toISOString(),
-  format: string = 'DD/MM/YYYY',
-  locale: LocaleType = 'es'
-): string {
+export function toDate(date: string = new Date().toISOString(), format: string = 'DD/MM/YYYY'): string {
   let parsedDate = new Date(date);
   if (isNaN(parsedDate.getTime())) {
     parsedDate = new Date();
@@ -74,7 +68,7 @@ export function toDate(
   const year = parsedDate.getFullYear();
 
   const formatWithIntl = (options: Intl.DateTimeFormatOptions) =>
-    new Intl.DateTimeFormat(locale, options).format(parsedDate);
+    new Intl.DateTimeFormat('es', options).format(parsedDate);
 
   const replacements: Record<string, string> = {
     D: day.toString(),
@@ -116,14 +110,14 @@ export function toTime(date: string = new Date().toISOString()): string {
  * @param locale - The locale to format date string. Defaults to 'es'.
  * @returns A formatted date-time string or null if the input is invalid.
  */
-export function toDateTime(date: string = new Date().toISOString(), locale: LocaleType = 'es'): string | null {
+export function toDateTime(date: string = new Date().toISOString()): string | null {
   let parsedDate = new Date(date);
   if (isNaN(parsedDate.getTime())) {
     parsedDate = new Date();
   }
 
   // Format date part using `toDate`
-  const datePart = toDate(date, 'DD/MM/YYYY', locale);
+  const datePart = toDate(date, 'DD/MM/YYYY');
   const timePart = toTime(date);
 
   return `${datePart} ${timePart}`;
