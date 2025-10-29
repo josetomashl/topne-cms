@@ -9,16 +9,17 @@ import { Page2 } from '@/pages/page2';
 export function ProtectedRoutes() {
   return (
     <Routes>
-      {/* Pages with no navigation, useful for being displayed in an app for example */}
-      <Route path='app' element={<Page1 />} />
-
       {/* Pages with navigation */}
       <Route element={<NavigationLayout />}>
         <Route index element={<HomePage />} />
-        <Route path='page-1' element={<Page1 />} />
-        <Route path='page-2' element={<Page2 />} />
+        <Route path='users' element={<Page1 />} />
+        <Route path='pictograms' element={<Page1 />} />
+        <Route path='tags' element={<Page2 />} />
+        <Route path='reviews' element={<Page2 />} />
+        <Route path='categories' element={<Page2 />} />
       </Route>
 
+      {/* Pages with no navigation, useful for being displayed in an app for example */}
       <Route path='*' element={<NotFoundPage />} />
     </Routes>
   );

@@ -22,24 +22,40 @@ export const navItems: NavItem[] = [
     icon: 'circleExclamation'
   },
   {
-    label: 'Legal',
+    label: 'Pictogramas',
     icon: 'circleCheck',
     children: [
       {
-        label: 'Page legal 1',
-        path: '/page-1',
+        label: 'Ver todos',
+        path: '/pictograms',
         icon: 'circleX'
       },
       {
-        label: 'Page legal 2',
-        path: '/page-2',
+        label: 'Etiquetas',
+        path: '/tags',
         icon: 'circleInfo'
       }
     ]
   },
   {
-    label: 'App page',
-    path: '/app',
+    label: 'Reviews',
+    icon: 'circleCheck',
+    children: [
+      {
+        label: 'Ver todos',
+        path: '/reviews',
+        icon: 'circleX'
+      },
+      {
+        label: 'Categorías',
+        path: '/categories',
+        icon: 'circleInfo'
+      }
+    ]
+  },
+  {
+    label: 'Usuarios',
+    path: '/users',
     icon: 'circleX'
   }
 ];

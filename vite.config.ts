@@ -1,10 +1,8 @@
 import react from '@vitejs/plugin-react-swc';
 import { resolve } from 'node:path';
-import { defineConfig, loadEnv } from 'vite';
+import { defineConfig } from 'vite';
 
-export default defineConfig(({ mode }) => {
-  const env = loadEnv(mode, process.cwd(), '');
-
+export default defineConfig(() => {
   return {
     mode: 'production',
     plugins: [react()],
@@ -26,14 +24,6 @@ export default defineConfig(({ mode }) => {
             @use "@/assets/styles/variables" as *;
             @use "@/assets/styles/mixins" as *;
           `
-        }
-      }
-    },
-    server: {
-      proxy: {
-        '/api': {
-          target: env.VITE_SERVER_API,
-          changeOrigin: true
         }
       }
     }

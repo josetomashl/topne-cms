@@ -5,7 +5,7 @@ import type { AuthResponse, LoginRequest, RegisterRequest } from '@/dtos/Auth';
 import type { UserItem } from '@/dtos/User';
 import { useCookie } from '@/hooks/useCookie';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
-import axiosInstance, { BaseResponse } from '@/plugins/axios';
+import axiosInstance from '@/plugins/axios';
 import { CookieKeys } from '@/plugins/data/cookies';
 import { StorageKeys } from '@/plugins/data/storage';
 
@@ -29,23 +29,23 @@ const AuthProvider = ({ children }: PropsWithChildren) => {
 
   const login = async (data: LoginRequest) => {
     setIsLoading(true);
-    const res = await axiosInstance.post<LoginRequest, BaseResponse<AuthResponse>>('/login', data);
+    const res = await axiosInstance.post<LoginRequest, AuthResponse>('/auth/sign-in', data);
     setIsLoading(false);
-    if (res.data) {
-      setMe(res.data.user);
-      setToken(res.data.token);
-      navigate('/');
+    if (res.token) {
+      setMe(res.user);
+      setToken(res.token);
+      navigate('/', { replace: true });
     }
   };
 
   const register = async (data: RegisterRequest) => {
     setIsLoading(true);
-    const res = await axiosInstance.post<RegisterRequest, BaseResponse<AuthResponse>>('/register', data);
+    const res = await axiosInstance.post<RegisterRequest, AuthResponse>('/auth/sign-up', data);
     setIsLoading(false);
-    if (res.data) {
-      setMe(res.data.user);
-      setToken(res.data.token);
-      navigate('/');
+    if (res.token) {
+      setMe(res.user);
+      setToken(res.token);
+      navigate('/', { replace: true });
     }
   };
 
