@@ -1,12 +1,14 @@
 import { configureStore } from '@reduxjs/toolkit';
 
-import { postsSlice } from '@/store/modules/posts';
+import { pictogramsSlice } from '@/store/modules/pictograms';
 import { rootSlice } from '@/store/modules/root';
+import { usersSlice } from '@/store/modules/users';
 
 export const store = configureStore({
   middleware: (getDefaultMiddleware) => getDefaultMiddleware(),
   reducer: {
     root: rootSlice.reducer,
-    posts: postsSlice.reducer
+    users: usersSlice.reducer,
+    pictograms: pictogramsSlice.reducer
   }
 });
