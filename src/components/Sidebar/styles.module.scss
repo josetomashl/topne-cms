@@ -5,6 +5,13 @@
   height: 100dvh;
   padding: 10px;
   user-select: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  .logoutBtn {
+    background-color: $error;
+  }
 }
 
 .sidebarGroupHead {

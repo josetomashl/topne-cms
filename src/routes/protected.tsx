@@ -3,8 +3,8 @@ import { Route, Routes } from 'react-router';
 import { NavigationLayout } from '@/layouts/Navigation';
 import { NotFoundPage } from '@/pages/404';
 import { HomePage } from '@/pages/home';
-import { Page1 } from '@/pages/page1';
-import { Page2 } from '@/pages/page2';
+import { Page2 } from '@/pages/pictograms';
+import { Page1 } from '@/pages/users';
 
 export function ProtectedRoutes() {
   return (

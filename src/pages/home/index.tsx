@@ -6,7 +6,7 @@ export function HomePage() {
 
   return (
     <>
-      <p className={styles.something}>Welcome {me?.name}</p>
+      <p className={styles.something}>Bienvenid@, {me?.name}</p>
       <p onClick={logout}>Log out</p>
     </>
   );
