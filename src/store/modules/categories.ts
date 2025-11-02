@@ -95,7 +95,7 @@ export const deleteCategory = createAppAsyncThunk('Categories/deleteItem', async
   }
 });
 
-export const CategoriesSlice = createSlice({
+export const categoriesSlice = createSlice({
   name: 'Categories',
   initialState,
   reducers: {
@@ -208,4 +208,4 @@ export const CategoriesSlice = createSlice({
   }
 });
 
-export const { setPage, setPageSize } = CategoriesSlice.actions;
+export const { setPage, setPageSize } = categoriesSlice.actions;

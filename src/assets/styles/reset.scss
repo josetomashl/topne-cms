@@ -53,4 +53,29 @@ button {
   background: none;
   padding: 0;
   cursor: pointer;
+  font-family: $font-medium;
+  padding: 10px 20px;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+
+  &:hover:not(.disabled):not(.loading) {
+    filter: brightness(90%);
+  }
+}
+
+form button {
+  &[type='reset'] {
+    background-color: $error-background;
+    color: $error;
+    margin-right: 10px;
+  }
+  &[type='submit'] {
+    background-color: $success-background;
+    color: $success;
+  }
+
+  &:disabled {
+    background-color: $light;
+    color: $gray;
+  }
 }

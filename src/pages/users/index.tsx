@@ -1,6 +1,6 @@
 import styles from './styles.module.scss';
 
-export function Page1() {
+export function UsersPage() {
   // const { postId } = useParams();
   // const dispatch = useAppDispatch();
   // const post = useAppSelector((state) => state.posts.item);
