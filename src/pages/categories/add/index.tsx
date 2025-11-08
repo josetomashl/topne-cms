@@ -29,7 +29,7 @@ export function AddCategoryPage() {
 
   return (
     <>
-      <p className={styles.something}>Create category page</p>
+      <p className={styles.something}>Nueva categoría</p>
       <form onSubmit={handleSubmit}>
         <Input
           label='Nombre'
@@ -44,7 +44,9 @@ export function AddCategoryPage() {
           onChange={(val) => setForm({ ...form, description: val })}
           disabled={loading}
         />
-        <button type='reset'>Cancelar</button>
+        <button type='reset' onClick={() => navigate(-1)}>
+          Cancelar
+        </button>
         <button type='submit' disabled={loading || !form.name}>
           Crear
         </button>

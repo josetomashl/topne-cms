@@ -25,9 +25,9 @@ const initialState: CategoriesState = {
   total: 0
 };
 
-export const requestAllCategories = createAppAsyncThunk('Categories/getAll', async () => {
+export const requestAllCategories = createAppAsyncThunk('categories/getAll', async () => {
   try {
-    const response = await axiosInstance.get<undefined, CategoryKV[]>('/Categories/all');
+    const response = await axiosInstance.get<undefined, CategoryKV[]>('/categories/all');
     return response;
   } catch {
     return;
@@ -35,10 +35,10 @@ export const requestAllCategories = createAppAsyncThunk('Categories/getAll', asy
 });
 
 export const requestCategories = createAppAsyncThunk(
-  'Categories/getList',
+  'categories/getList',
   async (data: { page: number; pageSize: number }) => {
     try {
-      const response = await axiosInstance.get<undefined, Pagination<CategoryList>>('/Categories', {
+      const response = await axiosInstance.get<undefined, Pagination<CategoryList>>('/categories', {
         params: {
           page: data.page,
           pageSize: data.pageSize
@@ -51,29 +51,29 @@ export const requestCategories = createAppAsyncThunk(
   }
 );
 
-export const requestCategory = createAppAsyncThunk('Categories/getItem', async (id: string) => {
+export const requestCategory = createAppAsyncThunk('categories/getItem', async (id: string) => {
   try {
-    const response = await axiosInstance.get<undefined, CategoryList>(`/Categories/${id}`);
+    const response = await axiosInstance.get<undefined, CategoryList>(`/categories/${id}`);
     return response;
   } catch {
     return;
   }
 });
 
-export const createCategory = createAppAsyncThunk('Categories/postItem', async (data: CreateCategoryDto) => {
+export const createCategory = createAppAsyncThunk('categories/postItem', async (data: CreateCategoryDto) => {
   try {
-    const response = await axiosInstance.post<CreateCategoryDto, CategoryList>(`/Categories`, data);
+    const response = await axiosInstance.post<CreateCategoryDto, CategoryList>(`/categories`, data);
     return response;
   } catch {
     return;
   }
 });
 export const updateCategory = createAppAsyncThunk(
-  'Categories/updateItem',
+  'categories/updateItem',
   async (data: { id: string; payload: UpdateCategoryDto }) => {
     try {
       const response = await axiosInstance.patch<UpdateCategoryDto, CategoryList>(
-        `/Categories/${data.id}`,
+        `/categories/${data.id}`,
         data.payload
       );
       return response;
@@ -82,9 +82,9 @@ export const updateCategory = createAppAsyncThunk(
     }
   }
 );
-export const deleteCategory = createAppAsyncThunk('Categories/deleteItem', async (id: string) => {
+export const deleteCategory = createAppAsyncThunk('categories/deleteItem', async (id: string) => {
   try {
-    const response = await axiosInstance.delete<undefined, CategoryList>(`/Categories/${id}`);
+    const response = await axiosInstance.delete<undefined, CategoryList>(`/categories/${id}`);
     return response;
   } catch {
     return;
@@ -92,7 +92,7 @@ export const deleteCategory = createAppAsyncThunk('Categories/deleteItem', async
 });
 
 export const categoriesSlice = createSlice({
-  name: 'Categories',
+  name: 'categories',
   initialState,
   reducers: {
     setPage: (state, action: PayloadAction<number>) => {
