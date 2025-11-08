@@ -1,26 +1,24 @@
 import { Icon } from '@/components/Icon';
-import { useAppSelector } from '@/store/hooks';
 import styles from './styles.module.scss';
 
 type Props = {
-  module: 'posts'; // add more when necessary
-  onPageChange: (page: number) => Promise<void> | void;
-  onPageSizeChange: (pageSize: number) => Promise<void> | void;
+  page: number;
+  pageSize: number;
+  total: number;
+  onPageChange: (page: number) => void;
+  onPageSizeChange: (pageSize: number) => void;
 };
 
-export function Pagination(props: Props) {
-  const module = useAppSelector((state) => state[props.module]);
-  const { page, pageSize, total } = module.pagination;
-
+export function Pagination({ page, pageSize, total, onPageChange, onPageSizeChange }: Props) {
   const totalPages = Math.ceil(total / pageSize);
   const canPrev = page > 0;
   const canNext = page < totalPages - 1;
 
   const handlePageChange = (p: number) => {
-    props.onPageChange(p);
+    onPageChange(p);
   };
   const handlePageSizeChange = (p: number) => {
-    props.onPageSizeChange(p);
+    onPageSizeChange(p);
   };
 
   const handlePrev = () => handlePageChange(Math.max(page - 1, 0));
@@ -31,7 +29,7 @@ export function Pagination(props: Props) {
       <span>{total} entries</span>
       <div>
         <button onClick={() => handlePageChange(0)} disabled={!canPrev} aria-label='First page'>
-          «
+          <Icon name='chevronsLeft' size={14} />
         </button>
         <button onClick={handlePrev} disabled={!canPrev} aria-label='Previous page'>
           <Icon name='chevronLeft' size={14} />
@@ -43,12 +41,12 @@ export function Pagination(props: Props) {
           <Icon name='chevronRight' size={14} />
         </button>
         <button onClick={() => handlePageChange(totalPages - 1)} disabled={!canNext} aria-label='Last page'>
-          »
+          <Icon name='chevronsRight' size={14} />
         </button>
       </div>
       <div>
         <label>
-          Rows:{' '}
+          <span>Rows: </span>
           <select value={pageSize} onChange={(e) => handlePageSizeChange(Number(e.target.value))}>
             <option value={10}>10</option>
             <option value={25}>25</option>

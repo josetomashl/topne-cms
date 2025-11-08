@@ -10,11 +10,9 @@ interface PictogramsState {
   all: PictogramKV[];
   list: PictogramList[];
   item: PictogramList | null;
-  pagination: {
-    page: number;
-    pageSize: number;
-    total: number;
-  };
+  page: number;
+  pageSize: number;
+  total: number;
 }
 
 const initialState: PictogramsState = {
@@ -22,11 +20,9 @@ const initialState: PictogramsState = {
   all: [],
   list: [],
   item: null,
-  pagination: {
-    page: 0,
-    pageSize: 10,
-    total: 0
-  }
+  page: 0,
+  pageSize: 10,
+  total: 0
 };
 
 export const requestAllPictograms = createAppAsyncThunk('pictograms/getAll', async () => {
@@ -100,16 +96,18 @@ export const pictogramsSlice = createSlice({
   initialState,
   reducers: {
     setPage: (state, action: PayloadAction<number>) => {
-      state.pagination.page = action.payload;
+      state.page = action.payload;
     },
     setPageSize: (state, action: PayloadAction<number>) => {
-      state.pagination.pageSize = action.payload;
+      state.pageSize = action.payload;
     },
     resetPictograms: (state) => {
       state.loading = false;
       state.list = [];
       state.item = null;
-      state.pagination = initialState.pagination;
+      state.page = 0;
+      state.pageSize = 10;
+      state.total = 0;
     }
   },
   extraReducers: (builder) => {
@@ -134,18 +132,17 @@ export const pictogramsSlice = createSlice({
       .addCase(requestPictograms.rejected, (state) => {
         state.list = [];
         state.item = null;
-        state.pagination = initialState.pagination;
+        state.page = 0;
+        state.pageSize = 10;
+        state.total = 0;
         state.loading = false;
       })
       .addCase(requestPictograms.fulfilled, (state, action) => {
         if (action.payload) {
           state.list = action.payload.items;
-          state.pagination = {
-            ...state.pagination,
-            // page: action.payload.page,
-            // pageSize: action.payload.pageSize,
-            total: action.payload.total
-          };
+          state.total = action.payload.total;
+          state.page = action.payload.page;
+          state.pageSize = action.payload.pageSize;
         }
         state.loading = false;
       });
