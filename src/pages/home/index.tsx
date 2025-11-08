@@ -1,8 +1,20 @@
+import { Spinner } from '@/components/Spinner';
 import { useAuth } from '@/hooks/useAuth';
+import { useEffect } from 'react';
 import styles from './styles.module.scss';
 
 export function HomePage() {
-  const { me } = useAuth();
+  const { isLoading, me, getMe } = useAuth();
+
+  useEffect(() => {
+    if (!me) {
+      getMe();
+    }
+  }, []);
+
+  if (isLoading) {
+    return <Spinner />;
+  }
 
   return (
     <>

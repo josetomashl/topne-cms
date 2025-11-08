@@ -1,29 +1,39 @@
+import { Table } from '@/components/Table';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import { requestUsers } from '@/store/modules/users';
+import { useEffect } from 'react';
 import styles from './styles.module.scss';
 
 export function UsersPage() {
-  // const { postId } = useParams();
-  // const dispatch = useAppDispatch();
-  // const post = useAppSelector((state) => state.posts.item);
+  const dispatch = useAppDispatch();
+  const { list, pagination, loading } = useAppSelector((state) => state.users);
 
-  // useEffect(() => {
-  //   req(postId!);
-  // }, [postId]);
-
-  // const req = async (postId: string) => {
-  //   const res = await dispatch(requestPost(postId)).unwrap();
-  //   if (res) {
-  //     console.log(
-  //       'additional logic after post request using its info. Must use the unwrap() method to access response fields'
-  //     );
-  //   }
-  // };
-
-  // if (!post) return <p>Loading...</p>;
+  useEffect(() => {
+    dispatch(requestUsers(pagination));
+  }, [pagination.page, pagination.pageSize]);
 
   return (
-    <div>
-      <p className={styles.something}>Page 1</p>
-      {/* <p>Post id: {post.id}</p> */}
-    </div>
+    <>
+      <p className={styles.something}>Users page</p>
+      <pre>
+        <code>{JSON.stringify(list, null, 2)}</code>
+      </pre>
+      <Table
+        items={list}
+        headers={[
+          { key: 'id', label: 'ID' },
+          { key: 'name', label: 'Name' }
+        ]}
+        actions={[
+          {
+            icon: 'chevronDown',
+            onClick: (userClicked) => {
+              console.log(userClicked);
+            }
+          }
+        ]}
+        loading={loading}
+      />
+    </>
   );
 }

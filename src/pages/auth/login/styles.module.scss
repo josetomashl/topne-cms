@@ -1,0 +1,25 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: $dark;
+  width: 100dvw;
+  height: 100dvh;
+
+  .container {
+    border-radius: 20px;
+    width: 50%;
+    background-color: $background;
+    padding: 20px;
+
+    .header {
+      font-size: 32px;
+      padding: 20px 0px 10px 0px;
+      text-align: center;
+    }
+    .form {
+      padding: 20px;
+    }
+  }
+}

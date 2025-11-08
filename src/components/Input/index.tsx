@@ -24,7 +24,7 @@ export function Input({
   required,
   clearable,
   regExp,
-  errorMessage = 'This field is required'
+  errorMessage = 'Este campo es requerido.'
 }: Props) {
   const id = useId();
   const [isTouched, setIsTouched] = useState(false);
@@ -75,7 +75,7 @@ export function Input({
           />
           {type === 'password' && (
             <div className={styles.iconContainer} onClick={toggleVisibility}>
-              <Icon name={isValueVisible ? 'chevronLeft' : 'chevronRight'} size={16} color='black' />
+              <Icon name={!isValueVisible ? 'eye' : 'eyeOff'} size={16} color='black' />
             </div>
           )}
           {clearable && value && (

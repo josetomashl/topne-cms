@@ -1,98 +1,100 @@
 import { Input } from '@/components/Input';
+import { RegisterRequest } from '@/dtos/Auth';
 import { useAuth } from '@/hooks/useAuth';
 import { useTitle } from '@/hooks/useTitle';
 import { REGEX } from '@/plugins/data/regex';
 import { type FormEvent, useState } from 'react';
+import { Link } from 'react-router';
 import styles from './styles.module.scss';
 
 export function RegisterPage() {
   useTitle('Register page');
   const { isLoading, register } = useAuth();
 
-  const [form, setForm] = useState<{
-    name: string;
-    surname: string;
-    email: string;
-    password: string;
-    errors: string[];
-  }>({
+  const [form, setForm] = useState<RegisterRequest>({
     name: '',
     surname: '',
     email: '',
-    password: '',
-    errors: []
+    password: ''
   });
 
+  const disabled =
+    isLoading ||
+    !form.name ||
+    !form.surname ||
+    !form.email ||
+    !form.password ||
+    !REGEX.email.test(form.email) ||
+    !REGEX.password.test(form.password);
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     await register({ name: form.name, surname: form.surname, email: form.email, password: form.password });
   };
 
   return (
-    <div>
-      <p className={styles.something}>Login page</p>
-      <form onSubmit={handleSubmit}>
-        <Input
-          label='Nombre'
-          value={form.name}
-          onChange={(value, valid) => {
-            setForm((prev) => ({
-              ...prev,
-              name: value,
-              errors: !valid ? [...prev.errors, 'name'] : prev.errors.filter((e) => e !== 'name')
-            }));
-          }}
-          errorMessage='Please enter a valid name'
-          required
-        />
-        <Input
-          label='Apellidos'
-          value={form.surname}
-          onChange={(value, valid) => {
-            setForm((prev) => ({
-              ...prev,
-              surname: value,
-              errors: !valid ? [...prev.errors, 'surname'] : prev.errors.filter((e) => e !== 'surname')
-            }));
-          }}
-          errorMessage='Please enter a valid surname'
-          required
-        />
-        <Input
-          type='email'
-          label='Email'
-          value={form.email}
-          onChange={(value, valid) => {
-            setForm((prev) => ({
-              ...prev,
-              email: value,
-              errors: !valid ? [...prev.errors, 'email'] : prev.errors.filter((e) => e !== 'email')
-            }));
-          }}
-          regExp={REGEX.email}
-          errorMessage='Please enter a valid email address'
-          required
-        />
-        <Input
-          type='password'
-          value={form.password}
-          label='Password'
-          onChange={(value, valid) => {
-            setForm((prev) => ({
-              ...prev,
-              password: value,
-              errors: !valid ? [...prev.errors, 'password'] : prev.errors.filter((e) => e !== 'password')
-            }));
-          }}
-          required
-          regExp={REGEX.password}
-          errorMessage='Password must be at least 8 characters long and contain at least one number, one uppercase letter and one lowercase letter'
-        />
+    <div className={styles.wrapper}>
+      <div className={styles.container}>
+        <p className={styles.header}>Registro</p>
+        <form onSubmit={handleSubmit} className={styles.form}>
+          <Input
+            label='Nombre'
+            value={form.name}
+            onChange={(value) => {
+              setForm((prev) => ({
+                ...prev,
+                name: value
+              }));
+            }}
+            required
+          />
+          <Input
+            label='Apellidos'
+            value={form.surname}
+            onChange={(value) => {
+              setForm((prev) => ({
+                ...prev,
+                surname: value
+              }));
+            }}
+            required
+          />
+          <Input
+            type='email'
+            label='Email'
+            value={form.email}
+            onChange={(value) => {
+              setForm((prev) => ({
+                ...prev,
+                email: value
+              }));
+            }}
+            regExp={REGEX.email}
+            errorMessage='Introduce un email válido'
+            required
+          />
+          <Input
+            type='password'
+            value={form.password}
+            label='Password'
+            onChange={(value) => {
+              setForm((prev) => ({
+                ...prev,
+                password: value
+              }));
+            }}
+            required
+            regExp={REGEX.password}
+            errorMessage='La contraseña debe tener al menos 8 caracteres y contener al menos un número, una letra mayúscula y una letra minúscula.'
+          />
 
-        <button type='submit' disabled={isLoading || form.errors.length > 0}>
-          Login
-        </button>
-      </form>
+          <Link to='/login' className='underlined' style={{ marginRight: 10 }}>
+            <span className={styles.link}>Ya tengo cuenta</span>
+          </Link>
+          <button type='submit' disabled={disabled}>
+            Crear cuenta
+          </button>
+        </form>
+      </div>
     </div>
   );
 }

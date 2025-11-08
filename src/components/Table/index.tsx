@@ -1,18 +1,28 @@
-import { Icon } from '@/components/Icon';
+import { Icon, type IconNames } from '@/components/Icon';
+import { Colors } from '@/plugins/data/colors';
 import { toDate, toDateTime, toPrice, toTime } from '@/plugins/transformers';
+import { Button } from '../Button';
 import styles from './styles.module.scss';
 
-type HeaderFormat = 'date' | 'time' | 'datetime' | 'price' | undefined;
+// export type TableItemType = Record<string, string | number | boolean | null | undefined>;
+type HeaderFormat = 'date' | 'time' | 'datetime' | 'price';
+export type TableHeaderType<T> = { key: keyof T; label: string | null; format?: HeaderFormat };
 
-type Header = { key: string; label: string | null; format: HeaderFormat };
-type Item = Record<string, string | number | boolean | null | undefined>;
-
-type Props = {
-  headers: Header[];
-  items: Item[];
+type ActionType<T> = {
+  icon: IconNames;
+  onClick: (item: T) => void | Promise<void>;
+  variant?: 'info' | 'warning' | 'success' | 'error';
 };
 
-const formatValue = (value: string | number, format: HeaderFormat): string | null => {
+type Props<T extends object> = {
+  items: T[];
+  headers: TableHeaderType<T>[];
+  actions?: ActionType<T>[];
+  actionsPosition?: 'start' | 'end';
+  loading?: boolean;
+};
+
+const formatValue = (value: string | number, format?: HeaderFormat): string | null => {
   switch (format) {
     case 'price':
       return toPrice(value);
@@ -27,47 +37,77 @@ const formatValue = (value: string | number, format: HeaderFormat): string | nul
   }
 };
 
-export function Table({ headers, items }: Props) {
+export function Table<T extends object>({ headers, items, actions, actionsPosition = 'end', loading }: Props<T>) {
+  const handleActionClick = async (action: ActionType<T>, item: T) => {
+    if (action && action.onClick) {
+      await action.onClick(item);
+    }
+  };
+
   if (!headers.length) return null;
+  if (loading) return <p>Cargando...</p>;
 
   return (
-    <div>
-      <table className={styles.table}>
-        <thead>
-          <tr>
-            {headers.map(({ key, label }) => (
-              <th key={key}>{label ?? ''}</th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {items.map((row, rowIndex) => (
-            <tr key={rowIndex}>
-              {headers.map(({ key, format }, colIndex) => {
-                const value = row[key];
-
-                if (typeof value === 'boolean') {
-                  return (
-                    <td key={colIndex}>
-                      <Icon name={value ? 'circleCheck' : 'circleX'} size={16} color={value ? 'green' : 'red'} />
-                    </td>
-                  );
-                }
-
-                if (typeof value === 'string' || typeof value === 'number') {
-                  return (
-                    <td key={colIndex}>
-                      <span>{formatValue(value, format) ?? '-'}</span>
-                    </td>
-                  );
-                }
-
-                return <td key={colIndex}>-</td>;
-              })}
-            </tr>
+    <table className={styles.table}>
+      <thead>
+        <tr>
+          {actions && actionsPosition === 'start' && <th></th>}
+          {headers.map(({ key, label }) => (
+            <th key={String(key)}>{label ?? ''}</th>
           ))}
-        </tbody>
-      </table>
-    </div>
+          {actions && actionsPosition === 'end' && <th></th>}
+        </tr>
+      </thead>
+      <tbody>
+        {items.map((item, index) => (
+          <tr key={index}>
+            {actions && actionsPosition === 'start' && (
+              <td style={{ borderRight: '1px solid #ccc', padding: '0.5rem' }}>
+                {actions.map((action, actionIndex) => (
+                  <Button
+                    key={actionIndex}
+                    icon={action.icon}
+                    onClick={() => handleActionClick(action, item)}
+                    rounded
+                    iconColor={Colors[action.variant || 'info']}
+                  />
+                ))}
+              </td>
+            )}
+            {headers.map(({ key, format }, colIndex) => {
+              const value = item[key];
+              if (typeof value === 'boolean') {
+                return (
+                  <td key={colIndex}>
+                    <Icon name={value ? 'circleCheck' : 'circleX'} size={16} color={value ? 'green' : 'red'} />
+                  </td>
+                );
+              }
+              if (typeof value === 'string' || typeof value === 'number') {
+                return (
+                  <td key={colIndex}>
+                    <span>{formatValue(value, format) ?? '-'}</span>
+                  </td>
+                );
+              }
+              return <td key={colIndex}>-</td>;
+            })}
+            {actions && actionsPosition === 'end' && (
+              <td style={{ borderLeft: '1px solid #ccc', padding: '0.5rem' }}>
+                {actions.map((action, actionIndex) => (
+                  <Button
+                    key={actionIndex}
+                    icon={action.icon}
+                    onClick={() => handleActionClick(action, item)}
+                    rounded
+                    iconColor={Colors[action.variant || 'info']}
+                  />
+                ))}
+              </td>
+            )}
+          </tr>
+        ))}
+      </tbody>
+    </table>
   );
 }

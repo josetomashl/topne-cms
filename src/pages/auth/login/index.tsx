@@ -1,4 +1,5 @@
 import { Input } from '@/components/Input';
+import { LoginRequest } from '@/dtos/Auth';
 import { useAuth } from '@/hooks/useAuth';
 import { useTitle } from '@/hooks/useTitle';
 import { REGEX } from '@/plugins/data/regex';
@@ -6,18 +7,16 @@ import { type FormEvent, useState } from 'react';
 import styles from './styles.module.scss';
 
 export function LoginPage() {
-  useTitle('Login page');
+  useTitle('Login - CMS');
   const { isLoading, login } = useAuth();
 
-  const [form, setForm] = useState<{
-    email: string;
-    password: string;
-    errors: string[];
-  }>({
+  const [form, setForm] = useState<LoginRequest>({
     email: '',
-    password: '',
-    errors: []
+    password: ''
   });
+
+  const disabled =
+    isLoading || !form.email || !form.password || !REGEX.email.test(form.email) || !REGEX.password.test(form.password);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -25,44 +24,44 @@ export function LoginPage() {
   };
 
   return (
-    <div>
-      <p className={styles.something}>Login page</p>
-      <form onSubmit={handleSubmit}>
-        <Input
-          type='email'
-          label='Email'
-          value={form.email}
-          onChange={(value, valid) => {
-            setForm((prev) => ({
-              ...prev,
-              email: value,
-              errors: !valid ? [...prev.errors, 'email'] : prev.errors.filter((e) => e !== 'email')
-            }));
-          }}
-          regExp={REGEX.email}
-          errorMessage='Please enter a valid email address'
-          required
-        />
-        <Input
-          type='password'
-          value={form.password}
-          label='Password'
-          onChange={(value, valid) => {
-            setForm((prev) => ({
-              ...prev,
-              password: value,
-              errors: !valid ? [...prev.errors, 'email'] : prev.errors.filter((e) => e !== 'email')
-            }));
-          }}
-          required
-          regExp={REGEX.password}
-          errorMessage='Password must be at least 8 characters long and contain at least one number, one uppercase letter and one lowercase letter'
-        />
+    <div className={styles.wrapper}>
+      <div className={styles.container}>
+        <p className={styles.header}>Iniciar sesión</p>
+        <form onSubmit={handleSubmit} className={styles.form}>
+          <Input
+            type='email'
+            label='Email'
+            value={form.email}
+            onChange={(value) => {
+              setForm((prev) => ({
+                ...prev,
+                email: value
+              }));
+            }}
+            regExp={REGEX.email}
+            errorMessage='Introduce un email válido'
+            required
+          />
+          <Input
+            type='password'
+            value={form.password}
+            label='Password'
+            onChange={(value) => {
+              setForm((prev) => ({
+                ...prev,
+                password: value
+              }));
+            }}
+            required
+            regExp={REGEX.password}
+            errorMessage='La contraseña debe tener al menos 8 caracteres y contener al menos un número, una letra mayúscula y una letra minúscula.'
+          />
 
-        <button type='submit' disabled={isLoading || form.errors.length > 0}>
-          Login
-        </button>
-      </form>
+          <button type='submit' disabled={disabled}>
+            Entrar
+          </button>
+        </form>
+      </div>
     </div>
   );
 }

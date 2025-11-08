@@ -63,7 +63,7 @@ export const Sidebar = () => {
         title='Cerrar sesión'
         onClick={handleLogOut}
         iconPosition='left'
-        icon='circleX'
+        icon='doorOpen'
         iconColor='white'
         className={styles.logoutBtn}
       />

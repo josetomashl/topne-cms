@@ -1,4 +1,4 @@
-import { createContext, useState, type PropsWithChildren } from 'react';
+import { createContext, useEffect, useState, type PropsWithChildren } from 'react';
 import { useNavigate } from 'react-router';
 
 import type { AuthResponse, LoginRequest, RegisterRequest } from '@/dtos/Auth';
@@ -16,6 +16,7 @@ interface AuthContextType {
   login: (data: LoginRequest) => Promise<void>;
   register: (data: RegisterRequest) => Promise<void>;
   logout: () => void;
+  getMe: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | null>(null);
@@ -27,13 +28,19 @@ const AuthProvider = ({ children }: PropsWithChildren) => {
   const [me, setMe] = useLocalStorage<UserItem | null>(StorageKeys.USER, null);
   const [token, setToken] = useCookie<string | null>(CookieKeys.USER_TOKEN, null);
 
+  useEffect(() => {
+    if (!token) {
+      logout();
+    }
+  }, [token]);
+
   const login = async (data: LoginRequest) => {
     setIsLoading(true);
     const res = await axiosInstance.post<LoginRequest, AuthResponse>('/auth/sign-in', data);
     setIsLoading(false);
     if (res.token) {
       setMe(res.user);
-      setToken(res.token);
+      setToken(res.token, { expires: 1 });
       navigate('/', { replace: true });
     }
   };
@@ -44,8 +51,17 @@ const AuthProvider = ({ children }: PropsWithChildren) => {
     setIsLoading(false);
     if (res.token) {
       setMe(res.user);
-      setToken(res.token);
+      setToken(res.token, { expires: 1 });
       navigate('/', { replace: true });
+    }
+  };
+
+  const getMe = async () => {
+    const res = await axiosInstance.get<null, UserItem>('/auth/me');
+    if (res) {
+      setMe(res);
+    } else {
+      logout();
     }
   };
 
@@ -57,7 +73,9 @@ const AuthProvider = ({ children }: PropsWithChildren) => {
   };
 
   return (
-    <AuthContext.Provider value={{ isLoading, me, token, login, register, logout }}>{children}</AuthContext.Provider>
+    <AuthContext.Provider value={{ isLoading, me, token, login, register, logout, getMe }}>
+      {children}
+    </AuthContext.Provider>
   );
 };
 

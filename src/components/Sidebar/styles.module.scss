@@ -1,5 +1,5 @@
 .sidebar {
-  width: $sidebar-width;
+  min-width: $sidebar-width;
   background: #1f2937;
   color: #fff;
   height: 100dvh;
@@ -18,9 +18,6 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  > svg {
-    padding: 10px;
-  }
 }
 
 .sidebarLink {

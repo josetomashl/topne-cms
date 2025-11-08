@@ -47,9 +47,14 @@ axiosInstance.interceptors.response.use(
     switch (error.status) {
       case 400:
         message =
-          'Algo no ha ido como debería, revisa todos los campos e inténtalo de nuevo. Si el error persiste contacta con soporte.';
+          'Algo no ha ido como debería, revisa todos los campos e inténtalo de nuevo. Si el error persiste contacta con el administrador.';
         break;
       case 401:
+        message = 'Usuario no autenticado.';
+        window.localStorage.clear();
+        Cookies.remove(CookieKeys.USER_TOKEN);
+        window.location.href = '/login';
+        break;
       case 403:
         message = 'Usuario no autorizado.';
         break;

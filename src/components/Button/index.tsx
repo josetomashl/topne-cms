@@ -1,5 +1,4 @@
 import { css } from '@/utils';
-import { useState } from 'react';
 import { Icon, type IconNames } from '../Icon';
 import { Spinner } from '../Spinner';
 import styles from './styles.module.scss';
@@ -14,31 +13,24 @@ type Props = {
   type?: 'button' | 'submit' | 'reset';
   rounded?: boolean;
   className?: string;
+  loading?: boolean;
 };
 
 export function Button({
   title = '',
-  icon = undefined,
+  icon,
   iconPosition = 'left',
-  iconColor = undefined,
-  onClick = () => {},
+  iconColor,
+  onClick,
   disabled = false,
   type = 'button',
   rounded = false,
-  className = undefined
+  className,
+  loading
 }: Props) {
-  const [loading, setLoading] = useState(false);
-
   const handleClick = async () => {
-    if (disabled || loading) return;
-    setLoading(true);
-    try {
-      await onClick();
-    } finally {
-      setTimeout(() => {
-        setLoading(false);
-      }, 1000);
-    }
+    if (disabled || loading || !onClick) return;
+    await onClick();
   };
 
   if (icon && !title) {

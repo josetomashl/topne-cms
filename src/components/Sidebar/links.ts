@@ -17,45 +17,45 @@ type NavItem = NavLinkItem | NavGroupItem;
 
 export const navItems: NavItem[] = [
   {
-    label: 'Home',
+    label: 'Inicio',
     path: '/',
-    icon: 'circleExclamation'
+    icon: 'house'
   },
   {
     label: 'Pictogramas',
-    icon: 'circleCheck',
+    icon: 'image',
     children: [
       {
         label: 'Ver todos',
         path: '/pictograms',
-        icon: 'circleX'
+        icon: 'list'
       },
       {
         label: 'Etiquetas',
         path: '/tags',
-        icon: 'circleInfo'
+        icon: 'tag'
       }
     ]
   },
   {
     label: 'Reviews',
-    icon: 'circleCheck',
+    icon: 'video',
     children: [
       {
         label: 'Ver todos',
         path: '/reviews',
-        icon: 'circleX'
+        icon: 'list'
       },
       {
         label: 'Categorías',
         path: '/categories',
-        icon: 'circleInfo'
+        icon: 'tag'
       }
     ]
   },
   {
     label: 'Usuarios',
     path: '/users',
-    icon: 'circleX'
+    icon: 'users'
   }
 ];

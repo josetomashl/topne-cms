@@ -5,13 +5,14 @@ import { Spinner } from '@/components/Spinner';
 import { useAuth } from '@/hooks/useAuth';
 
 export function AuthMiddleware({ children }: { children: ReactNode }) {
-  const { isLoading, token } = useAuth();
+  const { isLoading, token, logout } = useAuth();
 
   if (isLoading) {
     return <Spinner />;
   }
 
   if (!token) {
+    logout();
     return <Navigate to='/login' replace />;
   }
 
