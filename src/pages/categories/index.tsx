@@ -1,8 +1,9 @@
 import { Button } from '@/components/Button';
 import { Pagination } from '@/components/Pagination';
 import { Table } from '@/components/Table';
+import type { CategoryList } from '@/dtos/Category';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
-import { requestCategories, setPage, setPageSize } from '@/store/modules/categories';
+import { deleteCategory, requestCategories, setPage, setPageSize } from '@/store/modules/categories';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router';
 import styles from './styles.module.scss';
@@ -15,6 +16,10 @@ export function CategoriesPage() {
   useEffect(() => {
     dispatch(requestCategories({ page, pageSize }));
   }, [page, pageSize]);
+
+  const handleDelete = async (item: CategoryList) => {
+    await dispatch(deleteCategory(item.id));
+  };
 
   return (
     <>
@@ -29,6 +34,7 @@ export function CategoriesPage() {
         ]}
         items={list}
         loading={loading}
+        actions={[{ icon: 'trash', variant: 'error', onClick: handleDelete }]}
       />
       <Pagination
         page={page}

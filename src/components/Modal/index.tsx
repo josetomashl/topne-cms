@@ -1,5 +1,6 @@
 import { type PropsWithChildren, useEffect } from 'react';
 import { createPortal } from 'react-dom';
+import { Icon } from '../Icon';
 import styles from './styles.module.scss';
 
 interface Props {
@@ -32,7 +33,7 @@ export const Modal = (props: PropsWithChildren<Props>) => {
     <div className={styles.modalOverlay} onClick={props.onClose} role='dialog' aria-modal='true'>
       <div className={styles.modalContainer} onClick={(e) => e.stopPropagation()} role='document'>
         <button className={styles.modalCloseBtn} onClick={props.onClose} aria-label='Close modal'>
-          &times;
+          <Icon name='close' size={20} />
         </button>
         {props.children}
       </div>

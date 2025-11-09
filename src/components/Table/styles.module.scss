@@ -23,21 +23,28 @@
       border-bottom: 1px solid $gray;
 
       &:nth-child(odd) {
-        background-color: $primary-light;
+        background-color: $background;
       }
       &:nth-child(even) {
         background-color: $light;
       }
 
       td {
-        .actionIconContainer {
-          width: 32px;
-          height: 32px;
-          border-radius: 100%;
+        .actionsContainer {
           display: flex;
-          justify-content: center;
+          flex-direction: row;
           align-items: center;
-          cursor: pointer;
+          gap: 10px;
+
+          .actionIconContainer {
+            width: 32px;
+            height: 32px;
+            border-radius: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+          }
         }
       }
     }

@@ -11,6 +11,8 @@ import { ReviewsPage } from '@/pages/reviews';
 import { AddReviewPage } from '@/pages/reviews/add';
 import { TagsPage } from '@/pages/tags';
 import { AddTagPage } from '@/pages/tags/add';
+import { EditTagPage } from '@/pages/tags/edit';
+import { TagPage } from '@/pages/tags/id';
 import { UsersPage } from '@/pages/users';
 import { AddUserPage } from '@/pages/users/add';
 import { UserPage } from '@/pages/users/id';
@@ -46,6 +48,10 @@ export function ProtectedRoutes() {
         <Route path='tags'>
           <Route index element={<TagsPage />} />
           <Route path='add' element={<AddTagPage />} />
+          <Route path=':id'>
+            <Route index element={<TagPage />} />
+            <Route path='edit' element={<EditTagPage />} />
+          </Route>
         </Route>
       </Route>
 

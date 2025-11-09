@@ -28,6 +28,8 @@ export function HomePage() {
         </div>
       )}
       <h3>Resumen de datos</h3>
+      <p>Últimos 3 pictogramas/reviews publicados</p>
+      <p>Pictogramas/Reviews pendientes de publicar (borrador)</p>
     </>
   );
 }

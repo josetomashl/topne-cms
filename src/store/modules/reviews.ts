@@ -194,8 +194,8 @@ export const reviewsSlice = createSlice({
       .addCase(deleteReview.fulfilled, (state, action) => {
         if (action.payload) {
           state.item = null;
-          state.all.filter((i) => i.id !== action.payload!.id);
-          state.list.filter((i) => i.id !== action.payload!.id);
+          state.all = state.all.filter((i) => i.id !== action.payload!.id);
+          state.list = state.list.filter((i) => i.id !== action.payload!.id);
         }
         state.loading = false;
       });

@@ -63,16 +63,18 @@ export function Table<T extends object>({ headers, items, actions, actionsPositi
         {items.map((item, index) => (
           <tr key={index}>
             {actions && actionsPosition === 'start' && (
-              <td style={{ borderRight: '1px solid #ccc', padding: '0.5rem' }}>
-                {actions.map((action, actionIndex) => (
-                  <div
-                    key={actionIndex}
-                    onClick={() => handleActionClick(action, item)}
-                    className={styles.actionIconContainer}
-                    style={{ backgroundColor: Colors[`${action.variant || 'info'}Background`] }}>
-                    <Icon name={action.icon} color={Colors[action.variant || 'info']} size={20} />
-                  </div>
-                ))}
+              <td style={{ borderRight: '1px solid #ccc' }}>
+                <div className={styles.actionsContainer}>
+                  {actions.map((action, actionIndex) => (
+                    <span
+                      key={actionIndex}
+                      onClick={() => handleActionClick(action, item)}
+                      className={css(styles.actionIconContainer)}
+                      style={{ backgroundColor: Colors[`${action.variant || 'info'}Background`] }}>
+                      <Icon name={action.icon} color={Colors[action.variant || 'info']} size={20} />
+                    </span>
+                  ))}
+                </div>
               </td>
             )}
             {headers.map(({ key, format }, colIndex) => {
@@ -105,16 +107,18 @@ export function Table<T extends object>({ headers, items, actions, actionsPositi
               return <td key={colIndex}>-</td>;
             })}
             {actions && actionsPosition === 'end' && (
-              <td style={{ borderLeft: '1px solid #ccc', padding: '0.5rem' }}>
-                {actions.map((action, actionIndex) => (
-                  <div
-                    key={actionIndex}
-                    onClick={() => handleActionClick(action, item)}
-                    className={css(styles.actionIconContainer)}
-                    style={{ backgroundColor: Colors[`${action.variant || 'info'}Background`] }}>
-                    <Icon name={action.icon} color={Colors[action.variant || 'info']} size={20} />
-                  </div>
-                ))}
+              <td style={{ borderLeft: '1px solid #ccc' }}>
+                <div className={styles.actionsContainer}>
+                  {actions.map((action, actionIndex) => (
+                    <span
+                      key={actionIndex}
+                      onClick={() => handleActionClick(action, item)}
+                      className={css(styles.actionIconContainer)}
+                      style={{ backgroundColor: Colors[`${action.variant || 'info'}Background`] }}>
+                      <Icon name={action.icon} color={Colors[action.variant || 'info']} size={20} />
+                    </span>
+                  ))}
+                </div>
               </td>
             )}
           </tr>
