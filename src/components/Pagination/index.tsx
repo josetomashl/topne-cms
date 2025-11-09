@@ -26,27 +26,29 @@ export function Pagination({ page, pageSize, total, onPageChange, onPageSizeChan
 
   return (
     <div className={styles.paginationContainer}>
-      <span>{total} entries</span>
-      <div>
+      <span>
+        Total: {total} {total === 1 ? 'registro' : 'registros'}
+      </span>
+      <div className={styles.pageControls}>
         <button onClick={() => handlePageChange(0)} disabled={!canPrev} aria-label='First page'>
-          <Icon name='chevronsLeft' size={14} />
+          <Icon name='chevronsLeft' size={16} />
         </button>
         <button onClick={handlePrev} disabled={!canPrev} aria-label='Previous page'>
-          <Icon name='chevronLeft' size={14} />
+          <Icon name='chevronLeft' size={16} />
         </button>
         <span className='tbl-page-info'>
-          Page {totalPages === 0 ? 0 : page + 1} of {totalPages}
+          Página {totalPages === 0 ? 0 : page + 1} de {totalPages}
         </span>
         <button onClick={handleNext} disabled={!canNext} aria-label='Next page'>
-          <Icon name='chevronRight' size={14} />
+          <Icon name='chevronRight' size={16} />
         </button>
         <button onClick={() => handlePageChange(totalPages - 1)} disabled={!canNext} aria-label='Last page'>
-          <Icon name='chevronsRight' size={14} />
+          <Icon name='chevronsRight' size={16} />
         </button>
       </div>
       <div>
         <label>
-          <span>Rows: </span>
+          <span>Filas: </span>
           <select value={pageSize} onChange={(e) => handlePageSizeChange(Number(e.target.value))}>
             <option value={10}>10</option>
             <option value={25}>25</option>

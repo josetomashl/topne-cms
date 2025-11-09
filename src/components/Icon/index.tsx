@@ -1,4 +1,4 @@
-import { ICONS } from '@/plugins/data/icons';
+import { ICONS } from '@/components/Icon/icons';
 
 export type IconNames = keyof typeof ICONS;
 type Props = {

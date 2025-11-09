@@ -34,6 +34,9 @@ export const Sidebar = () => {
   return (
     <div className={styles.sidebar}>
       <div>
+        <div>
+          <img src='/images/titulo-amarillo.webp' alt='Topne logo' className={styles.logo} loading='lazy' />
+        </div>
         {navItems.map((item, index) => {
           if (item.path) {
             return <SidebarItem key={index} item={item} />;

@@ -1,38 +1,49 @@
+import { Button } from '@/components/Button';
+import { Pagination } from '@/components/Pagination';
 import { Table } from '@/components/Table';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
-import { requestUsers } from '@/store/modules/users';
+import { requestUsers, setPage, setPageSize } from '@/store/modules/users';
 import { useEffect } from 'react';
+import { useNavigate } from 'react-router';
 import styles from './styles.module.scss';
 
 export function UsersPage() {
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const { list, pagination, loading } = useAppSelector((state) => state.users);
+  const { list, page, pageSize, loading, total } = useAppSelector((state) => state.users);
 
   useEffect(() => {
-    dispatch(requestUsers(pagination));
-  }, [pagination.page, pagination.pageSize]);
+    dispatch(requestUsers({ page, pageSize }));
+  }, [page, pageSize]);
 
   return (
     <>
-      <p className={styles.something}>Users page</p>
-      <pre>
-        <code>{JSON.stringify(list, null, 2)}</code>
-      </pre>
+      <div className={styles.header}>
+        <h3>Usuarios</h3>
+        <Button title='Añadir' onClick={() => navigate('/users/add')} />
+      </div>
       <Table
         items={list}
         headers={[
-          { key: 'id', label: 'ID' },
-          { key: 'name', label: 'Name' }
+          { key: 'name', label: 'Nombre' },
+          { key: 'surname', label: 'Apellidos' },
+          { key: 'email', label: 'Email' },
+          { key: 'isActive', label: 'Activo' }
         ]}
         actions={[
           {
-            icon: 'chevronDown',
-            onClick: (userClicked) => {
-              console.log(userClicked);
-            }
+            icon: 'circleExclamation',
+            onClick: (item) => navigate(`/users/${item.id}`)
           }
         ]}
         loading={loading}
+      />
+      <Pagination
+        page={page}
+        pageSize={pageSize}
+        total={total}
+        onPageChange={(p) => dispatch(setPage(p))}
+        onPageSizeChange={(p) => dispatch(setPageSize(p))}
       />
     </>
   );

@@ -1,11 +1,12 @@
 import { Icon, type IconNames } from '@/components/Icon';
 import { Colors } from '@/plugins/data/colors';
 import { toDate, toDateTime, toPrice, toTime } from '@/plugins/transformers';
-import { Button } from '../Button';
+import { css } from '@/utils';
+import { Link } from 'react-router';
+import { Spinner } from '../Spinner';
 import styles from './styles.module.scss';
 
-// export type TableItemType = Record<string, string | number | boolean | null | undefined>;
-type HeaderFormat = 'date' | 'time' | 'datetime' | 'price';
+type HeaderFormat = 'date' | 'time' | 'datetime' | 'price' | 'url' | 'image';
 export type TableHeaderType<T> = { key: keyof T; label: string | null; format?: HeaderFormat };
 
 type ActionType<T> = {
@@ -45,7 +46,7 @@ export function Table<T extends object>({ headers, items, actions, actionsPositi
   };
 
   if (!headers.length) return null;
-  if (loading) return <p>Cargando...</p>;
+  if (loading) return <Spinner />;
 
   return (
     <table className={styles.table}>
@@ -64,13 +65,13 @@ export function Table<T extends object>({ headers, items, actions, actionsPositi
             {actions && actionsPosition === 'start' && (
               <td style={{ borderRight: '1px solid #ccc', padding: '0.5rem' }}>
                 {actions.map((action, actionIndex) => (
-                  <Button
+                  <div
                     key={actionIndex}
-                    icon={action.icon}
                     onClick={() => handleActionClick(action, item)}
-                    rounded
-                    iconColor={Colors[action.variant || 'info']}
-                  />
+                    className={styles.actionIconContainer}
+                    style={{ backgroundColor: Colors[`${action.variant || 'info'}Background`] }}>
+                    <Icon name={action.icon} color={Colors[action.variant || 'info']} size={20} />
+                  </div>
                 ))}
               </td>
             )}
@@ -79,14 +80,25 @@ export function Table<T extends object>({ headers, items, actions, actionsPositi
               if (typeof value === 'boolean') {
                 return (
                   <td key={colIndex}>
-                    <Icon name={value ? 'circleCheck' : 'circleX'} size={16} color={value ? 'green' : 'red'} />
+                    <Icon name={value ? 'circleCheck' : 'circleX'} size={20} color={value ? 'green' : 'red'} />
                   </td>
                 );
               }
               if (typeof value === 'string' || typeof value === 'number') {
                 return (
                   <td key={colIndex}>
-                    <span>{formatValue(value, format) ?? '-'}</span>
+                    {format === 'url' ? (
+                      <Link target='_blank' to={value as string} />
+                    ) : format === 'image' ? (
+                      <img
+                        src={value as string}
+                        alt='item image'
+                        style={{ maxWidth: '40px', maxHeight: '40px', aspectRatio: 1 }}
+                        loading='lazy'
+                      />
+                    ) : (
+                      <span>{formatValue(value, format) ?? ''}</span>
+                    )}
                   </td>
                 );
               }
@@ -95,13 +107,13 @@ export function Table<T extends object>({ headers, items, actions, actionsPositi
             {actions && actionsPosition === 'end' && (
               <td style={{ borderLeft: '1px solid #ccc', padding: '0.5rem' }}>
                 {actions.map((action, actionIndex) => (
-                  <Button
+                  <div
                     key={actionIndex}
-                    icon={action.icon}
                     onClick={() => handleActionClick(action, item)}
-                    rounded
-                    iconColor={Colors[action.variant || 'info']}
-                  />
+                    className={css(styles.actionIconContainer)}
+                    style={{ backgroundColor: Colors[`${action.variant || 'info'}Background`] }}>
+                    <Icon name={action.icon} color={Colors[action.variant || 'info']} size={20} />
+                  </div>
                 ))}
               </td>
             )}

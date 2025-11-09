@@ -1,33 +1,43 @@
+import { Button } from '@/components/Button';
+import { Pagination } from '@/components/Pagination';
 import { Table } from '@/components/Table';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
-import { requestPictograms } from '@/store/modules/pictograms';
-import { useEffect, useState } from 'react';
+import { requestPictograms, setPage, setPageSize } from '@/store/modules/pictograms';
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router';
 import styles from './styles.module.scss';
 
 export function PictogramsPage() {
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const { loading, list } = useAppSelector((state) => state.tags);
-
-  const [page, setPage] = useState(0);
-  const [size, setSize] = useState(10);
+  const { loading, page, pageSize, total, list } = useAppSelector((state) => state.pictograms);
 
   useEffect(() => {
-    getData(page, size);
-  }, [page, size]);
-
-  const getData = async (page: number, pageSize: number) => {
-    await dispatch(requestPictograms({ page, pageSize }));
-  };
+    dispatch(requestPictograms({ page, pageSize }));
+  }, [page, pageSize]);
 
   return (
     <>
-      <p className={styles.something}>Pictogramas</p>
+      <div className={styles.header}>
+        <h3>Pictogramas</h3>
+        <Button title='Añadir' onClick={() => navigate('/pictograms/add')} />
+      </div>
       <Table
+        loading={loading}
         headers={[
-          { key: 'name', label: 'Nombre' },
-          { key: 'description', label: 'Descripción' }
+          { key: 'title', label: 'Título' },
+          { key: 'description', label: 'Descripción' },
+          { key: 'isPublished', label: 'Publicado' },
+          { key: 'url', label: 'URL', format: 'url' }
         ]}
         items={list}
+      />
+      <Pagination
+        total={total}
+        page={page}
+        pageSize={pageSize}
+        onPageChange={(p) => dispatch(setPage(p))}
+        onPageSizeChange={(p) => dispatch(setPageSize(p))}
       />
     </>
   );

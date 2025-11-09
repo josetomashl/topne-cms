@@ -21,13 +21,25 @@
 
     tr {
       border-bottom: 1px solid $gray;
-    }
 
-    tr:nth-child(odd) {
-      background-color: $background;
-    }
-    tr:nth-child(even) {
-      background-color: $light;
+      &:nth-child(odd) {
+        background-color: $primary-light;
+      }
+      &:nth-child(even) {
+        background-color: $light;
+      }
+
+      td {
+        .actionIconContainer {
+          width: 32px;
+          height: 32px;
+          border-radius: 100%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          cursor: pointer;
+        }
+      }
     }
   }
 
@@ -36,12 +48,4 @@
     padding: 0.6em;
     min-width: 80px;
   }
-}
-
-.paginationContainer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0.75em;
-  gap: 10px;
 }

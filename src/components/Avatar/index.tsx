@@ -4,7 +4,7 @@ import { Icon } from '../Icon';
 import styles from './styles.module.scss';
 
 type Props = {
-  src: string;
+  src: string | null;
   alt?: string;
   size?: number;
   className?: string;
@@ -14,13 +14,8 @@ export function Avatar({ src, alt = 'Profile image', size = 48, className = '' }
   const [imgError, setImgError] = useState(false);
 
   return (
-    <div
-      className={css(styles.avatar, className)}
-      style={{
-        width: size,
-        height: size,
-      }}>
-      {!imgError ? (
+    <div className={css(styles.avatar, className)} style={{ width: size, height: size }}>
+      {src && !imgError ? (
         <img
           src={src}
           alt={alt}
@@ -31,7 +26,7 @@ export function Avatar({ src, alt = 'Profile image', size = 48, className = '' }
           loading='lazy'
         />
       ) : (
-        <Icon name='user' size={size * 0.75} />
+        <Icon name='circleUser' size={size * 0.75} />
       )}
     </div>
   );

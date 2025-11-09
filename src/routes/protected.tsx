@@ -13,6 +13,7 @@ import { TagsPage } from '@/pages/tags';
 import { AddTagPage } from '@/pages/tags/add';
 import { UsersPage } from '@/pages/users';
 import { AddUserPage } from '@/pages/users/add';
+import { UserPage } from '@/pages/users/id';
 
 export function ProtectedRoutes() {
   return (
@@ -20,16 +21,32 @@ export function ProtectedRoutes() {
       {/* Pages with navigation */}
       <Route element={<NavigationLayout />}>
         <Route index element={<HomePage />} />
-        <Route path='users' element={<UsersPage />} />
-        <Route path='users/add' element={<AddUserPage />} />
-        <Route path='reviews' element={<ReviewsPage />} />
-        <Route path='reviews/add' element={<AddReviewPage />} />
-        <Route path='categories' element={<CategoriesPage />} />
-        <Route path='categories/add' element={<AddCategoryPage />} />
-        <Route path='pictograms' element={<PictogramsPage />} />
-        <Route path='pictograms/add' element={<AddPictogramPage />} />
-        <Route path='tags' element={<TagsPage />} />
-        <Route path='tags/add' element={<AddTagPage />} />
+
+        <Route path='users'>
+          <Route index element={<UsersPage />} />
+          <Route path='add' element={<AddUserPage />} />
+          <Route path=':id' element={<UserPage />} />
+        </Route>
+
+        <Route path='reviews'>
+          <Route index element={<ReviewsPage />} />
+          <Route path='add' element={<AddReviewPage />} />
+        </Route>
+
+        <Route path='categories'>
+          <Route index element={<CategoriesPage />} />
+          <Route path='add' element={<AddCategoryPage />} />
+        </Route>
+
+        <Route path='pictograms'>
+          <Route index element={<PictogramsPage />} />
+          <Route path='add' element={<AddPictogramPage />} />
+        </Route>
+
+        <Route path='tags'>
+          <Route index element={<TagsPage />} />
+          <Route path='add' element={<AddTagPage />} />
+        </Route>
       </Route>
 
       {/* Pages with blank layout (no navigation) */}
