@@ -1,13 +1,19 @@
 import { Button } from '@/components/Button';
+import { Modal } from '@/components/Modal';
 import { Pagination } from '@/components/Pagination';
 import { Table } from '@/components/Table';
+import type { UserList } from '@/dtos/User';
+import { useAuth } from '@/hooks/useAuth';
+import { Flex } from '@/layouts/Flex';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
-import { requestUsers, setPage, setPageSize } from '@/store/modules/users';
-import { useEffect } from 'react';
+import { deleteUser, requestUsers, setPage, setPageSize } from '@/store/modules/users';
+import { UpdateUserPassword } from '@/views/users/UpdateUserPassword';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 import styles from './styles.module.scss';
 
 export function UsersPage() {
+  const { me } = useAuth();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { list, page, pageSize, loading, total } = useAppSelector((state) => state.users);
@@ -15,6 +21,14 @@ export function UsersPage() {
   useEffect(() => {
     dispatch(requestUsers({ page, pageSize }));
   }, [page, pageSize]);
+
+  const [isDeleting, setIsDeleting] = useState<UserList>();
+  const handleDelete = async (item: UserList) => {
+    await dispatch(deleteUser(item.id));
+    setIsDeleting(undefined);
+  };
+
+  const [isEditingPassword, setIsEditingPassword] = useState<UserList>();
 
   return (
     <>
@@ -28,13 +42,25 @@ export function UsersPage() {
           { key: 'name', label: 'Nombre' },
           { key: 'surname', label: 'Apellidos' },
           { key: 'email', label: 'Email' },
-          { key: 'isActive', label: 'Activo' }
+          { key: 'isActive', label: 'Activado' }
         ]}
         actions={[
           {
-            icon: 'circleExclamation',
+            icon: 'eye',
+            variant: 'success',
             onClick: (item) => navigate(`/users/${item.id}`)
-          }
+          },
+          {
+            icon: 'pencil',
+            variant: 'warning',
+            onClick: (item) => navigate(`/users/${item.id}/edit`)
+          },
+          {
+            icon: 'asterisk',
+            variant: 'warning',
+            onClick: setIsEditingPassword
+          },
+          { icon: 'trash', variant: 'error', onClick: setIsDeleting, disableIf: (i) => i.id === me?.id }
         ]}
         loading={loading}
       />
@@ -45,6 +71,32 @@ export function UsersPage() {
         onPageChange={(p) => dispatch(setPage(p))}
         onPageSizeChange={(p) => dispatch(setPageSize(p))}
       />
+      {isDeleting && (
+        <Modal isOpen={!!isDeleting} onClose={() => setIsDeleting(undefined)}>
+          <h3>
+            Borrar usuario "<b>{isDeleting?.name + ' ' + isDeleting?.surname}</b>"
+          </h3>
+          <Flex gap={10} justifyContent='space-between' style={{ marginTop: '20px' }}>
+            <Button title='Cancelar' onClick={() => setIsDeleting(undefined)} />
+            <Button
+              title='Borrar'
+              type='reset'
+              loading={loading}
+              onClick={() => isDeleting && handleDelete(isDeleting)}
+            />
+          </Flex>
+        </Modal>
+      )}
+      {isEditingPassword && (
+        <Modal isOpen={!!isEditingPassword} onClose={() => setIsEditingPassword(undefined)}>
+          <UpdateUserPassword
+            userId={isEditingPassword.id}
+            userEmail={isEditingPassword.email}
+            onCancel={() => setIsEditingPassword(undefined)}
+            onSuccess={() => setIsEditingPassword(undefined)}
+          />
+        </Modal>
+      )}
     </>
   );
 }

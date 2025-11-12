@@ -6,7 +6,6 @@ import { pushNotification } from '@/store/modules/root';
 import { createUser } from '@/store/modules/users';
 import { type FormEvent, useState } from 'react';
 import { useNavigate } from 'react-router';
-import styles from './styles.module.scss';
 
 export function AddUserPage() {
   const navigate = useNavigate();
@@ -34,7 +33,7 @@ export function AddUserPage() {
 
   return (
     <>
-      <p className={styles.something}>Create user page</p>
+      <h3>Añadir nuevo usuario:</h3>
       <form onSubmit={handleSubmit}>
         <Input
           label='Nombre'

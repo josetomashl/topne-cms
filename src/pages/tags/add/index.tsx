@@ -5,7 +5,6 @@ import { pushNotification } from '@/store/modules/root';
 import { createTag } from '@/store/modules/tags';
 import { type FormEvent, useState } from 'react';
 import { useNavigate } from 'react-router';
-import styles from './styles.module.scss';
 
 export function AddTagPage() {
   const navigate = useNavigate();
@@ -29,7 +28,7 @@ export function AddTagPage() {
 
   return (
     <>
-      <p className={styles.something}>Nueva etiqueta</p>
+      <h3>Nueva etiqueta:</h3>
       <form onSubmit={handleSubmit}>
         <Input
           label='Nombre'

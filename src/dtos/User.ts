@@ -30,5 +30,8 @@ export interface UpdateUserDto {
   name: string;
   surname: string;
   email: string;
+  isActive: boolean;
+}
+export interface UpdateUserPasswordDto {
   password: string;
 }

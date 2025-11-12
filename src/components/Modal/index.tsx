@@ -32,9 +32,9 @@ export const Modal = (props: PropsWithChildren<Props>) => {
   return createPortal(
     <div className={styles.modalOverlay} onClick={props.onClose} role='dialog' aria-modal='true'>
       <div className={styles.modalContainer} onClick={(e) => e.stopPropagation()} role='document'>
-        <button className={styles.modalCloseBtn} onClick={props.onClose} aria-label='Close modal'>
+        <div className={styles.modalCloseBtn} onClick={props.onClose} role='button' aria-label='Close modal'>
           <Icon name='close' size={20} />
-        </button>
+        </div>
         {props.children}
       </div>
     </div>,

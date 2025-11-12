@@ -15,6 +15,7 @@ import { EditTagPage } from '@/pages/tags/edit';
 import { TagPage } from '@/pages/tags/id';
 import { UsersPage } from '@/pages/users';
 import { AddUserPage } from '@/pages/users/add';
+import { EditUserPage } from '@/pages/users/edit';
 import { UserPage } from '@/pages/users/id';
 
 export function ProtectedRoutes() {
@@ -27,7 +28,10 @@ export function ProtectedRoutes() {
         <Route path='users'>
           <Route index element={<UsersPage />} />
           <Route path='add' element={<AddUserPage />} />
-          <Route path=':id' element={<UserPage />} />
+          <Route path=':id'>
+            <Route index element={<UserPage />} />
+            <Route path='edit' element={<EditUserPage />} />
+          </Route>
         </Route>
 
         <Route path='reviews'>

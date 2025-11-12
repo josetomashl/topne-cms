@@ -1,34 +1,40 @@
 import { Input } from '@/components/Input';
-import type { UpdateTagDto } from '@/dtos/Tag';
+import { Switch } from '@/components/Switch';
+import type { UpdateUserDto } from '@/dtos/User';
 import { Flex } from '@/layouts/Flex';
+import { REGEX } from '@/plugins/data/regex';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { pushNotification } from '@/store/modules/root';
-import { requestTag, updateTag } from '@/store/modules/tags';
+import { requestUser, updateUser } from '@/store/modules/users';
 import { type FormEvent, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
 import styles from './styles.module.scss';
 
-export function EditTagPage() {
+export function EditUserPage() {
   const { id } = useParams();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const { loading, item } = useAppSelector((state) => state.tags);
+  const { loading, item } = useAppSelector((state) => state.users);
 
-  const [form, setForm] = useState<UpdateTagDto>({
+  const [form, setForm] = useState<UpdateUserDto>({
     name: '',
-    description: ''
+    surname: '',
+    email: '',
+    isActive: false
   });
 
   useEffect(() => {
     if (id && item?.id !== id) {
-      dispatch(requestTag(id));
+      dispatch(requestUser(id));
     }
   }, [id, item]);
   useEffect(() => {
     if (item) {
       setForm({
         name: item.name,
-        description: item.description || ''
+        surname: item.surname,
+        email: item.email,
+        isActive: item.isActive
       });
     }
   }, [item]);
@@ -36,24 +42,20 @@ export function EditTagPage() {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     if (!id || !item) return;
     e.preventDefault();
-    const res = await dispatch(updateTag({ id, payload: form })).unwrap();
+    const res = await dispatch(updateUser({ id, payload: form })).unwrap();
 
     if (res) {
-      dispatch(pushNotification({ type: 'success', message: 'Etiqueta actualizada con éxito.' }));
-      navigate('/tags');
+      dispatch(pushNotification({ type: 'success', message: 'Usuario actualizado con éxito.' }));
+      navigate('/users');
     }
   };
 
-  const disabled =
-    loading ||
-    !form.name ||
-    !item ||
-    (item.name === form.name && (item.description || '') === (form.description || ''));
+  const disabled = loading || !form.name || !form.surname || !form.email || !REGEX.email.test(form.email) || !item;
 
   return (
     <>
       <h3 className={styles.something}>
-        Editar etiqueta "<b>{item?.name}</b>":
+        Editar usuario "<b>{item?.email}</b>":
       </h3>
       <form onSubmit={handleSubmit}>
         <Input
@@ -64,11 +66,22 @@ export function EditTagPage() {
           required
         />
         <Input
-          label='Descripción (opcional)'
-          value={form.description || ''}
-          onChange={(val) => setForm({ ...form, description: val })}
+          label='Descripción'
+          value={form.surname}
+          onChange={(val) => setForm({ ...form, surname: val })}
           disabled={loading}
+          required
         />
+        <Input
+          type='email'
+          label='Email'
+          value={form.email}
+          onChange={(val) => setForm({ ...form, email: val })}
+          disabled={loading}
+          regExp={REGEX.email}
+          required
+        />
+        <Switch label='Activado' value={form.isActive} onChange={(value) => setForm({ ...form, isActive: value })} />
         <Flex justifyContent='space-between' style={{ marginTop: '20px' }}>
           <button type='reset' onClick={() => navigate(-1)}>
             Cancelar

@@ -16,7 +16,7 @@
   border-radius: 8px;
   max-width: 500px;
   width: 90%;
-  padding: 20px;
+  padding: 32px 20px;
   position: relative;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
   animation: scaleIn 0.3s ease;
@@ -24,7 +24,7 @@
 .modalCloseBtn {
   position: absolute;
   top: 12px;
-  right: 16px;
+  right: 12px;
   background: transparent;
   border: none;
   font-size: 1.5rem;

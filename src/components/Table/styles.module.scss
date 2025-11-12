@@ -44,6 +44,15 @@
             justify-content: center;
             align-items: center;
             cursor: pointer;
+
+            &.disabledIcon {
+              cursor: not-allowed;
+              background-color: #e7e7e7 !important;
+
+              > svg {
+                stroke: #b6b6b6 !important;
+              }
+            }
           }
         }
       }

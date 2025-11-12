@@ -26,7 +26,9 @@ export function TagPage() {
 
   return (
     <>
-      <p className={styles.something}>Etiqueta {item.name}</p>
+      <h3 className={styles.something}>
+        Etiqueta "<b>{item.name}</b>":
+      </h3>
       <pre>
         <code>{JSON.stringify(item, null, 2)}</code>
       </pre>

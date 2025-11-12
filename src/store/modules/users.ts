@@ -1,7 +1,7 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 
 import type { Pagination } from '@/dtos';
-import type { CreateUserDto, UpdateUserDto, UserItem, UserKV, UserList } from '@/dtos/User';
+import type { CreateUserDto, UpdateUserDto, UpdateUserPasswordDto, UserItem, UserKV, UserList } from '@/dtos/User';
 import axiosInstance from '@/plugins/axios';
 import { createAppAsyncThunk } from '@/store/thunk';
 
@@ -70,6 +70,20 @@ export const updateUser = createAppAsyncThunk(
   async (data: { id: string; payload: UpdateUserDto }) => {
     try {
       const response = await axiosInstance.patch<UpdateUserDto, UserItem>(`/users/${data.id}`, data.payload);
+      return response;
+    } catch {
+      return;
+    }
+  }
+);
+export const updateUserPassword = createAppAsyncThunk(
+  'users/updateItemPassword',
+  async (data: { id: string; payload: UpdateUserPasswordDto }) => {
+    try {
+      const response = await axiosInstance.patch<UpdateUserPasswordDto, UserItem>(
+        `/users/${data.id}/password`,
+        data.payload
+      );
       return response;
     } catch {
       return;
@@ -194,6 +208,19 @@ export const usersSlice = createSlice({
         state.loading = false;
       })
       .addCase(updateUser.fulfilled, (state, action) => {
+        if (action.payload) {
+          state.item = action.payload;
+        }
+        state.loading = false;
+      });
+    builder
+      .addCase(updateUserPassword.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(updateUserPassword.rejected, (state) => {
+        state.loading = false;
+      })
+      .addCase(updateUserPassword.fulfilled, (state, action) => {
         if (action.payload) {
           state.item = action.payload;
         }

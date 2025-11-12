@@ -13,6 +13,7 @@ type ActionType<T> = {
   icon: IconNames;
   onClick: (item: T) => void | Promise<void>;
   variant?: 'info' | 'warning' | 'success' | 'error';
+  disableIf?: (item: T) => boolean;
 };
 
 type Props<T extends object> = {
@@ -40,6 +41,9 @@ const formatValue = (value: string | number, format?: HeaderFormat): string | nu
 
 export function Table<T extends object>({ headers, items, actions, actionsPosition = 'end', loading }: Props<T>) {
   const handleActionClick = async (action: ActionType<T>, item: T) => {
+    if (action.disableIf?.(item)) {
+      return;
+    }
     if (action && action.onClick) {
       await action.onClick(item);
     }
@@ -69,7 +73,7 @@ export function Table<T extends object>({ headers, items, actions, actionsPositi
                     <span
                       key={actionIndex}
                       onClick={() => handleActionClick(action, item)}
-                      className={css(styles.actionIconContainer)}
+                      className={css(styles.actionIconContainer, action.disableIf?.(item) ? styles.disabledIcon : '')}
                       style={{ backgroundColor: Colors[`${action.variant || 'info'}Background`] }}>
                       <Icon name={action.icon} color={Colors[action.variant || 'info']} size={20} />
                     </span>
@@ -113,7 +117,7 @@ export function Table<T extends object>({ headers, items, actions, actionsPositi
                     <span
                       key={actionIndex}
                       onClick={() => handleActionClick(action, item)}
-                      className={css(styles.actionIconContainer)}
+                      className={css(styles.actionIconContainer, action.disableIf?.(item) ? styles.disabledIcon : '')}
                       style={{ backgroundColor: Colors[`${action.variant || 'info'}Background`] }}>
                       <Icon name={action.icon} color={Colors[action.variant || 'info']} size={20} />
                     </span>

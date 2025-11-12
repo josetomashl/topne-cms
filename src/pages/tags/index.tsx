@@ -65,11 +65,7 @@ export function TagsPage() {
             title='Borrar'
             type='reset'
             loading={loading}
-            onClick={() => {
-              if (isDeleting) {
-                handleDelete(isDeleting);
-              }
-            }}
+            onClick={() => isDeleting && handleDelete(isDeleting)}
           />
         </Flex>
       </Modal>
