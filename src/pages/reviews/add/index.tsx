@@ -1,4 +1,5 @@
 import { Input } from '@/components/Input';
+import { Switch } from '@/components/Switch';
 import type { CreateReviewDto } from '@/dtos/Review';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { createReview } from '@/store/modules/reviews';
@@ -44,6 +45,12 @@ export function AddReviewPage() {
           value={form.content || ''}
           onChange={(val) => setForm({ ...form, content: val })}
           disabled={loading}
+        />
+        <Switch
+          value={form.isPublished}
+          onChange={(val) => setForm({ ...form, isPublished: val })}
+          disabled={loading}
+          label='¿Público?'
         />
         <button type='reset' onClick={() => navigate(-1)}>
           Cancelar

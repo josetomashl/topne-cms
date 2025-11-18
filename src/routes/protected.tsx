@@ -9,8 +9,12 @@ import { CategoryPage } from '@/pages/categories/id';
 import { HomePage } from '@/pages/home';
 import { PictogramsPage } from '@/pages/pictograms';
 import { AddPictogramPage } from '@/pages/pictograms/add';
+import { EditPictogramPage } from '@/pages/pictograms/edit';
+import { PictogramPage } from '@/pages/pictograms/id';
 import { ReviewsPage } from '@/pages/reviews';
 import { AddReviewPage } from '@/pages/reviews/add';
+import { EditReviewPage } from '@/pages/reviews/edit';
+import { ReviewPage } from '@/pages/reviews/id';
 import { TagsPage } from '@/pages/tags';
 import { AddTagPage } from '@/pages/tags/add';
 import { EditTagPage } from '@/pages/tags/edit';
@@ -39,6 +43,10 @@ export function ProtectedRoutes() {
         <Route path='reviews'>
           <Route index element={<ReviewsPage />} />
           <Route path='add' element={<AddReviewPage />} />
+          <Route path=':id'>
+            <Route index element={<ReviewPage />} />
+            <Route path='edit' element={<EditReviewPage />} />
+          </Route>
         </Route>
 
         <Route path='categories'>
@@ -53,6 +61,10 @@ export function ProtectedRoutes() {
         <Route path='pictograms'>
           <Route index element={<PictogramsPage />} />
           <Route path='add' element={<AddPictogramPage />} />
+          <Route path=':id'>
+            <Route index element={<PictogramPage />} />
+            <Route path='edit' element={<EditPictogramPage />} />
+          </Route>
         </Route>
 
         <Route path='tags'>

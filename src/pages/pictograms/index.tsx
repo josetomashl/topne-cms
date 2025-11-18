@@ -1,9 +1,13 @@
 import { Button } from '@/components/Button';
+import { Modal } from '@/components/Modal';
 import { Pagination } from '@/components/Pagination';
 import { Table } from '@/components/Table';
+import type { PictogramList } from '@/dtos/Pictogram';
+import { Flex } from '@/layouts/Flex';
+import { Colors } from '@/plugins/data/colors';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
-import { requestPictograms, setPage, setPageSize } from '@/store/modules/pictograms';
-import { useEffect } from 'react';
+import { deletePictogram, requestPictograms, setPage, setPageSize } from '@/store/modules/pictograms';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 import styles from './styles.module.scss';
 
@@ -16,6 +20,13 @@ export function PictogramsPage() {
     dispatch(requestPictograms({ page, pageSize }));
   }, [page, pageSize]);
 
+  const [isDeleting, setIsDeleting] = useState<PictogramList>();
+  const handleDelete = async () => {
+    if (!isDeleting) return;
+    await dispatch(deletePictogram(isDeleting.id));
+    setIsDeleting(undefined);
+  };
+
   return (
     <>
       <div className={styles.header}>
@@ -23,7 +34,6 @@ export function PictogramsPage() {
         <Button title='Añadir' onClick={() => navigate('/pictograms/add')} />
       </div>
       <Table
-        loading={loading}
         headers={[
           { key: 'title', label: 'Título' },
           { key: 'description', label: 'Descripción' },
@@ -31,6 +41,16 @@ export function PictogramsPage() {
           { key: 'url', label: 'URL', format: 'url' }
         ]}
         items={list}
+        loading={loading}
+        actions={[
+          { icon: 'eye', variant: 'success', onClick: (item) => navigate(`/tags/${item.id}`) },
+          {
+            icon: 'pencil',
+            variant: 'warning',
+            onClick: (item) => navigate(`/tags/${item.id}/edit`)
+          },
+          { icon: 'trash', variant: 'error', onClick: setIsDeleting }
+        ]}
       />
       <Pagination
         total={total}
@@ -39,6 +59,17 @@ export function PictogramsPage() {
         onPageChange={(p) => dispatch(setPage(p))}
         onPageSizeChange={(p) => dispatch(setPageSize(p))}
       />
+      {isDeleting && (
+        <Modal isOpen={!!isDeleting} onClose={() => setIsDeleting(undefined)}>
+          <h3>
+            ¿Borrar pictograma "<b>{isDeleting.title}</b>"?
+          </h3>
+          <Flex gap={10} justifyContent='space-between' style={{ marginTop: '20px' }}>
+            <Button title='Cancelar' onClick={() => setIsDeleting(undefined)} />
+            <Button title='Borrar' color={Colors.error} loading={loading} onClick={handleDelete} />
+          </Flex>
+        </Modal>
+      )}
     </>
   );
 }

@@ -1,4 +1,5 @@
 import { Input } from '@/components/Input';
+import { Switch } from '@/components/Switch';
 import type { CreatePictogramDto } from '@/dtos/Pictogram';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { createPictogram } from '@/store/modules/pictograms';
@@ -44,6 +45,12 @@ export function AddPictogramPage() {
           value={form.description || ''}
           onChange={(val) => setForm({ ...form, description: val })}
           disabled={loading}
+        />
+        <Switch
+          value={form.isPublished}
+          onChange={(val) => setForm({ ...form, isPublished: val })}
+          disabled={loading}
+          label='¿Público?'
         />
         <button type='reset' onClick={() => navigate(-1)}>
           Cancelar
