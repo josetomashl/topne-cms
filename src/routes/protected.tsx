@@ -4,6 +4,8 @@ import { NavigationLayout } from '@/layouts/Navigation';
 import { NotFoundPage } from '@/pages/404';
 import { CategoriesPage } from '@/pages/categories';
 import { AddCategoryPage } from '@/pages/categories/add';
+import { EditCategoryPage } from '@/pages/categories/edit';
+import { CategoryPage } from '@/pages/categories/id';
 import { HomePage } from '@/pages/home';
 import { PictogramsPage } from '@/pages/pictograms';
 import { AddPictogramPage } from '@/pages/pictograms/add';
@@ -42,6 +44,10 @@ export function ProtectedRoutes() {
         <Route path='categories'>
           <Route index element={<CategoriesPage />} />
           <Route path='add' element={<AddCategoryPage />} />
+          <Route path=':id'>
+            <Route index element={<CategoryPage />} />
+            <Route path='edit' element={<EditCategoryPage />} />
+          </Route>
         </Route>
 
         <Route path='pictograms'>

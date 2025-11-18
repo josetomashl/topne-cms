@@ -1,6 +1,6 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 
-import type { Pagination } from '@/dtos';
+import type { DeleteResponse, Pagination } from '@/dtos';
 import type { CategoryKV, CategoryList, CreateCategoryDto, UpdateCategoryDto } from '@/dtos/Category';
 import axiosInstance from '@/plugins/axios';
 import { createAppAsyncThunk } from '@/store/thunk';
@@ -84,7 +84,7 @@ export const updateCategory = createAppAsyncThunk(
 );
 export const deleteCategory = createAppAsyncThunk('categories/deleteItem', async (id: string) => {
   try {
-    const response = await axiosInstance.delete<undefined, CategoryList>(`/categories/${id}`);
+    const response = await axiosInstance.delete<undefined, DeleteResponse>(`/categories/${id}`);
     return response;
   } catch {
     return;
@@ -199,6 +199,7 @@ export const categoriesSlice = createSlice({
           state.item = null;
           state.all = state.all.filter((i) => i.id !== action.payload!.id);
           state.list = state.list.filter((i) => i.id !== action.payload!.id);
+          state.total -= 1;
         }
         state.loading = false;
       });

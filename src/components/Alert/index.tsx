@@ -4,7 +4,7 @@ import { Icon } from '../Icon';
 import styles from './styles.module.scss';
 
 interface Props {
-  type: 'info' | 'success' | 'warning' | 'error';
+  type?: 'info' | 'success' | 'warning' | 'error';
   hideClose?: boolean;
 }
 

@@ -1,3 +1,4 @@
+import { Colors } from '@/plugins/data/colors';
 import { css } from '@/utils';
 import { Icon, type IconNames } from '../Icon';
 import { Spinner } from '../Spinner';
@@ -10,10 +11,11 @@ type Props = {
   iconColor?: string;
   onClick?: () => void | Promise<void>;
   disabled?: boolean;
-  type?: 'button' | 'submit' | 'reset';
   rounded?: boolean;
   className?: string;
   loading?: boolean;
+  color?: string;
+  textColor?: string;
 };
 
 export function Button({
@@ -23,10 +25,11 @@ export function Button({
   iconColor,
   onClick,
   disabled = false,
-  type = 'button',
   rounded = false,
   className,
-  loading
+  loading,
+  color = Colors.dark,
+  textColor = '#fff'
 }: Props) {
   const handleClick = async () => {
     if (disabled || loading || !onClick) return;
@@ -37,15 +40,14 @@ export function Button({
     return (
       <button
         onClick={handleClick}
-        type={type}
         className={css(
-          styles.button,
           styles.iconButton,
           className || '',
           rounded ? styles.rounded : '',
           loading ? styles.loading : '',
           disabled ? styles.disabled : ''
         )}
+        style={{ backgroundColor: color, color: textColor }}
         disabled={disabled || loading}>
         {loading ? <Spinner /> : <Icon name={icon} color={iconColor} />}
       </button>
@@ -54,15 +56,14 @@ export function Button({
     return (
       <button
         onClick={handleClick}
-        type={type}
         className={css(
-          styles.button,
           styles.iconTextButton,
           className || '',
           rounded ? styles.rounded : '',
           loading ? styles.loading : '',
           disabled ? styles.disabled : ''
         )}
+        style={{ backgroundColor: color, color: textColor }}
         disabled={disabled || loading}>
         {loading ? (
           <Spinner />
@@ -79,14 +80,13 @@ export function Button({
     return (
       <button
         onClick={handleClick}
-        type={type}
         className={css(
-          styles.button,
           className || '',
           rounded ? styles.rounded : '',
           loading ? styles.loading : '',
           disabled ? styles.disabled : ''
         )}
+        style={{ backgroundColor: color, color: textColor }}
         disabled={disabled || loading}>
         {loading ? <Spinner /> : title}
       </button>

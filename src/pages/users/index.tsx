@@ -5,6 +5,7 @@ import { Table } from '@/components/Table';
 import type { UserList } from '@/dtos/User';
 import { useAuth } from '@/hooks/useAuth';
 import { Flex } from '@/layouts/Flex';
+import { Colors } from '@/plugins/data/colors';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { deleteUser, requestUsers, setPage, setPageSize } from '@/store/modules/users';
 import { UpdateUserPassword } from '@/views/users/UpdateUserPassword';
@@ -23,8 +24,9 @@ export function UsersPage() {
   }, [page, pageSize]);
 
   const [isDeleting, setIsDeleting] = useState<UserList>();
-  const handleDelete = async (item: UserList) => {
-    await dispatch(deleteUser(item.id));
+  const handleDelete = async () => {
+    if (!isDeleting) return;
+    await dispatch(deleteUser(isDeleting.id));
     setIsDeleting(undefined);
   };
 
@@ -74,16 +76,11 @@ export function UsersPage() {
       {isDeleting && (
         <Modal isOpen={!!isDeleting} onClose={() => setIsDeleting(undefined)}>
           <h3>
-            Borrar usuario "<b>{isDeleting?.name + ' ' + isDeleting?.surname}</b>"
+            Borrar usuario "<b>{isDeleting.name + ' ' + isDeleting.surname}</b>"
           </h3>
           <Flex gap={10} justifyContent='space-between' style={{ marginTop: '20px' }}>
             <Button title='Cancelar' onClick={() => setIsDeleting(undefined)} />
-            <Button
-              title='Borrar'
-              type='reset'
-              loading={loading}
-              onClick={() => isDeleting && handleDelete(isDeleting)}
-            />
+            <Button title='Borrar' color={Colors.error} loading={loading} onClick={handleDelete} />
           </Flex>
         </Modal>
       )}

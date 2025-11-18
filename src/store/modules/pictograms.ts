@@ -1,6 +1,6 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 
-import type { Pagination } from '@/dtos';
+import type { DeleteResponse, Pagination } from '@/dtos';
 import type { CreatePictogramDto, PictogramKV, PictogramList, UpdatePictogramDto } from '@/dtos/Pictogram';
 import axiosInstance from '@/plugins/axios';
 import { createAppAsyncThunk } from '@/store/thunk';
@@ -84,7 +84,7 @@ export const updatePictogram = createAppAsyncThunk(
 );
 export const deletePictogram = createAppAsyncThunk('pictograms/deleteItem', async (id: string) => {
   try {
-    const response = await axiosInstance.delete<undefined, PictogramList>(`/pictograms/${id}`);
+    const response = await axiosInstance.delete<undefined, DeleteResponse>(`/pictograms/${id}`);
     return response;
   } catch {
     return;
@@ -199,6 +199,7 @@ export const pictogramsSlice = createSlice({
           state.item = null;
           state.all = state.all.filter((i) => i.id !== action.payload!.id);
           state.list = state.list.filter((i) => i.id !== action.payload!.id);
+          state.total -= 1;
         }
         state.loading = false;
       });

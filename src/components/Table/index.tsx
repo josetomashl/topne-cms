@@ -90,7 +90,7 @@ export function Table<T extends object>({ headers, items, actions, actionsPositi
                   </td>
                 );
               }
-              if (typeof value === 'string' || typeof value === 'number') {
+              if ((value && typeof value === 'string') || typeof value === 'number') {
                 return (
                   <td key={colIndex}>
                     {format === 'url' ? (

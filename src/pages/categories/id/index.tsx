@@ -1,18 +1,18 @@
 import { Alert } from '@/components/Alert';
 import { Spinner } from '@/components/Spinner';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
-import { requestTag } from '@/store/modules/tags';
+import { requestCategory } from '@/store/modules/categories';
 import { useEffect } from 'react';
 import { useParams } from 'react-router';
 
-export function TagPage() {
+export function CategoryPage() {
   const { id } = useParams();
   const dispatch = useAppDispatch();
-  const { loading, item } = useAppSelector((state) => state.tags);
+  const { loading, item } = useAppSelector((state) => state.categories);
 
   useEffect(() => {
     if (id) {
-      dispatch(requestTag(id));
+      dispatch(requestCategory(id));
     }
   }, [id]);
 
@@ -21,16 +21,16 @@ export function TagPage() {
   }
 
   if (!item) {
-    return <p>Etiqueta no encontrada.</p>;
+    return <p>Categoría no encontrada.</p>;
   }
 
   return (
     <>
       <h3 style={{ marginBottom: 10 }}>
-        Etiqueta "<b>{item.name}</b>":
+        Categoría "<b>{item.name}</b>":
       </h3>
       <Alert hideClose>{item.description || 'No hay una descripción disponible.'}</Alert>
-      {/* TODO: show pictograms as a table */}
+      {/* TODO: show reviews as a table */}
     </>
   );
 }

@@ -1,6 +1,6 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 
-import type { Pagination } from '@/dtos';
+import type { DeleteResponse, Pagination } from '@/dtos';
 import type { CreateTagDto, TagKV, TagList, UpdateTagDto } from '@/dtos/Tag';
 import axiosInstance from '@/plugins/axios';
 import { createAppAsyncThunk } from '@/store/thunk';
@@ -75,7 +75,7 @@ export const updateTag = createAppAsyncThunk('tags/updateItem', async (data: { i
 });
 export const deleteTag = createAppAsyncThunk('tags/deleteItem', async (id: string) => {
   try {
-    const response = await axiosInstance.delete<undefined, TagList>(`/tags/${id}`);
+    const response = await axiosInstance.delete<undefined, DeleteResponse>(`/tags/${id}`);
     return response;
   } catch {
     return;
@@ -190,6 +190,7 @@ export const tagsSlice = createSlice({
           state.item = null;
           state.all = state.all.filter((i) => i.id !== action.payload!.id);
           state.list = state.list.filter((i) => i.id !== action.payload!.id);
+          state.total -= 1;
         }
         state.loading = false;
       });

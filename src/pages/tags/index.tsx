@@ -4,6 +4,7 @@ import { Pagination } from '@/components/Pagination';
 import { Table } from '@/components/Table';
 import type { TagList } from '@/dtos/Tag';
 import { Flex } from '@/layouts/Flex';
+import { Colors } from '@/plugins/data/colors';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { deleteTag, requestTags, setPage, setPageSize } from '@/store/modules/tags';
 import { useEffect, useState } from 'react';
@@ -20,8 +21,9 @@ export function TagsPage() {
   }, [page, pageSize]);
 
   const [isDeleting, setIsDeleting] = useState<TagList>();
-  const handleDelete = async (item: TagList) => {
-    await dispatch(deleteTag(item.id));
+  const handleDelete = async () => {
+    if (!isDeleting) return;
+    await dispatch(deleteTag(isDeleting.id));
     setIsDeleting(undefined);
   };
 
@@ -55,20 +57,17 @@ export function TagsPage() {
         onPageChange={(p) => dispatch(setPage(p))}
         onPageSizeChange={(p) => dispatch(setPageSize(p))}
       />
-      <Modal isOpen={!!isDeleting} onClose={() => setIsDeleting(undefined)}>
-        <h3>
-          Borrar etiqueta "<b>{isDeleting?.name}</b>"
-        </h3>
-        <Flex gap={10} justifyContent='space-between' style={{ marginTop: '20px' }}>
-          <Button title='Cancelar' onClick={() => setIsDeleting(undefined)} />
-          <Button
-            title='Borrar'
-            type='reset'
-            loading={loading}
-            onClick={() => isDeleting && handleDelete(isDeleting)}
-          />
-        </Flex>
-      </Modal>
+      {isDeleting && (
+        <Modal isOpen={!!isDeleting} onClose={() => setIsDeleting(undefined)}>
+          <h3>
+            ¿Borrar etiqueta "<b>{isDeleting.name}</b>"?
+          </h3>
+          <Flex gap={10} justifyContent='space-between' style={{ marginTop: '20px' }}>
+            <Button title='Cancelar' onClick={() => setIsDeleting(undefined)} />
+            <Button title='Borrar' color={Colors.error} loading={loading} onClick={handleDelete} />
+          </Flex>
+        </Modal>
+      )}
     </>
   );
 }
