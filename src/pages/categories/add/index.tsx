@@ -1,5 +1,6 @@
 import { Input } from '@/components/Input';
 import type { CreateCategoryDto } from '@/dtos/Category';
+import { Flex } from '@/layouts/Flex';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { createCategory } from '@/store/modules/categories';
 import { pushNotification } from '@/store/modules/root';
@@ -23,7 +24,7 @@ export function AddCategoryPage() {
 
     if (res) {
       dispatch(pushNotification({ type: 'success', message: 'Categoría creada con éxito.' }));
-      navigate('/categories');
+      navigate(`/categories/${res.id}`);
     }
   };
 
@@ -44,12 +45,14 @@ export function AddCategoryPage() {
           onChange={(val) => setForm({ ...form, description: val })}
           disabled={loading}
         />
-        <button type='reset' onClick={() => navigate(-1)}>
-          Cancelar
-        </button>
-        <button type='submit' disabled={loading || !form.name}>
-          Crear
-        </button>
+        <Flex justifyContent='space-between' style={{ marginTop: '20px' }}>
+          <button type='reset' onClick={() => navigate(-1)}>
+            Cancelar
+          </button>
+          <button type='submit' disabled={loading || !form.name}>
+            Crear
+          </button>
+        </Flex>
       </form>
     </>
   );

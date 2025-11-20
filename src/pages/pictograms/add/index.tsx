@@ -1,6 +1,7 @@
 import { Input } from '@/components/Input';
 import { Switch } from '@/components/Switch';
 import type { CreatePictogramDto } from '@/dtos/Pictogram';
+import { Flex } from '@/layouts/Flex';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { createPictogram } from '@/store/modules/pictograms';
 import { pushNotification } from '@/store/modules/root';
@@ -25,7 +26,7 @@ export function AddPictogramPage() {
 
     if (res) {
       dispatch(pushNotification({ type: 'success', message: 'Pictograma creado con éxito.' }));
-      navigate('/pictograms');
+      navigate(`/pictograms/${res.id}`);
     }
   };
 
@@ -42,9 +43,10 @@ export function AddPictogramPage() {
         />
         <Input
           label='Descripción'
-          value={form.description || ''}
+          value={form.description}
           onChange={(val) => setForm({ ...form, description: val })}
           disabled={loading}
+          required
         />
         <Switch
           value={form.isPublished}
@@ -52,12 +54,14 @@ export function AddPictogramPage() {
           disabled={loading}
           label='¿Público?'
         />
-        <button type='reset' onClick={() => navigate(-1)}>
-          Cancelar
-        </button>
-        <button type='submit' disabled={loading}>
-          Crear
-        </button>
+        <Flex justifyContent='space-between' style={{ marginTop: '20px' }}>
+          <button type='reset' onClick={() => navigate(-1)}>
+            Cancelar
+          </button>
+          <button type='submit' disabled={loading}>
+            Crear
+          </button>
+        </Flex>
       </form>
     </>
   );

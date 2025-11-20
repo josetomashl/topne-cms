@@ -1,6 +1,9 @@
 import { Input } from '@/components/Input';
 import { Switch } from '@/components/Switch';
+import { Textarea } from '@/components/Textarea';
 import type { CreateReviewDto } from '@/dtos/Review';
+import { Flex } from '@/layouts/Flex';
+import { REGEX } from '@/plugins/data/regex';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { createReview } from '@/store/modules/reviews';
 import { pushNotification } from '@/store/modules/root';
@@ -16,7 +19,8 @@ export function AddReviewPage() {
   const [form, setForm] = useState<CreateReviewDto>({
     title: '',
     content: '',
-    isPublished: false
+    isPublished: false,
+    url: ''
   });
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -25,9 +29,11 @@ export function AddReviewPage() {
 
     if (res) {
       dispatch(pushNotification({ type: 'success', message: 'Review creada con éxito.' }));
-      navigate('/reviews');
+      navigate(`/reviews/${res.id}`);
     }
   };
+
+  const disabled = !form.title || !form.url || !form.content;
 
   return (
     <>
@@ -41,10 +47,20 @@ export function AddReviewPage() {
           required
         />
         <Input
+          label='Enlace al vídeo'
+          type='url'
+          value={form.url}
+          onChange={(val) => setForm({ ...form, url: val })}
+          disabled={loading}
+          regExp={REGEX.url}
+          required
+        />
+        <Textarea
           label='Contenido'
-          value={form.content || ''}
+          value={form.content}
           onChange={(val) => setForm({ ...form, content: val })}
           disabled={loading}
+          required
         />
         <Switch
           value={form.isPublished}
@@ -52,12 +68,14 @@ export function AddReviewPage() {
           disabled={loading}
           label='¿Público?'
         />
-        <button type='reset' onClick={() => navigate(-1)}>
-          Cancelar
-        </button>
-        <button type='submit' disabled={loading}>
-          Crear
-        </button>
+        <Flex justifyContent='space-between' style={{ marginTop: '20px' }}>
+          <button type='reset' onClick={() => navigate(-1)}>
+            Cancelar
+          </button>
+          <button type='submit' disabled={loading || disabled}>
+            Crear
+          </button>
+        </Flex>
       </form>
     </>
   );

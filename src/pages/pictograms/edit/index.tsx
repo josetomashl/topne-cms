@@ -30,7 +30,7 @@ export function EditPictogramPage() {
     if (item) {
       setForm({
         title: item.title,
-        description: item.description || '',
+        description: item.description,
         isPublished: item.isPublished
       });
     }
@@ -67,10 +67,11 @@ export function EditPictogramPage() {
           required
         />
         <Input
-          label='Descripción (recomendado)'
-          value={form.description || ''}
+          label='Descripción'
+          value={form.description}
           onChange={(val) => setForm({ ...form, description: val })}
           disabled={loading}
+          required
         />
         <Switch
           value={form.isPublished}

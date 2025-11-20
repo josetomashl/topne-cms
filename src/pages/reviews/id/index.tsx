@@ -1,8 +1,11 @@
+import { Alert } from '@/components/Alert';
 import { Spinner } from '@/components/Spinner';
+import { Flex } from '@/layouts/Flex';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { requestReview } from '@/store/modules/reviews';
 import { useEffect } from 'react';
-import { useParams } from 'react-router';
+import { Link, useParams } from 'react-router';
+import styles from './styles.module.scss';
 
 export function ReviewPage() {
   const { id } = useParams();
@@ -25,10 +28,19 @@ export function ReviewPage() {
 
   return (
     <>
-      <h3 style={{ marginBottom: 10 }}>
-        Review "<b>{item.title}</b>":
-      </h3>
-      <p>{item.content}</p>
+      <Flex justifyContent='space-between' alignItems='center'>
+        <h3 style={{ marginBottom: 10 }}>
+          Review "<b>{item.title}</b>":
+        </h3>
+        <span>Actualizado: {new Date(item.updatedAt).toLocaleString()}</span>
+      </Flex>
+      {/* TODO: show categories and add/remove them */}
+      <div className={styles.contentContainer}>{item.content}</div>
+      <Alert type='success' hideClose>
+        <Link to={item.url} target='_blank' style={{ color: 'blue', textDecoration: 'underline' }}>
+          Ir al vídeo
+        </Link>
+      </Alert>
     </>
   );
 }

@@ -1,5 +1,6 @@
 import { Input } from '@/components/Input';
 import type { CreateTagDto } from '@/dtos/Tag';
+import { Flex } from '@/layouts/Flex';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { pushNotification } from '@/store/modules/root';
 import { createTag } from '@/store/modules/tags';
@@ -22,7 +23,7 @@ export function AddTagPage() {
 
     if (res) {
       dispatch(pushNotification({ type: 'success', message: 'Etiqueta creada con éxito.' }));
-      navigate('/tags');
+      navigate(`/tags/${res.id}`);
     }
   };
 
@@ -43,12 +44,14 @@ export function AddTagPage() {
           onChange={(val) => setForm({ ...form, description: val })}
           disabled={loading}
         />
-        <button type='reset' onClick={() => navigate(-1)}>
-          Cancelar
-        </button>
-        <button type='submit' disabled={loading || !form.name}>
-          Crear
-        </button>
+        <Flex justifyContent='space-between' style={{ marginTop: '20px' }}>
+          <button type='reset' onClick={() => navigate(-1)}>
+            Cancelar
+          </button>
+          <button type='submit' disabled={loading || !form.name}>
+            Crear
+          </button>
+        </Flex>
       </form>
     </>
   );

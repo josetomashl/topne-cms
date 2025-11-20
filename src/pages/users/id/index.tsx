@@ -1,4 +1,5 @@
 import { Spinner } from '@/components/Spinner';
+import { Flex } from '@/layouts/Flex';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { requestUser } from '@/store/modules/users';
 import { useEffect } from 'react';
@@ -20,11 +21,18 @@ export function UserPage() {
     return <Spinner />;
   }
 
+  if (!item) {
+    return <p>Usuario no encontrado.</p>;
+  }
+
   return (
     <>
-      <h3 className={styles.something}>
-        Detalles del usuario "<b>{item?.email}</b>"
-      </h3>
+      <Flex justifyContent='space-between' alignItems='center'>
+        <h3 className={styles.something}>
+          Detalles del usuario "<b>{item?.email}</b>"
+        </h3>
+        <span>Actualizado: {new Date(item.updatedAt).toLocaleString()}</span>
+      </Flex>
       <pre>
         <code>{JSON.stringify(item, null, 2)}</code>
       </pre>

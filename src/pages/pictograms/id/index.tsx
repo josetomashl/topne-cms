@@ -1,5 +1,6 @@
 import { Alert } from '@/components/Alert';
 import { Spinner } from '@/components/Spinner';
+import { Flex } from '@/layouts/Flex';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { requestPictogram } from '@/store/modules/pictograms';
 import { useEffect } from 'react';
@@ -26,9 +27,12 @@ export function PictogramPage() {
 
   return (
     <>
-      <h3 style={{ marginBottom: 10 }}>
-        Pictograma "<b>{item.title}</b>":
-      </h3>
+      <Flex justifyContent='space-between' alignItems='center'>
+        <h3 style={{ marginBottom: 10 }}>
+          Pictograma "<b>{item.title}</b>":
+        </h3>
+        <span>Actualizado: {new Date(item.updatedAt).toLocaleString()}</span>
+      </Flex>
       <Alert hideClose>{item.description || 'No hay una descripción disponible.'}</Alert>
     </>
   );

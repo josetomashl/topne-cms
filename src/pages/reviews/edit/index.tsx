@@ -1,7 +1,9 @@
 import { Input } from '@/components/Input';
 import { Switch } from '@/components/Switch';
+import { Textarea } from '@/components/Textarea';
 import type { UpdateReviewDto } from '@/dtos/Review';
 import { Flex } from '@/layouts/Flex';
+import { REGEX } from '@/plugins/data/regex';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { requestReview, updateReview } from '@/store/modules/reviews';
 import { pushNotification } from '@/store/modules/root';
@@ -18,7 +20,8 @@ export function EditReviewPage() {
   const [form, setForm] = useState<UpdateReviewDto>({
     title: '',
     content: '',
-    isPublished: false
+    isPublished: false,
+    url: ''
   });
 
   useEffect(() => {
@@ -31,7 +34,8 @@ export function EditReviewPage() {
       setForm({
         title: item.title,
         content: item.content,
-        isPublished: item.isPublished
+        isPublished: item.isPublished,
+        url: item.url
       });
     }
   }, [item]);
@@ -48,7 +52,12 @@ export function EditReviewPage() {
   };
 
   const disabled =
-    loading || !form.title || !item || (item.title === form.title && (item.content || '') === (form.content || ''));
+    loading ||
+    !form.title ||
+    !form.url ||
+    !item ||
+    JSON.stringify({ title: item.title, content: item.content, isPublished: item.isPublished, url: item.url }) ===
+      JSON.stringify(form);
 
   return (
     <>
@@ -64,10 +73,20 @@ export function EditReviewPage() {
           required
         />
         <Input
+          type='url'
+          label='Enlace al vídeo'
+          value={form.url}
+          onChange={(val) => setForm({ ...form, url: val })}
+          disabled={loading}
+          regExp={REGEX.url}
+          required
+        />
+        <Textarea
           label='Contenido'
-          value={form.content || ''}
+          value={form.content}
           onChange={(val) => setForm({ ...form, content: val })}
           disabled={loading}
+          required
         />
         <Switch
           value={form.isPublished}

@@ -94,7 +94,9 @@ export function Table<T extends object>({ headers, items, actions, actionsPositi
                 return (
                   <td key={colIndex}>
                     {format === 'url' ? (
-                      <Link target='_blank' to={value as string} />
+                      <Link target='_blank' to={value as string}>
+                        <p style={{ color: 'blue', textDecoration: 'underline' }}>Abrir enlace</p>
+                      </Link>
                     ) : format === 'image' ? (
                       <img
                         src={value as string}

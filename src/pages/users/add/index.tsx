@@ -1,5 +1,6 @@
 import { Input } from '@/components/Input';
 import { CreateUserDto } from '@/dtos/User';
+import { Flex } from '@/layouts/Flex';
 import { REGEX } from '@/plugins/data/regex';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { pushNotification } from '@/store/modules/root';
@@ -27,7 +28,7 @@ export function AddUserPage() {
 
     if (res) {
       dispatch(pushNotification({ type: 'success', message: 'Usuario creada con éxito.' }));
-      navigate('/users');
+      navigate(`/users/${res.id}`);
     }
   };
 
@@ -66,10 +67,12 @@ export function AddUserPage() {
           required
           regExp={REGEX.password}
         />
-        <button type='reset'>Cancelar</button>
-        <button type='submit' disabled={loading || disabled}>
-          Crear
-        </button>
+        <Flex justifyContent='space-between' style={{ marginTop: '20px' }}>
+          <button type='reset'>Cancelar</button>
+          <button type='submit' disabled={loading || disabled}>
+            Crear
+          </button>
+        </Flex>
       </form>
     </>
   );

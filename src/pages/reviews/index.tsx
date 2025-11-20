@@ -36,16 +36,17 @@ export function ReviewsPage() {
       <Table
         headers={[
           { key: 'title', label: 'Título' },
+          { key: 'url', label: 'Enlace', format: 'url' },
           { key: 'isPublished', label: 'Publicado' }
         ]}
         items={list}
         loading={loading}
         actions={[
-          { icon: 'eye', variant: 'success', onClick: (item) => navigate(`/tags/${item.id}`) },
+          { icon: 'eye', variant: 'success', onClick: (item) => navigate(`/reviews/${item.id}`) },
           {
             icon: 'pencil',
             variant: 'warning',
-            onClick: (item) => navigate(`/tags/${item.id}/edit`)
+            onClick: (item) => navigate(`/reviews/${item.id}/edit`)
           },
           { icon: 'trash', variant: 'error', onClick: setIsDeleting }
         ]}
