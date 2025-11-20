@@ -4,7 +4,6 @@ import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { requestUser } from '@/store/modules/users';
 import { useEffect } from 'react';
 import { useParams } from 'react-router';
-import styles from './styles.module.scss';
 
 export function UserPage() {
   const { id } = useParams();
@@ -27,8 +26,8 @@ export function UserPage() {
 
   return (
     <>
-      <Flex justifyContent='space-between' alignItems='center'>
-        <h3 className={styles.something}>
+      <Flex justifyContent='space-between' alignItems='center' style={{ marginBottom: 10 }}>
+        <h3>
           Detalles del usuario "<b>{item?.email}</b>"
         </h3>
         <span>Actualizado: {new Date(item.updatedAt).toLocaleString()}</span>

@@ -29,7 +29,7 @@ export function ReviewPage() {
   return (
     <>
       <Flex justifyContent='space-between' alignItems='center'>
-        <h3 style={{ marginBottom: 10 }}>
+        <h3>
           Review "<b>{item.title}</b>":
         </h3>
         <span>Actualizado: {new Date(item.updatedAt).toLocaleString()}</span>

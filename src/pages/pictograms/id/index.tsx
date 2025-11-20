@@ -27,8 +27,8 @@ export function PictogramPage() {
 
   return (
     <>
-      <Flex justifyContent='space-between' alignItems='center'>
-        <h3 style={{ marginBottom: 10 }}>
+      <Flex justifyContent='space-between' alignItems='center' style={{ marginBottom: 10 }}>
+        <h3>
           Pictograma "<b>{item.title}</b>":
         </h3>
         <span>Actualizado: {new Date(item.updatedAt).toLocaleString()}</span>
