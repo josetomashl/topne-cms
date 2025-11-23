@@ -1,7 +1,27 @@
+.category {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  background-color: $secondary;
+  border-radius: 6px;
+  padding: 6px 12px;
+  color: $light;
+  > span {
+    cursor: pointer;
+  }
+}
 .contentContainer {
   border-radius: 6px;
   background-color: $light;
   margin: 10px 0;
   padding: 10px;
   white-space: pre-line;
+}
+
+.videoContainer {
+  max-width: 100%;
+  width: 400px;
+  aspect-ratio: 16/9;
+  border-radius: 10px;
+  overflow: hidden;
 }

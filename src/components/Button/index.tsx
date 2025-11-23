@@ -9,6 +9,7 @@ type Props = {
   icon?: IconNames;
   iconPosition?: 'left' | 'right';
   iconColor?: string;
+  iconSize?: number;
   onClick?: () => void | Promise<void>;
   disabled?: boolean;
   rounded?: boolean;
@@ -22,6 +23,7 @@ export function Button({
   title = '',
   icon,
   iconPosition = 'left',
+  iconSize = 18,
   iconColor,
   onClick,
   disabled = false,
@@ -49,7 +51,7 @@ export function Button({
         )}
         style={{ backgroundColor: color, color: textColor }}
         disabled={disabled || loading}>
-        {loading ? <Spinner /> : <Icon name={icon} color={iconColor} />}
+        {loading ? <Spinner /> : <Icon name={icon} color={iconColor} size={iconSize} />}
       </button>
     );
   } else if (icon && title) {
@@ -69,9 +71,9 @@ export function Button({
           <Spinner />
         ) : (
           <>
-            {iconPosition === 'left' && <Icon name={icon} color={iconColor} />}
+            {iconPosition === 'left' && <Icon name={icon} color={iconColor} size={iconSize} />}
             {title}
-            {iconPosition === 'right' && <Icon name={icon} color={iconColor} />}
+            {iconPosition === 'right' && <Icon name={icon} color={iconColor} size={iconSize} />}
           </>
         )}
       </button>

@@ -1,7 +1,7 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 
 import type { DeleteResponse, Pagination } from '@/dtos';
-import type { CreateReviewDto, ReviewKV, ReviewList, UpdateReviewDto } from '@/dtos/Review';
+import type { AddCategoriesDto, CreateReviewDto, ReviewKV, ReviewList, UpdateReviewDto } from '@/dtos/Review';
 import axiosInstance from '@/plugins/axios';
 import { createAppAsyncThunk } from '@/store/thunk';
 
@@ -68,6 +68,36 @@ export const createReview = createAppAsyncThunk('reviews/postItem', async (data:
     return;
   }
 });
+
+export const addCategories = createAppAsyncThunk(
+  'reviews/addCategories',
+  async (data: { id: string; payload: AddCategoriesDto }) => {
+    try {
+      const response = await axiosInstance.post<AddCategoriesDto, ReviewList>(
+        `/reviews/${data.id}/categories`,
+        data.payload
+      );
+      return response;
+    } catch {
+      return;
+    }
+  }
+);
+
+export const removeCategory = createAppAsyncThunk(
+  'reviews/removeCategory',
+  async (data: { id: string; categoryId: string }) => {
+    try {
+      const response = await axiosInstance.delete<undefined, ReviewList>(
+        `/reviews/${data.id}/categories/${data.categoryId}`
+      );
+      return response;
+    } catch {
+      return;
+    }
+  }
+);
+
 export const updateReview = createAppAsyncThunk(
   'reviews/updateItem',
   async (data: { id: string; payload: UpdateReviewDto }) => {
@@ -166,6 +196,32 @@ export const reviewsSlice = createSlice({
         state.loading = false;
       })
       .addCase(createReview.fulfilled, (state, action) => {
+        if (action.payload) {
+          state.item = action.payload;
+        }
+        state.loading = false;
+      });
+    builder
+      .addCase(addCategories.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(addCategories.rejected, (state) => {
+        state.loading = false;
+      })
+      .addCase(addCategories.fulfilled, (state, action) => {
+        if (action.payload) {
+          state.item = action.payload;
+        }
+        state.loading = false;
+      });
+    builder
+      .addCase(removeCategory.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(removeCategory.rejected, (state) => {
+        state.loading = false;
+      })
+      .addCase(removeCategory.fulfilled, (state, action) => {
         if (action.payload) {
           state.item = action.payload;
         }

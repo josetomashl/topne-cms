@@ -28,3 +28,7 @@ export interface UpdateReviewDto {
   isPublished: boolean;
   url: string;
 }
+
+export interface AddCategoriesDto {
+  categoriesId: string[];
+}

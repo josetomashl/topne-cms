@@ -33,12 +33,14 @@ export function PictogramsPage() {
         <h3>Pictogramas</h3>
         <Button title='Añadir' onClick={() => navigate('/pictograms/add')} />
       </div>
+      {/* TODO: search bar (title) */}
+      {/* TODO: filter dropdown clearable (tags) */}
       <Table
         headers={[
           { key: 'title', label: 'Título' },
           { key: 'description', label: 'Descripción' },
-          { key: 'isPublished', label: 'Publicado' },
-          { key: 'url', label: 'URL', format: 'url' }
+          { key: 'url', label: 'URL', format: 'url' },
+          { key: 'isPublished', label: 'Publicado' }
         ]}
         items={list}
         loading={loading}

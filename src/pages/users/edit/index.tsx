@@ -16,6 +16,12 @@ export function EditUserPage() {
   const dispatch = useAppDispatch();
   const { loading, item } = useAppSelector((state) => state.users);
 
+  useEffect(() => {
+    if (id && item?.id !== id) {
+      dispatch(requestUser(id));
+    }
+  }, [id, item]);
+
   const [form, setForm] = useState<UpdateUserDto>({
     name: '',
     surname: '',
@@ -23,11 +29,6 @@ export function EditUserPage() {
     isActive: false
   });
 
-  useEffect(() => {
-    if (id && item?.id !== id) {
-      dispatch(requestUser(id));
-    }
-  }, [id, item]);
   useEffect(() => {
     if (item) {
       setForm({

@@ -3,39 +3,38 @@ import { useEffect, useRef, useState } from 'react';
 import { Icon } from '../Icon';
 import styles from './styles.module.scss';
 
-export interface DropdownItem {
-  label: string;
-  value: string;
-}
-type SingleValue = DropdownItem | null;
-type MultipleValue = DropdownItem[];
-export type DropdownValue = SingleValue | MultipleValue;
+type DropdownValue<T> = T | null | T[];
 
-interface Props {
+interface Props<T extends object> {
   label?: string;
-  items: DropdownItem[];
-  value: DropdownValue;
-  onChange: (value: DropdownValue) => void;
+  items: T[];
+  value: DropdownValue<T>;
+  onChange: (value: DropdownValue<T>) => void;
+  keyName?: keyof T;
+  labelName?: keyof T;
   disabled?: boolean;
   required?: boolean;
   clearable?: boolean;
   multiple?: boolean;
 }
 
-export function Dropdown({
+export function Dropdown<T extends object>({
   label = 'Choose an option',
   items,
   value,
   onChange,
+  keyName = 'value' as keyof T,
+  labelName = 'label' as keyof T,
   disabled,
   required,
   clearable,
   multiple
-}: Props) {
+}: Props<T>) {
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
   const [isTouched, setIsTouched] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
-  const dropdownRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     if (!isOpen) return;
     const handleClickOutside = (event: MouseEvent) => {
@@ -49,11 +48,7 @@ export function Dropdown({
     };
   }, [isOpen]);
 
-  const selectedItems: DropdownItem[] = multiple
-    ? (value as DropdownItem[]) || []
-    : value
-    ? [value as DropdownItem]
-    : [];
+  const selectedItems = value ?? [];
 
   const toggle = () => {
     if (disabled) {
@@ -62,7 +57,7 @@ export function Dropdown({
     setIsOpen((prev) => !prev);
   };
 
-  const handleChange = (item: DropdownItem) => {
+  const handleChange = (item: T) => {
     if (disabled) {
       return;
     }
@@ -70,11 +65,13 @@ export function Dropdown({
       setIsTouched(true);
     }
     if (multiple) {
-      const exists = selectedItems.some((i) => i.value === item.value);
-      const newSelection = exists ? selectedItems.filter((i) => i.value !== item.value) : [...selectedItems, item];
-      onChange(newSelection);
+      const exists = (selectedItems as T[]).some((i) => i[keyName] === item[keyName]);
+      const newSelection = exists
+        ? (selectedItems as T[]).filter((i) => i[keyName] !== item[keyName])
+        : [...(selectedItems as T[]), item];
+      onChange(newSelection as DropdownValue<T>);
     } else {
-      onChange(item);
+      onChange(item as DropdownValue<T>);
       setIsOpen(false);
     }
   };
@@ -92,13 +89,15 @@ export function Dropdown({
 
   const getDisplayLabel = () => {
     if (multiple) {
-      if (selectedItems.length === 0) return label;
-      return selectedItems.map((item) => item.label).join(', ');
+      return (selectedItems as T[]).length === 0
+        ? label
+        : (selectedItems as T[]).map((item) => item[labelName]).join(', ');
     }
-    return selectedItems[0]?.label || label;
+    return ((selectedItems as T[]).length ? (selectedItems as T[])[0][labelName] : label) as string;
   };
 
-  const hasError = isTouched && (multiple ? selectedItems.length === 0 : !selectedItems[0]) && required;
+  const hasError =
+    isTouched && (multiple ? (selectedItems as T[]).length === 0 : !(selectedItems as T[])[0]) && required;
 
   return (
     <div ref={dropdownRef} className={styles.inputWrapper}>
@@ -110,7 +109,7 @@ export function Dropdown({
         <div className={styles.inputContainer}>
           <span className={styles.input}>{getDisplayLabel()}</span>
           <div className={styles.iconsContainer}>
-            {!disabled && clearable && selectedItems.length > 0 && (
+            {!disabled && clearable && (selectedItems as T[]).length > 0 && (
               <div className={styles.icon} onClick={handleClear} tabIndex={0}>
                 <Icon name='circleX' size={16} color='black' />
               </div>
@@ -120,15 +119,15 @@ export function Dropdown({
             </div>
           </div>
         </div>
-        {selectedItems.length > 0 && <span className={css(styles.label, styles.floating)}>{label}</span>}
+        {(selectedItems as T[]).length > 0 && <span className={css(styles.label, styles.floating)}>{label}</span>}
         <div className={styles.dropdownContainer} onClick={(e) => e.stopPropagation()}>
           {isOpen && (
             <div className={styles.dropdownList}>
               {items.map((item, index) => {
-                const isSelected = selectedItems.some((i) => i.value === item.value);
+                const isSelected = (selectedItems as T[]).some((i) => i[keyName] === item[keyName]);
                 return (
                   <div
-                    key={item.value}
+                    key={item[keyName] as string}
                     className={css(
                       styles.dropdownItem,
                       isSelected ? styles.selected : '',
@@ -138,7 +137,7 @@ export function Dropdown({
                     {multiple && (
                       <input type='checkbox' checked={isSelected} readOnly className={styles.checkbox} tabIndex={-1} />
                     )}
-                    {item.label}
+                    {item[labelName] as string}
                   </div>
                 );
               })}

@@ -28,12 +28,6 @@ const AuthProvider = ({ children }: PropsWithChildren) => {
   const [me, setMe] = useLocalStorage<UserItem | null>(StorageKeys.USER, null);
   const [token, setToken] = useCookie<string | null>(CookieKeys.USER_TOKEN, null);
 
-  useEffect(() => {
-    if (!token) {
-      logout();
-    }
-  }, [token]);
-
   const login = async (data: LoginRequest) => {
     setIsLoading(true);
     const res = await axiosInstance.post<LoginRequest, AuthResponse>('/auth/sign-in', data);
@@ -56,6 +50,13 @@ const AuthProvider = ({ children }: PropsWithChildren) => {
     }
   };
 
+  const logout = () => {
+    setIsLoading(true);
+    setMe(null);
+    setToken(null);
+    setIsLoading(false);
+  };
+
   const getMe = async () => {
     const res = await axiosInstance.get<null, UserItem>('/auth/me');
     if (res) {
@@ -65,12 +66,11 @@ const AuthProvider = ({ children }: PropsWithChildren) => {
     }
   };
 
-  const logout = () => {
-    setIsLoading(true);
-    setMe(null);
-    setToken(null);
-    setIsLoading(false);
-  };
+  useEffect(() => {
+    if (!token) {
+      logout();
+    }
+  }, [token]);
 
   return (
     <AuthContext.Provider value={{ isLoading, me, token, login, register, logout, getMe }}>

@@ -38,6 +38,8 @@ export function UsersPage() {
         <h3>Usuarios</h3>
         <Button title='Añadir' onClick={() => navigate('/users/add')} />
       </div>
+      {/* TODO: add search by name+surname */}
+      {/* TODO: filter by isActive */}
       <Table
         items={list}
         headers={[

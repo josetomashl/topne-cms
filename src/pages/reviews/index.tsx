@@ -33,6 +33,8 @@ export function ReviewsPage() {
         <h3>Reviews</h3>
         <Button title='Añadir' onClick={() => navigate('/reviews/add')} />
       </div>
+      {/* TODO: search bar (title) */}
+      {/* TODO: filter dropdown clearable (categories) */}
       <Table
         headers={[
           { key: 'title', label: 'Título' },

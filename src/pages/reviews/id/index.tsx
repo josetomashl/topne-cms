@@ -1,10 +1,18 @@
 import { Alert } from '@/components/Alert';
+import { Button } from '@/components/Button';
+import { Icon } from '@/components/Icon';
+import { Modal } from '@/components/Modal';
 import { Spinner } from '@/components/Spinner';
+import { CategoryKV } from '@/dtos/Category';
 import { Flex } from '@/layouts/Flex';
+import { Colors } from '@/plugins/data/colors';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
-import { requestReview } from '@/store/modules/reviews';
-import { useEffect } from 'react';
-import { Link, useParams } from 'react-router';
+import { removeCategory, requestReview, updateReview } from '@/store/modules/reviews';
+import { pushNotification } from '@/store/modules/root';
+import { AddCategoriesForm } from '@/views/reviews/AddCategoriesForm';
+import { useCallback, useEffect, useState } from 'react';
+import ReactPlayer from 'react-player';
+import { useParams } from 'react-router';
 import styles from './styles.module.scss';
 
 export function ReviewPage() {
@@ -17,6 +25,29 @@ export function ReviewPage() {
       dispatch(requestReview(id));
     }
   }, [id]);
+
+  const handlePublish = useCallback(() => {
+    if (item) {
+      dispatch(
+        updateReview({
+          id: item.id,
+          payload: { url: item.url, content: item.content, title: item.title, isPublished: true }
+        })
+      );
+    }
+  }, [item]);
+
+  const [modalAddCategory, setModalAddCategory] = useState(false);
+  const [modalRemoveCategory, setModalRemoveCategory] = useState<CategoryKV | null>(null);
+
+  const handleDeleteCategory = useCallback(async () => {
+    if (!item || !modalRemoveCategory) {
+      return;
+    }
+    await dispatch(removeCategory({ id: item?.id, categoryId: modalRemoveCategory.id }));
+    dispatch(pushNotification({ type: 'warning', message: 'Categoría quitada.' }));
+    setModalRemoveCategory(null);
+  }, [item, modalRemoveCategory]);
 
   if (loading) {
     return <Spinner />;
@@ -34,13 +65,57 @@ export function ReviewPage() {
         </h3>
         <span>Actualizado: {new Date(item.updatedAt).toLocaleString()}</span>
       </Flex>
-      {/* TODO: show categories and add/remove them */}
+      {!item.isPublished && (
+        <Alert type='warning'>
+          Esta review no está publicada.
+          <br />
+          <Button title='Publicar' onClick={handlePublish} />
+        </Alert>
+      )}
+      <Flex gap={10}>
+        {item.categories.map((c) => (
+          <span key={c.id} className={styles.category}>
+            <Flex gap={8} alignItems='center'>
+              <Icon name='tag' size={14} color={Colors.light} />
+              {c.name}
+            </Flex>
+            <span onClick={() => setModalRemoveCategory(c)} role='button'>
+              <Icon name='circleX' size={14} color={Colors.error} />
+            </span>
+          </span>
+        ))}
+        <Button
+          color={Colors.secondaryDark}
+          title='Añadir categoría'
+          icon='circlePlus'
+          iconColor={Colors.light}
+          onClick={() => setModalAddCategory(true)}
+        />
+      </Flex>
       <div className={styles.contentContainer}>{item.content}</div>
-      <Alert type='success' hideClose>
-        <Link to={item.url} target='_blank' style={{ color: 'blue', textDecoration: 'underline' }}>
-          Ir al vídeo
-        </Link>
-      </Alert>
+      <div className={styles.videoContainer}>
+        <ReactPlayer src={item.url} light fallback={<Spinner />} controls width={'100%'} height={'100%'} />
+      </div>
+      <Modal isOpen={modalAddCategory} onClose={() => setModalAddCategory(false)}>
+        <AddCategoriesForm
+          reviewId={item.id}
+          onCancel={() => setModalAddCategory(false)}
+          onSuccess={() => setModalAddCategory(false)}
+        />
+      </Modal>
+      <Modal isOpen={!!modalRemoveCategory} onClose={() => setModalRemoveCategory(null)}>
+        <Flex flexDirection='column' alignItems='center' gap={20}>
+          <h3>Vas a quitar la categoría "{modalRemoveCategory?.name}".</h3>
+          <p>¿Estas seguro?</p>
+          <Button
+            color={Colors.error}
+            icon='trash'
+            title='Borrar'
+            onClick={handleDeleteCategory}
+            iconColor={Colors.light}
+          />
+        </Flex>
+      </Modal>
     </>
   );
 }

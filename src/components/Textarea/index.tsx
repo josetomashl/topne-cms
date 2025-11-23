@@ -24,6 +24,14 @@ export function Textarea({
   const [isFocused, setIsFocused] = useState(false);
   const [isValid, setIsValid] = useState(true);
 
+  const checkValidity = (v: string) => {
+    if (!v && required) {
+      return false;
+    } else {
+      return true;
+    }
+  };
+
   useEffect(() => {
     setIsValid(checkValidity(value));
   }, [value]);
@@ -34,14 +42,6 @@ export function Textarea({
         setIsTouched(true);
       }
       onChange(v, checkValidity(v));
-    }
-  };
-
-  const checkValidity = (v: string) => {
-    if (!v && required) {
-      return false;
-    } else {
-      return true;
     }
   };
 
