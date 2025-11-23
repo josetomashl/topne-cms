@@ -1,12 +1,12 @@
 import { Alert } from '@/components/Alert';
 import { Dropdown } from '@/components/Dropdown';
-import { CategoryKV } from '@/dtos/Category';
+import type { CategoryKV } from '@/dtos/Category';
 import { Flex } from '@/layouts/Flex';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { requestAllCategories } from '@/store/modules/categories';
 import { addCategories } from '@/store/modules/reviews';
 import { pushNotification } from '@/store/modules/root';
-import { FormEvent, useEffect, useState } from 'react';
+import { type FormEvent, useEffect, useState } from 'react';
 import { Link } from 'react-router';
 
 interface Props {

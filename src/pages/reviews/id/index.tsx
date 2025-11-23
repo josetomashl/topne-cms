@@ -3,7 +3,7 @@ import { Button } from '@/components/Button';
 import { Icon } from '@/components/Icon';
 import { Modal } from '@/components/Modal';
 import { Spinner } from '@/components/Spinner';
-import { CategoryKV } from '@/dtos/Category';
+import type { CategoryKV } from '@/dtos/Category';
 import { Flex } from '@/layouts/Flex';
 import { Colors } from '@/plugins/data/colors';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
