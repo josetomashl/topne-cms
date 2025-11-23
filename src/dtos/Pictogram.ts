@@ -26,3 +26,7 @@ export interface UpdatePictogramDto {
   description: string;
   isPublished: boolean;
 }
+
+export interface AddTagsDto {
+  tagsId: string[];
+}

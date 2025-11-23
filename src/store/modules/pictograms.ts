@@ -1,7 +1,7 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 
 import type { DeleteResponse, Pagination } from '@/dtos';
-import type { CreatePictogramDto, PictogramKV, PictogramList, UpdatePictogramDto } from '@/dtos/Pictogram';
+import type { AddTagsDto, CreatePictogramDto, PictogramKV, PictogramList, UpdatePictogramDto } from '@/dtos/Pictogram';
 import axiosInstance from '@/plugins/axios';
 import { createAppAsyncThunk } from '@/store/thunk';
 
@@ -68,6 +68,25 @@ export const createPictogram = createAppAsyncThunk('pictograms/postItem', async 
     return;
   }
 });
+
+export const addTags = createAppAsyncThunk('pictograms/addTags', async (data: { id: string; payload: AddTagsDto }) => {
+  try {
+    const response = await axiosInstance.post<AddTagsDto, PictogramList>(`/pictograms/${data.id}/tags`, data.payload);
+    return response;
+  } catch {
+    return;
+  }
+});
+
+export const removeTag = createAppAsyncThunk('pictograms/removeTag', async (data: { id: string; tagId: string }) => {
+  try {
+    const response = await axiosInstance.delete<undefined, PictogramList>(`/pictograms/${data.id}/tags/${data.tagId}`);
+    return response;
+  } catch {
+    return;
+  }
+});
+
 export const updatePictogram = createAppAsyncThunk(
   'pictograms/updateItem',
   async (data: { id: string; payload: UpdatePictogramDto }) => {
@@ -169,6 +188,32 @@ export const pictogramsSlice = createSlice({
         state.loading = false;
       })
       .addCase(createPictogram.fulfilled, (state, action) => {
+        if (action.payload) {
+          state.item = action.payload;
+        }
+        state.loading = false;
+      });
+    builder
+      .addCase(addTags.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(addTags.rejected, (state) => {
+        state.loading = false;
+      })
+      .addCase(addTags.fulfilled, (state, action) => {
+        if (action.payload) {
+          state.item = action.payload;
+        }
+        state.loading = false;
+      });
+    builder
+      .addCase(removeTag.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(removeTag.rejected, (state) => {
+        state.loading = false;
+      })
+      .addCase(removeTag.fulfilled, (state, action) => {
         if (action.payload) {
           state.item = action.payload;
         }
