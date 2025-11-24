@@ -68,6 +68,7 @@ export function EditTagPage() {
           value={form.description || ''}
           onChange={(val) => setForm({ ...form, description: val })}
           disabled={loading}
+          clearable
         />
         <Flex justifyContent='space-between' style={{ marginTop: '20px' }}>
           <button type='reset' onClick={() => navigate(-1)}>
