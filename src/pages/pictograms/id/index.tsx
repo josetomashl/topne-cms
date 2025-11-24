@@ -101,7 +101,9 @@ export function PictogramPage() {
       </Modal>
       <Modal isOpen={!!modalRemoveTag} onClose={() => setModalRemoveTag(null)}>
         <Flex flexDirection='column' alignItems='center' gap={20}>
-          <h3>Vas a quitar la etiqueta "{modalRemoveTag?.name}".</h3>
+          <h3 style={{ textAlign: 'center' }}>
+            Vas a quitar la etiqueta "<b>{modalRemoveTag?.name}</b>" del pictograma "<b>{item.title}</b>".
+          </h3>
           <p>¿Estas seguro?</p>
           <Button color={Colors.error} icon='trash' title='Borrar' onClick={handleDeleteTag} iconColor={Colors.light} />
         </Flex>

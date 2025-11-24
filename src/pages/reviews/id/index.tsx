@@ -104,8 +104,10 @@ export function ReviewPage() {
         />
       </Modal>
       <Modal isOpen={!!modalRemoveCategory} onClose={() => setModalRemoveCategory(null)}>
-        <Flex flexDirection='column' alignItems='center' gap={20}>
-          <h3>Vas a quitar la categoría "{modalRemoveCategory?.name}".</h3>
+        <Flex flexDirection='column' justifyContent='center' alignItems='center' gap={20}>
+          <h3 style={{ textAlign: 'center' }}>
+            Vas a quitar la categoría "<b>{modalRemoveCategory?.name}</b>" de la review "<b>{item.title}</b>".
+          </h3>
           <p>¿Estas seguro?</p>
           <Button
             color={Colors.error}
