@@ -35,21 +35,22 @@ export function PictogramsPage() {
       </div>
       {/* TODO: search bar (title) */}
       {/* TODO: filter dropdown clearable (tags) */}
+      {/* TODO: filter dropdown clearable (author) */}
       <Table
         headers={[
           { key: 'title', label: 'Título' },
           { key: 'description', label: 'Descripción' },
-          { key: 'url', label: 'URL', format: 'url' },
+          { key: 'author', label: 'Autor' },
           { key: 'isPublished', label: 'Publicado' }
         ]}
         items={list}
         loading={loading}
         actions={[
-          { icon: 'eye', variant: 'success', onClick: (item) => navigate(`/tags/${item.id}`) },
+          { icon: 'eye', variant: 'success', onClick: (item) => navigate(`/pictograms/${item.id}`) },
           {
             icon: 'pencil',
             variant: 'warning',
-            onClick: (item) => navigate(`/tags/${item.id}/edit`)
+            onClick: (item) => navigate(`/pictograms/${item.id}/edit`)
           },
           { icon: 'trash', variant: 'error', onClick: setIsDeleting }
         ]}

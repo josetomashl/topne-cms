@@ -35,6 +35,7 @@ export function ReviewsPage() {
       </div>
       {/* TODO: search bar (title) */}
       {/* TODO: filter dropdown clearable (categories) */}
+      {/* TODO: filter dropdown clearable (author) */}
       <Table
         headers={[
           { key: 'title', label: 'Título' },

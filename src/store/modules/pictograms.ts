@@ -1,7 +1,7 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 
 import type { DeleteResponse, Pagination } from '@/dtos';
-import type { AddTagsDto, CreatePictogramDto, PictogramKV, PictogramList, UpdatePictogramDto } from '@/dtos/Pictogram';
+import type { AddTagsDto, PictogramKV, PictogramList, UpdatePictogramDto } from '@/dtos/Pictogram';
 import axiosInstance from '@/plugins/axios';
 import { createAppAsyncThunk } from '@/store/thunk';
 
@@ -60,9 +60,13 @@ export const requestPictogram = createAppAsyncThunk('pictograms/getItem', async 
   }
 });
 
-export const createPictogram = createAppAsyncThunk('pictograms/postItem', async (data: CreatePictogramDto) => {
+export const createPictogram = createAppAsyncThunk('pictograms/postItem', async (data: FormData) => {
   try {
-    const response = await axiosInstance.post<CreatePictogramDto, PictogramList>(`/pictograms`, data);
+    const response = await axiosInstance.post<FormData, PictogramList>(`/pictograms`, data, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    });
     return response;
   } catch {
     return;

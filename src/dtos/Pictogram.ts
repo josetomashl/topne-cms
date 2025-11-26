@@ -8,12 +8,15 @@ export interface PictogramKV {
 
 export interface PictogramList extends PictogramKV {
   description: string;
-  url: string;
   isPublished: boolean;
   tags: TagKV[];
   author: UserItem;
-  createdAt: string;
   updatedAt: string;
+}
+
+export interface PictogramItem extends PictogramList {
+  url: string;
+  createdAt: string;
 }
 
 export interface CreatePictogramDto {
