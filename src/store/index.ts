@@ -1,11 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
 
+import { categoriesSlice } from '@/store/modules/categories';
 import { pictogramsSlice } from '@/store/modules/pictograms';
+import { reviewsSlice } from '@/store/modules/reviews';
 import { rootSlice } from '@/store/modules/root';
+import { tagsSlice } from '@/store/modules/tags';
 import { usersSlice } from '@/store/modules/users';
-import { categoriesSlice } from './modules/categories';
-import { reviewsSlice } from './modules/reviews';
-import { tagsSlice } from './modules/tags';
 
 export const store = configureStore({
   middleware: (getDefaultMiddleware) => getDefaultMiddleware(),

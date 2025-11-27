@@ -103,6 +103,7 @@ export const categoriesSlice = createSlice({
     },
     resetCategories: (state) => {
       state.loading = false;
+      state.all = [];
       state.list = [];
       state.item = null;
       state.page = 0;
@@ -206,4 +207,4 @@ export const categoriesSlice = createSlice({
   }
 });
 
-export const { setPage, setPageSize } = categoriesSlice.actions;
+export const { setPage, setPageSize, resetCategories } = categoriesSlice.actions;

@@ -258,4 +258,4 @@ export const usersSlice = createSlice({
   }
 });
 
-export const { setPage, setPageSize } = usersSlice.actions;
+export const { setPage, setPageSize, resetUsers } = usersSlice.actions;

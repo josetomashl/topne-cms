@@ -138,6 +138,7 @@ export const reviewsSlice = createSlice({
     },
     resetReviews: (state) => {
       state.loading = false;
+      state.all = [];
       state.list = [];
       state.item = null;
       state.page = 0;
@@ -280,4 +281,4 @@ export const reviewsSlice = createSlice({
   }
 });
 
-export const { setPage, setPageSize } = reviewsSlice.actions;
+export const { setPage, setPageSize, resetReviews } = reviewsSlice.actions;

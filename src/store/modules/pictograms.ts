@@ -134,6 +134,7 @@ export const pictogramsSlice = createSlice({
     },
     resetPictograms: (state) => {
       state.loading = false;
+      state.all = [];
       state.list = [];
       state.item = null;
       state.page = 0;
@@ -263,4 +264,4 @@ export const pictogramsSlice = createSlice({
   }
 });
 
-export const { setPage, setPageSize } = pictogramsSlice.actions;
+export const { setPage, setPageSize, resetPictograms } = pictogramsSlice.actions;

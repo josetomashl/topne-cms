@@ -8,6 +8,11 @@ import { useLocalStorage } from '@/hooks/useLocalStorage';
 import axiosInstance from '@/plugins/axios';
 import { CookieKeys } from '@/plugins/data/cookies';
 import { StorageKeys } from '@/plugins/data/storage';
+import { resetCategories } from '@/store/modules/categories';
+import { resetPictograms } from '@/store/modules/pictograms';
+import { resetReviews } from '@/store/modules/reviews';
+import { resetTags } from '@/store/modules/tags';
+import { resetUsers } from '@/store/modules/users';
 
 interface AuthContextType {
   isLoading: boolean;
@@ -54,6 +59,11 @@ const AuthProvider = ({ children }: PropsWithChildren) => {
     setIsLoading(true);
     setMe(null);
     setToken(null);
+    resetCategories();
+    resetPictograms();
+    resetReviews();
+    resetTags();
+    resetUsers();
     setIsLoading(false);
   };
 

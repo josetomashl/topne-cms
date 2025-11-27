@@ -1,6 +1,5 @@
-export type StorageKey = 'USER' | 'LANGUAGE';
+export type StorageKey = 'USER';
 
 export const StorageKeys: Record<StorageKey, string> = {
-  USER: 'customer_data',
-  LANGUAGE: 'customer_language'
+  USER: 'customer_data'
 };

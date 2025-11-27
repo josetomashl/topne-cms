@@ -6,23 +6,23 @@ import axiosInstance from '@/plugins/axios';
 import { createAppAsyncThunk } from '@/store/thunk';
 
 interface TagsState {
-  page: number;
-  pageSize: number;
-  total: number;
   loading: boolean;
   all: TagKV[];
   list: TagList[];
   item: TagList | null;
+  page: number;
+  pageSize: number;
+  total: number;
 }
 
 const initialState: TagsState = {
-  page: 0,
-  pageSize: 10,
-  total: 0,
   loading: false,
   all: [],
   list: [],
-  item: null
+  item: null,
+  page: 0,
+  pageSize: 10,
+  total: 0
 };
 
 export const requestAllTags = createAppAsyncThunk('tags/getAll', async () => {
@@ -94,6 +94,7 @@ export const tagsSlice = createSlice({
     },
     resetTags: (state) => {
       state.loading = false;
+      state.all = [];
       state.list = [];
       state.item = null;
       state.page = 0;
@@ -197,4 +198,4 @@ export const tagsSlice = createSlice({
   }
 });
 
-export const { setPage, setPageSize } = tagsSlice.actions;
+export const { setPage, setPageSize, resetTags } = tagsSlice.actions;
