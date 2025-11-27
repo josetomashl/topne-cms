@@ -24,6 +24,13 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  cursor: pointer;
+  padding-right: 8px;
+
+  &:hover {
+    border-radius: 4px;
+    background-color: #aaaaaa75;
+  }
 }
 
 .sidebarLink {
@@ -34,6 +41,11 @@
   text-decoration: none;
   color: inherit;
   border-radius: 4px;
+
+  &:hover:not(.inner):not(.active) {
+    border-radius: 4px;
+    background-color: #aaaaaa75;
+  }
 
   &.active {
     background-color: $gray;

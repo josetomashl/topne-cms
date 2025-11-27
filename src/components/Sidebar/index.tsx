@@ -46,7 +46,7 @@ export const Sidebar = () => {
             return (
               <div key={index}>
                 <div className={styles.sidebarGroupHead} onClick={() => toggleGroup(item.label)}>
-                  <div className={styles.sidebarLink}>
+                  <div className={css(styles.sidebarLink, styles.inner)}>
                     <Icon name={item.icon} color='white' />
                     <span>{item.label}</span>
                   </div>

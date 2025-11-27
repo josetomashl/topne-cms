@@ -40,7 +40,7 @@ export function PictogramsPage() {
         headers={[
           { key: 'title', label: 'Título' },
           { key: 'description', label: 'Descripción' },
-          { key: 'author', label: 'Autor' },
+          { key: 'author', label: 'Autor', format: 'object', objectKey: 'name' },
           { key: 'isPublished', label: 'Publicado' }
         ]}
         items={list}

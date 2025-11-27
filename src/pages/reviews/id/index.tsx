@@ -7,7 +7,7 @@ import type { CategoryKV } from '@/dtos/Category';
 import { Flex } from '@/layouts/Flex';
 import { Colors } from '@/plugins/data/colors';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
-import { removeCategory, requestReview, updateReview } from '@/store/modules/reviews';
+import { removeCategory, requestReview, updateReviewVisibility } from '@/store/modules/reviews';
 import { pushNotification } from '@/store/modules/root';
 import { AddCategoriesForm } from '@/views/reviews/AddCategoriesForm';
 import { useCallback, useEffect, useState } from 'react';
@@ -28,12 +28,7 @@ export function ReviewPage() {
 
   const handlePublish = useCallback(() => {
     if (item) {
-      dispatch(
-        updateReview({
-          id: item.id,
-          payload: { url: item.url, content: item.content, title: item.title, isPublished: true }
-        })
-      );
+      dispatch(updateReviewVisibility(item.id));
     }
   }, [item]);
 
@@ -65,14 +60,17 @@ export function ReviewPage() {
         </h3>
         <span>Actualizado: {new Date(item.updatedAt).toLocaleString()}</span>
       </Flex>
-      {!item.isPublished && (
-        <Alert type='warning'>
-          Esta review no está publicada.
-          <br />
-          <Button title='Publicar' onClick={handlePublish} />
-        </Alert>
-      )}
-      <Flex gap={10}>
+      <Alert type={item.isPublished ? 'success' : 'warning'} hideClose>
+        <Flex justifyContent='space-between'>
+          <span>Estado: {item.isPublished ? 'Publicado' : 'No publicado'}</span>
+          <Button
+            title={item.isPublished ? 'Ocultar' : 'Publicar'}
+            onClick={handlePublish}
+            color={item.isPublished ? Colors.error : Colors.dark}
+          />
+        </Flex>
+      </Alert>
+      <Flex gap={10} style={{ marginTop: 10 }}>
         {item.categories.map((c) => (
           <span key={c.id} className={styles.category}>
             <Flex gap={8} alignItems='center'>

@@ -6,8 +6,13 @@ import { Link } from 'react-router';
 import { Spinner } from '../Spinner';
 import styles from './styles.module.scss';
 
-type HeaderFormat = 'date' | 'time' | 'datetime' | 'price' | 'url' | 'image';
-export type TableHeaderType<T> = { key: keyof T; label: string | null; format?: HeaderFormat };
+type HeaderFormat = 'date' | 'time' | 'datetime' | 'price' | 'url' | 'image' | 'object';
+export type TableHeaderType<T> = {
+  key: keyof T;
+  label: string | null;
+  format?: HeaderFormat;
+  objectKey?: string;
+};
 
 type ActionType<T> = {
   icon: IconNames;
@@ -81,7 +86,7 @@ export function Table<T extends object>({ headers, items, actions, actionsPositi
                 </div>
               </td>
             )}
-            {headers.map(({ key, format }, colIndex) => {
+            {headers.map(({ key, format, objectKey }, colIndex) => {
               const value = item[key];
               if (typeof value === 'boolean') {
                 return (
@@ -89,8 +94,7 @@ export function Table<T extends object>({ headers, items, actions, actionsPositi
                     <Icon name={value ? 'circleCheck' : 'circleX'} size={20} color={value ? 'green' : 'red'} />
                   </td>
                 );
-              }
-              if ((value && typeof value === 'string') || typeof value === 'number') {
+              } else if ((value && typeof value === 'string') || typeof value === 'number') {
                 return (
                   <td key={colIndex}>
                     {format === 'url' ? (
@@ -109,8 +113,31 @@ export function Table<T extends object>({ headers, items, actions, actionsPositi
                     )}
                   </td>
                 );
+              } else if (value && typeof value === 'object') {
+                if (Array.isArray(value)) {
+                  if (objectKey) {
+                    return (
+                      <td>
+                        <span>{value.map((v) => v[objectKey]).join(', ')}</span>
+                      </td>
+                    );
+                  } else {
+                    return (
+                      <td>
+                        <span>{value.map((v) => v.toString()).join(', ')}</span>
+                      </td>
+                    );
+                  }
+                } else if (objectKey) {
+                  return (
+                    <td>
+                      <span>{(value as never)[objectKey] ?? ''}</span>
+                    </td>
+                  );
+                }
+              } else {
+                return <td key={colIndex}>-</td>;
               }
-              return <td key={colIndex}>-</td>;
             })}
             {actions && actionsPosition === 'end' && (
               <td style={{ borderLeft: '1px solid #ccc' }}>

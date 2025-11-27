@@ -7,7 +7,7 @@ import type { TagKV } from '@/dtos/Tag';
 import { Flex } from '@/layouts/Flex';
 import { Colors } from '@/plugins/data/colors';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
-import { removeTag, requestPictogram, updatePictogram } from '@/store/modules/pictograms';
+import { removeTag, requestPictogram, updatePictogramVisibility } from '@/store/modules/pictograms';
 import { pushNotification } from '@/store/modules/root';
 import { AddTagsForm } from '@/views/pictograms/AddTagsForm';
 import { useCallback, useEffect, useState } from 'react';
@@ -27,12 +27,7 @@ export function PictogramPage() {
 
   const handlePublish = useCallback(() => {
     if (item) {
-      dispatch(
-        updatePictogram({
-          id: item.id,
-          payload: { description: item.description, title: item.title, isPublished: true }
-        })
-      );
+      dispatch(updatePictogramVisibility(item.id));
     }
   }, [item]);
 
@@ -64,16 +59,19 @@ export function PictogramPage() {
         </h3>
         <span>Actualizado: {new Date(item.updatedAt).toLocaleString()}</span>
       </Flex>
-      {!item.isPublished && (
-        <Alert type='warning'>
-          Este pictograma no está publicado.
-          <br />
-          <Button title='Publicar' onClick={handlePublish} />
-        </Alert>
-      )}
-      <Flex gap={10}>
+      <Alert type={item.isPublished ? 'success' : 'warning'} hideClose>
+        <Flex justifyContent='space-between'>
+          <span>Estado: {item.isPublished ? 'Publicado' : 'No publicado'}</span>
+          <Button
+            title={item.isPublished ? 'Ocultar' : 'Publicar'}
+            onClick={handlePublish}
+            color={item.isPublished ? Colors.error : Colors.dark}
+          />
+        </Flex>
+      </Alert>
+      <Flex gap={10} style={{ marginTop: 10 }}>
         {item.tags.map((c) => (
-          <span key={c.id} className={styles.category}>
+          <span key={c.id} className={styles.tag}>
             <Flex gap={8} alignItems='center'>
               <Icon name='tag' size={14} color={Colors.light} />
               {c.name}
@@ -91,6 +89,13 @@ export function PictogramPage() {
           onClick={() => setModalAddTag(true)}
         />
       </Flex>
+      <img
+        src={import.meta.env.VITE_SERVER_API + item.url}
+        loading='lazy'
+        alt='pictograma'
+        className={styles.image}
+        crossOrigin='anonymous'
+      />
       <div className={styles.descriptionContainer}>{item.description}</div>
       <Modal isOpen={modalAddTag} onClose={() => setModalAddTag(false)}>
         <AddTagsForm

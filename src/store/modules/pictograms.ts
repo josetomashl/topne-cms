@@ -1,7 +1,7 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 
 import type { DeleteResponse, Pagination } from '@/dtos';
-import type { AddTagsDto, PictogramKV, PictogramList, UpdatePictogramDto } from '@/dtos/Pictogram';
+import type { AddTagsDto, PictogramItem, PictogramKV, PictogramList, UpdatePictogramDto } from '@/dtos/Pictogram';
 import axiosInstance from '@/plugins/axios';
 import { createAppAsyncThunk } from '@/store/thunk';
 
@@ -9,7 +9,7 @@ interface PictogramsState {
   loading: boolean;
   all: PictogramKV[];
   list: PictogramList[];
-  item: PictogramList | null;
+  item: PictogramItem | null;
   page: number;
   pageSize: number;
   total: number;
@@ -53,7 +53,7 @@ export const requestPictograms = createAppAsyncThunk(
 
 export const requestPictogram = createAppAsyncThunk('pictograms/getItem', async (id: string) => {
   try {
-    const response = await axiosInstance.get<undefined, PictogramList>(`/pictograms/${id}`);
+    const response = await axiosInstance.get<undefined, PictogramItem>(`/pictograms/${id}`);
     return response;
   } catch {
     return;
@@ -62,7 +62,7 @@ export const requestPictogram = createAppAsyncThunk('pictograms/getItem', async 
 
 export const createPictogram = createAppAsyncThunk('pictograms/postItem', async (data: FormData) => {
   try {
-    const response = await axiosInstance.post<FormData, PictogramList>(`/pictograms`, data, {
+    const response = await axiosInstance.post<FormData, PictogramItem>(`/pictograms`, data, {
       headers: {
         'Content-Type': 'multipart/form-data'
       }
@@ -75,7 +75,7 @@ export const createPictogram = createAppAsyncThunk('pictograms/postItem', async 
 
 export const addTags = createAppAsyncThunk('pictograms/addTags', async (data: { id: string; payload: AddTagsDto }) => {
   try {
-    const response = await axiosInstance.post<AddTagsDto, PictogramList>(`/pictograms/${data.id}/tags`, data.payload);
+    const response = await axiosInstance.post<AddTagsDto, PictogramItem>(`/pictograms/${data.id}/tags`, data.payload);
     return response;
   } catch {
     return;
@@ -84,18 +84,26 @@ export const addTags = createAppAsyncThunk('pictograms/addTags', async (data: { 
 
 export const removeTag = createAppAsyncThunk('pictograms/removeTag', async (data: { id: string; tagId: string }) => {
   try {
-    const response = await axiosInstance.delete<undefined, PictogramList>(`/pictograms/${data.id}/tags/${data.tagId}`);
+    const response = await axiosInstance.delete<undefined, PictogramItem>(`/pictograms/${data.id}/tags/${data.tagId}`);
     return response;
   } catch {
     return;
   }
 });
 
+export const updatePictogramVisibility = createAppAsyncThunk('pictograms/updateItemVisibility', async (id: string) => {
+  try {
+    const response = await axiosInstance.patch<undefined, PictogramItem>(`/pictograms/${id}/visibility`);
+    return response;
+  } catch {
+    return;
+  }
+});
 export const updatePictogram = createAppAsyncThunk(
   'pictograms/updateItem',
   async (data: { id: string; payload: UpdatePictogramDto }) => {
     try {
-      const response = await axiosInstance.patch<UpdatePictogramDto, PictogramList>(
+      const response = await axiosInstance.patch<UpdatePictogramDto, PictogramItem>(
         `/pictograms/${data.id}`,
         data.payload
       );
@@ -224,13 +232,13 @@ export const pictogramsSlice = createSlice({
         state.loading = false;
       });
     builder
-      .addCase(updatePictogram.pending, (state) => {
+      .addCase(updatePictogramVisibility.pending, (state) => {
         state.loading = true;
       })
-      .addCase(updatePictogram.rejected, (state) => {
+      .addCase(updatePictogramVisibility.rejected, (state) => {
         state.loading = false;
       })
-      .addCase(updatePictogram.fulfilled, (state, action) => {
+      .addCase(updatePictogramVisibility.fulfilled, (state, action) => {
         if (action.payload) {
           state.item = action.payload;
         }

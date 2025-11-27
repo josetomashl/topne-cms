@@ -98,6 +98,14 @@ export const removeCategory = createAppAsyncThunk(
   }
 );
 
+export const updateReviewVisibility = createAppAsyncThunk('reviews/updateItemVisibility', async (id: string) => {
+  try {
+    const response = await axiosInstance.patch<undefined, ReviewList>(`/reviews/${id}/visibility`);
+    return response;
+  } catch {
+    return;
+  }
+});
 export const updateReview = createAppAsyncThunk(
   'reviews/updateItem',
   async (data: { id: string; payload: UpdateReviewDto }) => {
@@ -222,6 +230,19 @@ export const reviewsSlice = createSlice({
         state.loading = false;
       })
       .addCase(removeCategory.fulfilled, (state, action) => {
+        if (action.payload) {
+          state.item = action.payload;
+        }
+        state.loading = false;
+      });
+    builder
+      .addCase(updateReviewVisibility.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(updateReviewVisibility.rejected, (state) => {
+        state.loading = false;
+      })
+      .addCase(updateReviewVisibility.fulfilled, (state, action) => {
         if (action.payload) {
           state.item = action.payload;
         }
