@@ -24,7 +24,7 @@ jobs:
       - name: Build project
         run: npm run build
 
-      - name: Deploy to VPS with rsync
+      - name: Clear old VPS target directory files
         uses: appleboy/ssh-action@v1
         with:
           host: ${{ secrets.VPS_HOST }}
