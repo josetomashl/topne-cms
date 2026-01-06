@@ -8,9 +8,7 @@ export function HomePage() {
   const { isLoading, me, getMe } = useAuth();
 
   useEffect(() => {
-    if (!me) {
-      getMe();
-    }
+    getMe();
   }, []);
 
   if (isLoading) {
