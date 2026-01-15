@@ -1,7 +1,7 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 
 import type { DeleteResponse, Pagination } from '@/dtos';
-import type { CategoryKV, CategoryList, CreateCategoryDto, UpdateCategoryDto } from '@/dtos/Category';
+import type { CategoryItem, CategoryKV, CategoryList, CreateCategoryDto, UpdateCategoryDto } from '@/dtos/Category';
 import axiosInstance from '@/plugins/axios';
 import { createAppAsyncThunk } from '@/store/thunk';
 
@@ -9,7 +9,7 @@ interface CategoriesState {
   loading: boolean;
   all: CategoryKV[];
   list: CategoryList[];
-  item: CategoryList | null;
+  item: CategoryItem | null;
   page: number;
   pageSize: number;
   total: number;
@@ -53,7 +53,7 @@ export const requestCategories = createAppAsyncThunk(
 
 export const requestCategory = createAppAsyncThunk('categories/getItem', async (id: string) => {
   try {
-    const response = await axiosInstance.get<undefined, CategoryList>(`/categories/${id}`);
+    const response = await axiosInstance.get<undefined, CategoryItem>(`/categories/${id}`);
     return response;
   } catch {
     return;
@@ -171,7 +171,7 @@ export const categoriesSlice = createSlice({
       })
       .addCase(createCategory.fulfilled, (state, action) => {
         if (action.payload) {
-          state.item = action.payload;
+          state.item = { ...action.payload, reviews: [] };
         }
         state.loading = false;
       });
@@ -184,7 +184,10 @@ export const categoriesSlice = createSlice({
       })
       .addCase(updateCategory.fulfilled, (state, action) => {
         if (action.payload) {
-          state.item = action.payload;
+          const foundIndex = state.list.findIndex((tag) => tag.id === action.payload?.id);
+          if (foundIndex > -1) {
+            state.list[foundIndex] = action.payload;
+          }
         }
         state.loading = false;
       });

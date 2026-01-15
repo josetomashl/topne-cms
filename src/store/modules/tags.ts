@@ -1,7 +1,7 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 
 import type { DeleteResponse, Pagination } from '@/dtos';
-import type { CreateTagDto, TagKV, TagList, UpdateTagDto } from '@/dtos/Tag';
+import type { CreateTagDto, TagItem, TagKV, TagList, UpdateTagDto } from '@/dtos/Tag';
 import axiosInstance from '@/plugins/axios';
 import { createAppAsyncThunk } from '@/store/thunk';
 
@@ -9,7 +9,7 @@ interface TagsState {
   loading: boolean;
   all: TagKV[];
   list: TagList[];
-  item: TagList | null;
+  item: TagItem | null;
   page: number;
   pageSize: number;
   total: number;
@@ -50,7 +50,7 @@ export const requestTags = createAppAsyncThunk('tags/getList', async (data: { pa
 
 export const requestTag = createAppAsyncThunk('tags/getItem', async (id: string) => {
   try {
-    const response = await axiosInstance.get<undefined, TagList>(`/tags/${id}`);
+    const response = await axiosInstance.get<undefined, TagItem>(`/tags/${id}`);
     return response;
   } catch {
     return;
@@ -162,7 +162,7 @@ export const tagsSlice = createSlice({
       })
       .addCase(createTag.fulfilled, (state, action) => {
         if (action.payload) {
-          state.item = action.payload;
+          state.item = { ...action.payload, pictograms: [] };
         }
         state.loading = false;
       });
@@ -175,7 +175,10 @@ export const tagsSlice = createSlice({
       })
       .addCase(updateTag.fulfilled, (state, action) => {
         if (action.payload) {
-          state.item = action.payload;
+          const foundIndex = state.list.findIndex((tag) => tag.id === action.payload?.id);
+          if (foundIndex > -1) {
+            state.list[foundIndex] = action.payload;
+          }
         }
         state.loading = false;
       });

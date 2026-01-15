@@ -1,4 +1,4 @@
-import type { PictogramKV } from './Pictogram';
+import type { PictogramItem } from './Pictogram';
 
 export interface TagKV {
   id: string;
@@ -10,7 +10,7 @@ export interface TagList extends TagKV {
 }
 
 export interface TagItem extends TagList {
-  pictograms: PictogramKV[];
+  pictograms: PictogramItem[];
 }
 
 export interface CreateTagDto {

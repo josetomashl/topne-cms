@@ -1,9 +1,12 @@
-import { Alert } from '@/components/Alert';
-import { Spinner } from '@/components/Spinner';
-import { useAppDispatch, useAppSelector } from '@/store/hooks';
-import { requestTag } from '@/store/modules/tags';
 import { useEffect } from 'react';
 import { useParams } from 'react-router';
+
+import { Alert } from '@/components/Alert';
+import { PictogramCard } from '@/components/PictogramCard';
+import { Spinner } from '@/components/Spinner';
+import { Flex } from '@/layouts/Flex';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import { requestTag } from '@/store/modules/tags';
 
 export function TagPage() {
   const { id } = useParams();
@@ -30,7 +33,17 @@ export function TagPage() {
         Etiqueta "<b>{item.name}</b>":
       </h3>
       <Alert hideClose>{item.description || 'No hay una descripción disponible.'}</Alert>
-      {/* TODO: show pictograms as a table */}
+      <br />
+      {item.pictograms?.length ? (
+        <>
+          <span>Pictogramas relacionados:</span>
+          <Flex alignItems='stretch' gap={10} style={{ padding: '10px 0' }}>
+            {item.pictograms.map((p) => (
+              <PictogramCard key={p.id} pictogram={p} />
+            ))}
+          </Flex>
+        </>
+      ) : null}
     </>
   );
 }

@@ -54,7 +54,9 @@ export function AddCategoriesForm({ reviewId, onSuccess, onCancel }: Props) {
     }
   };
 
-  const unusedCategories = item ? all.filter((c) => ![...item.categories.map((cr) => cr.id)].includes(c.id)) : all;
+  const unusedCategories = item?.categories
+    ? all.filter((c) => ![...item.categories!.map((cr) => cr.id)].includes(c.id))
+    : all;
   const disabled = !categories?.length || loading;
 
   return (

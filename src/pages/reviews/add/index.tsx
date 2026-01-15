@@ -26,6 +26,7 @@ export function AddReviewPage() {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const res = await dispatch(createReview(form)).unwrap();
+    console.log(res);
 
     if (res) {
       dispatch(pushNotification({ type: 'success', message: 'Review creada con éxito.' }));

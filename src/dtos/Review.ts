@@ -11,7 +11,7 @@ export interface ReviewList extends ReviewKV {
   content: string;
   isPublished: boolean;
   author: UserItem;
-  categories: CategoryKV[];
+  categories?: CategoryKV[];
   createdAt: string;
   updatedAt: string;
 }

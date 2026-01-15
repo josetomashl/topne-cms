@@ -52,7 +52,7 @@ export function AddTagsForm({ pictogramId, onSuccess, onCancel }: Props) {
     }
   };
 
-  const unusedTags = item ? all.filter((c) => ![...item.tags.map((cr) => cr.id)].includes(c.id)) : all;
+  const unusedTags = item?.tags ? all.filter((c) => ![...item.tags!.map((cr) => cr.id)].includes(c.id)) : all;
   const disabled = !tags?.length || loading;
 
   return (

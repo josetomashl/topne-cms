@@ -1,4 +1,4 @@
-import type { ReviewKV } from './Review';
+import { ReviewList } from './Review';
 
 export interface CategoryKV {
   id: string;
@@ -10,7 +10,7 @@ export interface CategoryList extends CategoryKV {
 }
 
 export interface CategoryItem extends CategoryList {
-  reviews: ReviewKV[];
+  reviews: ReviewList[];
 }
 
 export interface CreateCategoryDto {

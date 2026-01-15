@@ -9,7 +9,7 @@ export interface PictogramKV {
 export interface PictogramList extends PictogramKV {
   description: string;
   isPublished: boolean;
-  tags: TagKV[];
+  tags?: TagKV[];
   author: UserItem;
   updatedAt: string;
 }

@@ -205,6 +205,8 @@ export const reviewsSlice = createSlice({
         state.loading = false;
       })
       .addCase(createReview.fulfilled, (state, action) => {
+        console.log(action);
+
         if (action.payload) {
           state.item = action.payload;
         }

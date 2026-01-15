@@ -1,5 +1,5 @@
-import type { PictogramKV } from './Pictogram';
-import type { ReviewKV } from './Review';
+import type { PictogramItem } from './Pictogram';
+import type { ReviewList } from './Review';
 
 export interface UserKV {
   id: string;
@@ -16,8 +16,8 @@ export interface UserList extends UserKV {
 }
 
 export interface UserItem extends UserList {
-  pictograms: PictogramKV[];
-  reviews: ReviewKV[];
+  pictograms: PictogramItem[];
+  reviews: ReviewList[];
 }
 
 export interface CreateUserDto {

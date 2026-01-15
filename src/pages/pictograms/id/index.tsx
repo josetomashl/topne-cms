@@ -70,7 +70,7 @@ export function PictogramPage() {
         </Flex>
       </Alert>
       <Flex gap={10} style={{ marginTop: 10 }}>
-        {item.tags.map((c) => (
+        {item.tags?.map((c) => (
           <span key={c.id} className={styles.tag}>
             <Flex gap={8} alignItems='center'>
               <Icon name='tag' size={14} color={Colors.light} />

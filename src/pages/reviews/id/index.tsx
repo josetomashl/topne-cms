@@ -71,7 +71,7 @@ export function ReviewPage() {
         </Flex>
       </Alert>
       <Flex gap={10} style={{ marginTop: 10 }}>
-        {item.categories.map((c) => (
+        {item.categories?.map((c) => (
           <span key={c.id} className={styles.category}>
             <Flex gap={8} alignItems='center'>
               <Icon name='tag' size={14} color={Colors.light} />
@@ -92,7 +92,7 @@ export function ReviewPage() {
       </Flex>
       <div className={styles.contentContainer}>{item.content}</div>
       <div className={styles.videoContainer}>
-        <ReactPlayer src={item.url} light fallback={<Spinner />} controls width={'100%'} height={'100%'} />
+        <ReactPlayer src={item.url} fallback={<Spinner />} controls width={'100%'} height={'100%'} />
       </div>
       <Modal isOpen={modalAddCategory} onClose={() => setModalAddCategory(false)}>
         <AddCategoriesForm
