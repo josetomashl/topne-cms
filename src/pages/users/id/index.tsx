@@ -1,3 +1,6 @@
+import { useEffect } from 'react';
+import { useParams } from 'react-router';
+
 import { Alert } from '@/components/Alert';
 import { Avatar } from '@/components/Avatar';
 import { PictogramCard } from '@/components/PictogramCard';
@@ -6,8 +9,6 @@ import { Spinner } from '@/components/Spinner';
 import { Flex } from '@/layouts/Flex';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { requestUser } from '@/store/modules/users';
-import { useEffect } from 'react';
-import { useParams } from 'react-router';
 
 export function UserPage() {
   const { id } = useParams();
