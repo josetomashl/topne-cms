@@ -1,0 +1,17 @@
+.card {
+  background-color: $light;
+  border-radius: 12px;
+  padding: 8px;
+
+  > h3 {
+    padding-bottom: 12px;
+    font-family: $font-medium;
+  }
+
+  .rowItem {
+    background-color: $error-background;
+    border-radius: 6px;
+    color: $dark;
+    padding: 4px 12px;
+  }
+}
