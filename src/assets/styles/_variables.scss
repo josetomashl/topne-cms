@@ -9,25 +9,20 @@ $font-light: 'Visby Light';
 $font-thin: 'Visby Thin';
 
 // SIZES
-$sidebar-width: 260px;
+$sidebar-width: 280px;
 
 // MISC
 $shadow: 0px 0px 20px -3px rgba(0, 0, 0, 0.25);
 
 // COLORS
-$background: #faf9f6;
-$background-dark: #3d3300;
+$dark: #0e0d16;
+$light: #f3f3f3;
+$gray-dark: #404040;
+$gray: #808080;
+$gray-light: #d4d4d4;
 
-$dark: #4b4737;
-$gray: #b1ab99;
-$light: #ececec;
-
-$primary-light: #fcf0ca;
-$primary: #e5cf67;
-$primary-dark: #a69963;
-$secondary-light: #f2fedc;
-$secondary: #005b47;
-$secondary-dark: #1b3d2f;
+$primary: #121a2a;
+$secondary: #be6e46;
 
 // Alerts
 $info: #4688f3;

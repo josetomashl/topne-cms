@@ -81,13 +81,7 @@ export function PictogramPage() {
             </span>
           </span>
         ))}
-        <Button
-          color={Colors.secondaryDark}
-          title='Añadir etiqueta'
-          icon='circlePlus'
-          iconColor={Colors.light}
-          onClick={() => setModalAddTag(true)}
-        />
+        <Button title='Añadir etiqueta' icon='circlePlus' onClick={() => setModalAddTag(true)} />
       </Flex>
       <img
         src={import.meta.env.VITE_SERVER_API + item.url}
@@ -110,7 +104,14 @@ export function PictogramPage() {
             Vas a quitar la etiqueta "<b>{modalRemoveTag?.name}</b>" del pictograma "<b>{item.title}</b>".
           </h3>
           <p>¿Estas seguro?</p>
-          <Button color={Colors.error} icon='trash' title='Borrar' onClick={handleDeleteTag} iconColor={Colors.light} />
+          <Button
+            color={Colors.error}
+            icon='trash'
+            title='Borrar'
+            onClick={handleDeleteTag}
+            iconColor={Colors.dark}
+            textColor={Colors.dark}
+          />
         </Flex>
       </Modal>
     </>

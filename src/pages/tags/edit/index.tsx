@@ -1,11 +1,12 @@
+import { type FormEvent, useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router';
+
 import { Input } from '@/components/Input';
 import type { UpdateTagDto } from '@/dtos/Tag';
 import { Flex } from '@/layouts/Flex';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { pushNotification } from '@/store/modules/root';
 import { requestTag, updateTag } from '@/store/modules/tags';
-import { type FormEvent, useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router';
 import styles from './styles.module.scss';
 
 export function EditTagPage() {
@@ -36,7 +37,9 @@ export function EditTagPage() {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     if (!id || !item) return;
     e.preventDefault();
-    const res = await dispatch(updateTag({ id, payload: form })).unwrap();
+    const res = await dispatch(
+      updateTag({ id, payload: { name: form.name.trim(), description: form.description?.trim() } })
+    ).unwrap();
 
     if (res) {
       dispatch(pushNotification({ type: 'success', message: 'Etiqueta actualizada con éxito.' }));

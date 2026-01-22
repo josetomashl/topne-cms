@@ -57,7 +57,8 @@ export function UsersPage() {
           {
             icon: 'pencil',
             variant: 'warning',
-            onClick: (item) => navigate(`/users/${item.id}/edit`)
+            onClick: (item) => navigate(`/users/${item.id}/edit`),
+            disableIf: (i) => i.id === me?.id
           },
           {
             icon: 'asterisk',

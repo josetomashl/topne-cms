@@ -30,7 +30,7 @@ export function Statistics() {
           <ResponsiveContainer width='100%' height={300}>
             <BarChart data={data?.topCategories}>
               <XAxis dataKey='name' />
-              <YAxis />
+              <YAxis allowDecimals={false} />
               <Tooltip />
               <Bar dataKey='total' name='Total' fill={Colors.primary} minPointSize={5} />
               <Bar dataKey='published' name='Publicados' fill={Colors.secondary} minPointSize={5} />
@@ -45,7 +45,7 @@ export function Statistics() {
                 <Flex key={r.id} alignItems='center' justifyContent='space-between' gap={10} className={styles.rowItem}>
                   {r.title}
                   <Link to={`/reviews/${r.id}`}>
-                    <Icon name='eye' color={Colors.success} />
+                    <Icon name='eye' color={Colors.error} />
                   </Link>
                 </Flex>
               ))
@@ -61,7 +61,7 @@ export function Statistics() {
           <ResponsiveContainer width='100%' height={300}>
             <BarChart data={data?.topTags}>
               <XAxis dataKey='name' />
-              <YAxis />
+              <YAxis allowDecimals={false} />
               <Tooltip />
               <Bar dataKey='total' name='Total' fill={Colors.primary} minPointSize={5} />
               <Bar dataKey='published' name='Publicados' fill={Colors.secondary} minPointSize={5} />
@@ -76,7 +76,7 @@ export function Statistics() {
                 <Flex key={p.id} alignItems='center' justifyContent='space-between' gap={10} className={styles.rowItem}>
                   {p.title}
                   <Link to={`/pictograms/${p.id}`}>
-                    <Icon name='eye' color={Colors.success} />
+                    <Icon name='eye' color={Colors.error} />
                   </Link>
                 </Flex>
               ))

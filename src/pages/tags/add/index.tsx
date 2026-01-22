@@ -1,11 +1,12 @@
+import { type FormEvent, useState } from 'react';
+import { useNavigate } from 'react-router';
+
 import { Input } from '@/components/Input';
 import type { CreateTagDto } from '@/dtos/Tag';
 import { Flex } from '@/layouts/Flex';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { pushNotification } from '@/store/modules/root';
 import { createTag } from '@/store/modules/tags';
-import { type FormEvent, useState } from 'react';
-import { useNavigate } from 'react-router';
 
 export function AddTagPage() {
   const navigate = useNavigate();
@@ -19,7 +20,7 @@ export function AddTagPage() {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const res = await dispatch(createTag(form)).unwrap();
+    const res = await dispatch(createTag({ name: form.name.trim(), description: form.description?.trim() })).unwrap();
 
     if (res) {
       dispatch(pushNotification({ type: 'success', message: 'Etiqueta creada con éxito.' }));

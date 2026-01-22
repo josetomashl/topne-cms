@@ -36,7 +36,9 @@ export function EditCategoryPage() {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     if (!id || !item) return;
     e.preventDefault();
-    const res = await dispatch(updateCategory({ id, payload: form })).unwrap();
+    const res = await dispatch(
+      updateCategory({ id, payload: { name: form.name.trim(), description: form.description?.trim() } })
+    ).unwrap();
 
     if (res) {
       dispatch(pushNotification({ type: 'success', message: 'Categoría actualizada con éxito.' }));

@@ -1,11 +1,13 @@
+import { useEffect } from 'react';
+import { useParams } from 'react-router';
+
 import { Alert } from '@/components/Alert';
 import { ReviewCard } from '@/components/ReviewCard';
 import { Spinner } from '@/components/Spinner';
 import { Flex } from '@/layouts/Flex';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { requestCategory } from '@/store/modules/categories';
-import { useEffect } from 'react';
-import { useParams } from 'react-router';
+import styles from './styles.module.scss';
 
 export function CategoryPage() {
   const { id } = useParams();
@@ -31,7 +33,7 @@ export function CategoryPage() {
       <h3 style={{ marginBottom: 10 }}>
         Categoría "<b>{item.name}</b>":
       </h3>
-      <Alert hideClose>{item.description || 'No hay una descripción disponible.'}</Alert>
+      <div className={styles.description}>{item.description || 'No hay una descripción disponible.'}</div>
       <br />
       {item.reviews?.length ? (
         <>
@@ -42,7 +44,11 @@ export function CategoryPage() {
             ))}
           </Flex>
         </>
-      ) : null}
+      ) : (
+        <Alert type='warning' hideClose>
+          No tiene reviews asociados.
+        </Alert>
+      )}
     </>
   );
 }

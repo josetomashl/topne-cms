@@ -23,7 +23,7 @@ export function Icon({ name, size = 24, color = '#272727', fill = 'none' }: Prop
       width={size}
       height={size}
       stroke={color}
-      strokeWidth='2'
+      strokeWidth={name === 'circleUser' ? '1.4' : '2'}
       strokeLinecap='round'
       strokeLinejoin='round'
       role='img'>

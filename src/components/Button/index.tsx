@@ -24,14 +24,14 @@ export function Button({
   icon,
   iconPosition = 'left',
   iconSize = 18,
-  iconColor,
+  iconColor = Colors.light,
   onClick,
   disabled = false,
   rounded = false,
   className,
   loading,
-  color = Colors.dark,
-  textColor = '#fff'
+  color = Colors.primary,
+  textColor = Colors.light
 }: Props) {
   const handleClick = async () => {
     if (disabled || loading || !onClick) return;

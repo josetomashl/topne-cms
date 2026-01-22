@@ -82,13 +82,7 @@ export function ReviewPage() {
             </span>
           </span>
         ))}
-        <Button
-          color={Colors.secondaryDark}
-          title='Añadir categoría'
-          icon='circlePlus'
-          iconColor={Colors.light}
-          onClick={() => setModalAddCategory(true)}
-        />
+        <Button title='Añadir categoría' icon='circlePlus' onClick={() => setModalAddCategory(true)} />
       </Flex>
       <div className={styles.contentContainer}>{item.content}</div>
       <div className={styles.videoContainer}>
@@ -112,7 +106,8 @@ export function ReviewPage() {
             icon='trash'
             title='Borrar'
             onClick={handleDeleteCategory}
-            iconColor={Colors.light}
+            iconColor={Colors.dark}
+            textColor={Colors.dark}
           />
         </Flex>
       </Modal>

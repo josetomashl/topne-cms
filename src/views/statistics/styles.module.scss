@@ -1,11 +1,15 @@
 .card {
-  background-color: $light;
+  background-color: $gray-light;
   border-radius: 12px;
   padding: 8px;
 
   > h3 {
     padding-bottom: 12px;
     font-family: $font-medium;
+  }
+
+  > div > p {
+    color: $gray;
   }
 
   .rowItem {

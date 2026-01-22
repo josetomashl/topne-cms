@@ -33,7 +33,7 @@
         padding: 10px 6px;
         border: none;
         outline: none;
-        background-color: $background;
+        background-color: $light;
       }
 
       .iconContainer {
@@ -46,7 +46,7 @@
       position: absolute;
       top: 10px;
       left: 6px;
-      background-color: $background;
+      background-color: $light;
       transition: all 0.2s ease;
 
       &.floating {

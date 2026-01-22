@@ -1,5 +1,6 @@
 import { Icon } from '@/components/Icon';
 import { useAuth } from '@/hooks/useAuth';
+import { Colors } from '@/plugins/data/colors';
 import { css } from '@/utils';
 import { useCallback, useState } from 'react';
 import { NavLink } from 'react-router';
@@ -35,7 +36,7 @@ export const Sidebar = () => {
     <div className={styles.sidebar}>
       <div>
         <div>
-          <img src='/images/titulo-amarillo.webp' alt='Topne logo' className={styles.logo} loading='lazy' />
+          <img src='/logotype.svg' alt='DienTEA logo' className={styles.logo} loading='lazy' />
         </div>
         {navItems.map((item, index) => {
           if (item.path) {
@@ -65,10 +66,11 @@ export const Sidebar = () => {
       <Button
         title='Cerrar sesión'
         onClick={handleLogOut}
+        color={Colors.error}
+        textColor='black'
         iconPosition='left'
         icon='doorOpen'
-        iconColor='white'
-        className={styles.logoutBtn}
+        iconColor='black'
       />
     </div>
   );

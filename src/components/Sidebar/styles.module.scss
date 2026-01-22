@@ -1,6 +1,6 @@
 .sidebar {
   min-width: $sidebar-width;
-  background: $background-dark;
+  background: $primary;
   color: #fff;
   height: 100dvh;
   padding: 10px;
@@ -13,10 +13,6 @@
     width: 240px;
     max-width: 240px;
     padding: 20px 10px;
-  }
-
-  .logoutBtn {
-    background-color: $error;
   }
 }
 
@@ -48,7 +44,7 @@
   }
 
   &.active {
-    background-color: $gray;
+    background-color: $gray-light;
 
     > span {
       color: #000;

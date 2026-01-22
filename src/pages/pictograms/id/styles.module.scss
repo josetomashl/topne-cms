@@ -2,7 +2,7 @@
   display: flex;
   gap: 20px;
   align-items: center;
-  background-color: $secondary;
+  background-color: $gray-dark;
   border-radius: 6px;
   padding: 6px 12px;
   color: $light;
@@ -13,7 +13,7 @@
 }
 .descriptionContainer {
   border-radius: 6px;
-  background-color: $light;
+  background-color: $gray-light;
   margin: 10px 0;
   padding: 10px;
   white-space: pre-line;

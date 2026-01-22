@@ -1,3 +1,4 @@
+import { Colors } from '@/plugins/data/colors';
 import { css } from '@/utils';
 import { useState } from 'react';
 import { Icon } from '../Icon';
@@ -26,7 +27,7 @@ export function Avatar({ src, alt = 'Profile image', size = 48, className = '' }
           loading='lazy'
         />
       ) : (
-        <Icon name='circleUser' size={size * 0.75} />
+        <Icon name='circleUser' size={size * 0.75} color={Colors.light} />
       )}
     </div>
   );

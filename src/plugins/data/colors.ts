@@ -1,18 +1,12 @@
 export const Colors = {
-  background: '#faf9f6',
-  backgroundDark: '#3d3300',
+  dark: '#0E0D16',
+  light: '#f3f3f3',
+  grayDark: '#404040',
+  gray: '#808080',
+  grayLight: '#c0c0c0',
 
-  primmaryLight: '#fcf0ca',
-  primary: '#e5cf67',
-  primaryDark: '#a69963',
-
-  secondaryLight: '#f2fedc',
-  secondary: '#005b47',
-  secondaryDark: '#1b3d2f',
-
-  dark: '#4b4737',
-  gray: '#b1ab99',
-  light: '#ececec',
+  primary: '#121a2a',
+  secondary: '#be6e46',
 
   info: '#4688f3',
   infoBackground: '#d4e4fb',

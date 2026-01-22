@@ -7,6 +7,7 @@ import { Spinner } from '@/components/Spinner';
 import { Flex } from '@/layouts/Flex';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { requestTag } from '@/store/modules/tags';
+import styles from './styles.module.scss';
 
 export function TagPage() {
   const { id } = useParams();
@@ -32,7 +33,7 @@ export function TagPage() {
       <h3 style={{ marginBottom: 10 }}>
         Etiqueta "<b>{item.name}</b>":
       </h3>
-      <Alert hideClose>{item.description || 'No hay una descripción disponible.'}</Alert>
+      <div className={styles.description}>{item.description || 'No hay una descripción disponible.'}</div>
       <br />
       {item.pictograms?.length ? (
         <>
@@ -43,7 +44,11 @@ export function TagPage() {
             ))}
           </Flex>
         </>
-      ) : null}
+      ) : (
+        <Alert type='warning' hideClose>
+          No tiene pictogramas asociados.
+        </Alert>
+      )}
     </>
   );
 }

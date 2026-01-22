@@ -70,19 +70,18 @@ export function AddCategoriesForm({ reviewId, onSuccess, onCancel }: Props) {
         labelName='name'
         required
         label='Selecciona una o varias categorías'
-        disabled={loading}
+        disabled={disabled}
         clearable
         multiple
       />
-      {!unusedCategories ||
-        (unusedCategories.length === 0 && (
-          <Alert type='error' hideClose>
-            <p>No hay categorías disponibles para asignar.</p>
-            <Link to='/categories/add' style={{ textDecoration: 'underline' }}>
-              Crea nuevas aquí
-            </Link>
-          </Alert>
-        ))}
+      {(!unusedCategories || unusedCategories.length === 0) && (
+        <Alert type='error' hideClose>
+          <p>No hay categorías disponibles para asignar.</p>
+          <Link to='/categories/add' style={{ textDecoration: 'underline' }}>
+            Crea nuevas aquí
+          </Link>
+        </Alert>
+      )}
       <Flex justifyContent='space-between' style={{ marginTop: 20 }}>
         {onCancel && (
           <button type='reset' onClick={handleCancel}>

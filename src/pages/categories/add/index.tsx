@@ -20,7 +20,9 @@ export function AddCategoryPage() {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const res = await dispatch(createCategory(form)).unwrap();
+    const res = await dispatch(
+      createCategory({ name: form.name.trim(), description: form.description?.trim() })
+    ).unwrap();
 
     if (res) {
       dispatch(pushNotification({ type: 'success', message: 'Categoría creada con éxito.' }));
