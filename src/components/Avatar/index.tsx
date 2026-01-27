@@ -13,6 +13,7 @@ type Props = {
 
 export function Avatar({ src, alt = 'Profile image', size = 48, className = '' }: Props) {
   const [imgError, setImgError] = useState(false);
+
   return (
     <div className={css(styles.avatar, className)} style={{ width: size, height: size }}>
       {src && !imgError ? (
@@ -22,11 +23,7 @@ export function Avatar({ src, alt = 'Profile image', size = 48, className = '' }
           width={size}
           height={size}
           className={styles.img}
-          // onError={(e) => {
-          //   console.log(`${import.meta.env.VITE_SERVER_API}${src}`);
-          //   console.log(e);
-          //   setImgError(true);
-          // }}
+          onError={() => setImgError(true)}
           loading='lazy'
         />
       ) : (
