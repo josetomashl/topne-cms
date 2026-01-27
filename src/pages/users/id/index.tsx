@@ -59,6 +59,12 @@ export function UserPage() {
           </Flex>
         </Flex>
         <Button title='Modificar' onClick={() => navigate(`/users/${item.id}/edit`)} rounded color={Colors.info} />
+        <Button
+          title='Actualizar avatar'
+          onClick={() => navigate(`/users/${item.id}/edit/avatar`)}
+          rounded
+          color={Colors.warning}
+        />
       </Flex>
 
       {!item.isActive && (

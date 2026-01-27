@@ -96,7 +96,7 @@ export const updateUserAvatar = createAppAsyncThunk(
     const formData = new FormData();
     formData.append('file', data.payload);
     try {
-      const response = await axiosInstance.patch<UpdateUserDto, UserItem>(`/users/${data.id}`, formData, {
+      const response = await axiosInstance.patch<FormData, UserItem>(`/users/${data.id}/avatar`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }

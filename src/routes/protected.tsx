@@ -22,6 +22,7 @@ import { TagPage } from '@/pages/tags/id';
 import { UsersPage } from '@/pages/users';
 import { AddUserPage } from '@/pages/users/add';
 import { EditUserPage } from '@/pages/users/edit';
+import { EditAvatarPage } from '@/pages/users/edit/avatar';
 import { UserPage } from '@/pages/users/id';
 
 export function ProtectedRoutes() {
@@ -37,6 +38,7 @@ export function ProtectedRoutes() {
           <Route path=':id'>
             <Route index element={<UserPage />} />
             <Route path='edit' element={<EditUserPage />} />
+            <Route path='edit/avatar' element={<EditAvatarPage />} />
           </Route>
         </Route>
 
