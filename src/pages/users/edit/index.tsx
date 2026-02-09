@@ -6,7 +6,7 @@ import { REGEX } from '@/plugins/data/regex';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { pushNotification } from '@/store/modules/root';
 import { requestUser, updateUser } from '@/store/modules/users';
-import { type FormEvent, useEffect, useState } from 'react';
+import { type SubmitEvent, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
 import styles from './styles.module.scss';
 
@@ -40,7 +40,7 @@ export function EditUserPage() {
     }
   }, [item]);
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: SubmitEvent) => {
     if (!id || !item) return;
     e.preventDefault();
     const res = await dispatch(updateUser({ id, payload: form })).unwrap();

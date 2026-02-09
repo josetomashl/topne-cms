@@ -6,7 +6,7 @@ import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { requestAllCategories } from '@/store/modules/categories';
 import { addCategories } from '@/store/modules/reviews';
 import { pushNotification } from '@/store/modules/root';
-import { type FormEvent, useEffect, useState } from 'react';
+import { type SubmitEvent, useEffect, useState } from 'react';
 import { Link } from 'react-router';
 
 interface Props {
@@ -35,7 +35,7 @@ export function AddCategoriesForm({ reviewId, onSuccess, onCancel }: Props) {
     }
   };
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: SubmitEvent) => {
     e.preventDefault();
     const res = await dispatch(
       addCategories({ id: reviewId, payload: { categoriesId: categories.map((c) => c.id) } })

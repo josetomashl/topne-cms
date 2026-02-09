@@ -5,7 +5,7 @@ import { Flex } from '@/layouts/Flex';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { requestPictogram, updatePictogram } from '@/store/modules/pictograms';
 import { pushNotification } from '@/store/modules/root';
-import { type FormEvent, useEffect, useState } from 'react';
+import { type SubmitEvent, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
 import styles from './styles.module.scss';
 
@@ -36,7 +36,7 @@ export function EditPictogramPage() {
     }
   }, [item]);
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: SubmitEvent) => {
     if (!id || !item) return;
     e.preventDefault();
     const res = await dispatch(updatePictogram({ id, payload: form })).unwrap();

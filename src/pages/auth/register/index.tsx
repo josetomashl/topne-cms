@@ -3,7 +3,7 @@ import { RegisterRequest } from '@/dtos/Auth';
 import { useAuth } from '@/hooks/useAuth';
 import { useTitle } from '@/hooks/useTitle';
 import { REGEX } from '@/plugins/data/regex';
-import { type FormEvent, useState } from 'react';
+import { type SubmitEvent, useState } from 'react';
 import { Link } from 'react-router';
 import styles from './styles.module.scss';
 
@@ -26,7 +26,7 @@ export function RegisterPage() {
     !form.password ||
     !REGEX.email.test(form.email) ||
     !REGEX.password.test(form.password);
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: SubmitEvent) => {
     e.preventDefault();
     await register({ name: form.name, surname: form.surname, email: form.email, password: form.password });
   };

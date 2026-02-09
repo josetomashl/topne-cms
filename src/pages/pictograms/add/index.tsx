@@ -6,7 +6,7 @@ import { Flex } from '@/layouts/Flex';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { createPictogram } from '@/store/modules/pictograms';
 import { pushNotification } from '@/store/modules/root';
-import { type FormEvent, useState } from 'react';
+import { type SubmitEvent, useState } from 'react';
 import { useNavigate } from 'react-router';
 import styles from './styles.module.scss';
 
@@ -22,7 +22,7 @@ export function AddPictogramPage() {
     isPublished: false
   });
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: SubmitEvent) => {
     e.preventDefault();
 
     const formData = new FormData();

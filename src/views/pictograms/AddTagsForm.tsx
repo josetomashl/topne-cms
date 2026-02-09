@@ -6,7 +6,7 @@ import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { addTags } from '@/store/modules/pictograms';
 import { pushNotification } from '@/store/modules/root';
 import { requestAllTags } from '@/store/modules/tags';
-import { type FormEvent, useEffect, useState } from 'react';
+import { type SubmitEvent, useEffect, useState } from 'react';
 import { Link } from 'react-router';
 
 interface Props {
@@ -35,7 +35,7 @@ export function AddTagsForm({ pictogramId, onSuccess, onCancel }: Props) {
     }
   };
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: SubmitEvent) => {
     e.preventDefault();
     const res = await dispatch(addTags({ id: pictogramId, payload: { tagsId: tags.map((c) => c.id) } })).unwrap();
 

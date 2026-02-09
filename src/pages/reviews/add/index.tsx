@@ -7,7 +7,7 @@ import { REGEX } from '@/plugins/data/regex';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { createReview } from '@/store/modules/reviews';
 import { pushNotification } from '@/store/modules/root';
-import { type FormEvent, useState } from 'react';
+import { type SubmitEvent, useState } from 'react';
 import { useNavigate } from 'react-router';
 import styles from './styles.module.scss';
 
@@ -23,7 +23,7 @@ export function AddReviewPage() {
     url: ''
   });
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: SubmitEvent) => {
     e.preventDefault();
     const res = await dispatch(createReview(form)).unwrap();
     console.log(res);
