@@ -4,7 +4,7 @@ import { Flex } from '@/layouts/Flex';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { createCategory } from '@/store/modules/categories';
 import { pushNotification } from '@/store/modules/root';
-import { type FormEvent, useState } from 'react';
+import { type SubmitEvent, useState } from 'react';
 import { useNavigate } from 'react-router';
 import styles from './styles.module.scss';
 
@@ -18,7 +18,7 @@ export function AddCategoryPage() {
     description: ''
   });
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: SubmitEvent) => {
     e.preventDefault();
     const res = await dispatch(
       createCategory({ name: form.name.trim(), description: form.description?.trim() })

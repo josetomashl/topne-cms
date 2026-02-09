@@ -5,7 +5,7 @@ import { REGEX } from '@/plugins/data/regex';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { pushNotification } from '@/store/modules/root';
 import { createUser } from '@/store/modules/users';
-import { type FormEvent, useState } from 'react';
+import { type SubmitEvent, useState } from 'react';
 import { useNavigate } from 'react-router';
 
 export function AddUserPage() {
@@ -22,7 +22,7 @@ export function AddUserPage() {
 
   const disabled = !form.name || !form.surname || !form.email || !REGEX.password.test(form.password);
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: SubmitEvent) => {
     e.preventDefault();
     const res = await dispatch(createUser(form)).unwrap();
 

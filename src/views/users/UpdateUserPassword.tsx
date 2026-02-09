@@ -5,7 +5,7 @@ import { REGEX } from '@/plugins/data/regex';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { pushNotification } from '@/store/modules/root';
 import { updateUserPassword } from '@/store/modules/users';
-import { type FormEvent, useState } from 'react';
+import { type SubmitEvent, useState } from 'react';
 
 interface Props {
   userId: string;
@@ -23,7 +23,7 @@ export function UpdateUserPassword({ userId, userEmail = '', onCancel, onSuccess
     repeatedPassword: ''
   });
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: SubmitEvent) => {
     e.preventDefault();
     const res = await dispatch(updateUserPassword({ id: userId, payload: { password: form.password } })).unwrap();
 
