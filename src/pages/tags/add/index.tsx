@@ -1,4 +1,4 @@
-import { type FormEvent, useState } from 'react';
+import { type SubmitEvent, useState } from 'react';
 import { useNavigate } from 'react-router';
 
 import { Input } from '@/components/Input';
@@ -18,7 +18,7 @@ export function AddTagPage() {
     description: ''
   });
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: SubmitEvent) => {
     e.preventDefault();
     const res = await dispatch(createTag({ name: form.name.trim(), description: form.description?.trim() })).unwrap();
 

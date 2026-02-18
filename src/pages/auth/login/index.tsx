@@ -3,7 +3,7 @@ import { LoginRequest } from '@/dtos/Auth';
 import { useAuth } from '@/hooks/useAuth';
 import { useTitle } from '@/hooks/useTitle';
 import { REGEX } from '@/plugins/data/regex';
-import { type FormEvent, useState } from 'react';
+import { type SubmitEvent, useState } from 'react';
 import styles from './styles.module.scss';
 
 export function LoginPage() {
@@ -18,7 +18,7 @@ export function LoginPage() {
   const disabled =
     isLoading || !form.email || !form.password || !REGEX.email.test(form.email) || !REGEX.password.test(form.password);
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: SubmitEvent) => {
     e.preventDefault();
     await login({ email: form.email, password: form.password });
   };

@@ -4,7 +4,7 @@ import { Flex } from '@/layouts/Flex';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { requestCategory, updateCategory } from '@/store/modules/categories';
 import { pushNotification } from '@/store/modules/root';
-import { type FormEvent, useEffect, useState } from 'react';
+import { type SubmitEvent, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
 import styles from './styles.module.scss';
 
@@ -33,7 +33,7 @@ export function EditCategoryPage() {
     }
   }, [item]);
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: SubmitEvent) => {
     if (!id || !item) return;
     e.preventDefault();
     const res = await dispatch(
