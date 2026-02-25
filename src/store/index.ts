@@ -9,6 +9,7 @@ import { tagsSlice } from '@/store/modules/tags';
 import { usersSlice } from '@/store/modules/users';
 
 export const store = configureStore({
+  devTools: false,
   middleware: (getDefaultMiddleware) => getDefaultMiddleware(),
   reducer: {
     root: rootSlice.reducer,
