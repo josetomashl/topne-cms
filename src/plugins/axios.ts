@@ -18,6 +18,9 @@ const axiosInstance = axios.create({
   baseURL: import.meta.env.VITE_SERVER_API + '/api',
   timeout: 3000,
   headers: {
+    'Cache-Control': 'no-cache',
+    Pragma: 'no-cache',
+    Expires: '0',
     'Content-Type': 'application/json'
   },
   responseEncoding: 'utf-8',

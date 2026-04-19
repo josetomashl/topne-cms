@@ -37,7 +37,7 @@ const AuthProvider = ({ children }: PropsWithChildren) => {
     setIsLoading(true);
     const res = await axiosInstance.post<LoginRequest, AuthResponse>('/auth/sign-in', data);
     setIsLoading(false);
-    if (res.token) {
+    if (res?.token) {
       setMe(res.user);
       setToken(res.token, { expires: 1 });
       navigate('/', { replace: true });
@@ -48,7 +48,7 @@ const AuthProvider = ({ children }: PropsWithChildren) => {
     setIsLoading(true);
     const res = await axiosInstance.post<RegisterRequest, AuthResponse>('/auth/sign-up', data);
     setIsLoading(false);
-    if (res.token) {
+    if (res?.token) {
       setMe(res.user);
       setToken(res.token, { expires: 1 });
       navigate('/', { replace: true });
