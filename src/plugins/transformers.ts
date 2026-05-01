@@ -111,14 +111,15 @@ export function toTime(date: string = new Date().toISOString()): string {
  * @returns A formatted date-time string or null if the input is invalid.
  */
 export function toDateTime(date: string = new Date().toISOString()): string | null {
-  let parsedDate = new Date(date);
-  if (isNaN(parsedDate.getTime())) {
-    parsedDate = new Date();
-  }
+  const parsedDate = new Date(date);
 
-  // Format date part using `toDate`
-  const datePart = toDate(date, 'DD/MM/YYYY');
-  const timePart = toTime(date);
+  // Fall back to current date if input is invalid
+  const effectiveDate = isNaN(parsedDate.getTime()) ? new Date().toISOString() : date;
+
+  const datePart = toDate(effectiveDate, 'DD/MM/YYYY');
+  const timePart = toTime(effectiveDate);
+
+  if (!datePart || !timePart) return null;
 
   return `${datePart} ${timePart}`;
 }

@@ -1,5 +1,5 @@
 import { css } from '@/utils';
-import { useEffect, useId, useState } from 'react';
+import { useCallback, useEffect, useId, useState } from 'react';
 import { Icon } from '../Icon';
 import styles from './styles.module.scss';
 
@@ -31,6 +31,19 @@ export function Input({
   const [isFocused, setIsFocused] = useState(false);
   const [isValid, setIsValid] = useState(true);
 
+  const checkValidity = useCallback(
+    (v: string) => {
+      if (!v && required) {
+        return false;
+      } else if (regExp) {
+        return regExp.test(v);
+      } else {
+        return true;
+      }
+    },
+    [required, regExp]
+  );
+
   useEffect(() => {
     setIsValid(checkValidity(value));
   }, [value]);
@@ -38,24 +51,17 @@ export function Input({
   const [isValueVisible, setIsValueVisible] = useState(false);
   const toggleVisibility = () => setIsValueVisible((prev) => !prev);
 
-  const handleChange = (v: string) => {
-    if (!disabled && onChange) {
-      if (!isTouched) {
-        setIsTouched(true);
+  const handleChange = useCallback(
+    (v: string) => {
+      if (!disabled && onChange) {
+        if (!isTouched) {
+          setIsTouched(true);
+        }
+        onChange(v, checkValidity(v));
       }
-      onChange(v, checkValidity(v));
-    }
-  };
-
-  const checkValidity = (v: string) => {
-    if (!v && required) {
-      return false;
-    } else if (regExp) {
-      return regExp.test(v);
-    } else {
-      return true;
-    }
-  };
+    },
+    [isTouched, disabled, onChange, checkValidity]
+  );
 
   return (
     <div className={styles.inputWrapper}>

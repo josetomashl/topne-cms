@@ -13,7 +13,7 @@ export function Notification({ notification }: { notification: NotificationItem 
   };
 
   const getIcon = () => {
-    let iconName: IconNames = 'circleInfo';
+    let iconName: IconNames;
     switch (notification.type) {
       case 'success':
         iconName = 'circleCheck';

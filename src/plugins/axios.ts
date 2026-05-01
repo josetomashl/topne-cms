@@ -46,7 +46,7 @@ axiosInstance.interceptors.response.use(
   },
   (error: AxiosError<ServerError>) => {
     const serverData = error.response?.data;
-    let message = '';
+    let message: string;
     switch (error.status) {
       case 400:
         message =
