@@ -53,7 +53,7 @@ export function PictogramPage() {
 
   return (
     <>
-      <Flex justifyContent='space-between' alignItems='center' style={{ marginBottom: 10 }}>
+      <Flex justifyContent='space-between' alignItems='center' style={{ marginBottom: 8 }}>
         <h3>
           Pictograma "<b>{item.title}</b>":
         </h3>

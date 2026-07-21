@@ -21,6 +21,7 @@ export function EditReviewPage() {
     title: '',
     content: '',
     isPublished: false,
+    isHowTo: false,
     url: ''
   });
 
@@ -35,6 +36,7 @@ export function EditReviewPage() {
         title: item.title,
         content: item.content,
         isPublished: item.isPublished,
+        isHowTo: item.isHowTo,
         url: item.url
       });
     }
@@ -88,6 +90,13 @@ export function EditReviewPage() {
           disabled={loading}
           required
         />
+        <Switch
+          value={form.isHowTo}
+          onChange={(val) => setForm({ ...form, isHowTo: val })}
+          disabled={loading}
+          label='¿Explicativo?'
+        />
+        <br />
         <Switch
           value={form.isPublished}
           onChange={(val) => setForm({ ...form, isPublished: val })}
