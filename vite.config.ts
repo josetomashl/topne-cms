@@ -14,7 +14,6 @@ export default defineConfig(() => {
     build: {
       outDir: 'dist',
       minify: true,
-      sourcemap: true,
       manifest: true
     },
     css: {
