@@ -40,7 +40,8 @@ export function ReviewsPage() {
         headers={[
           { key: 'title', label: 'Título' },
           { key: 'url', label: 'Enlace', format: 'url' },
-          { key: 'isPublished', label: 'Publicado' }
+          { key: 'isPublished', label: 'Publicado' },
+          { key: 'isHowTo', label: 'Explicativo' }
         ]}
         items={list}
         loading={loading}

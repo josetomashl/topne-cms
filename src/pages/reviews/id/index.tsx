@@ -54,7 +54,7 @@ export function ReviewPage() {
 
   return (
     <>
-      <Flex justifyContent='space-between' alignItems='center'>
+      <Flex justifyContent='space-between' alignItems='center' style={{ marginBottom: 8 }}>
         <h3>
           Review "<b>{item.title}</b>":
         </h3>
@@ -70,6 +70,8 @@ export function ReviewPage() {
           />
         </Flex>
       </Alert>
+      <br />
+      <Alert type='info'>Este vídeo es de tipo explicativo.</Alert>
       <Flex gap={10} style={{ marginTop: 10 }}>
         {item.categories?.map((c) => (
           <span key={c.id} className={styles.category}>

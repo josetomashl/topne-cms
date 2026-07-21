@@ -10,6 +10,7 @@ export interface ReviewList extends ReviewKV {
   url: string;
   content: string;
   isPublished: boolean;
+  isHowTo: boolean;
   author: UserItem;
   categories?: CategoryKV[];
   createdAt: string;
@@ -20,12 +21,14 @@ export interface CreateReviewDto {
   title: string;
   content: string;
   isPublished: boolean;
+  isHowTo: boolean;
   url: string;
 }
 export interface UpdateReviewDto {
   title: string;
   content: string;
   isPublished: boolean;
+  isHowTo: boolean;
   url: string;
 }
 
